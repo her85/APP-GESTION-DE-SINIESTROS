@@ -1,10 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Index from '../views/Index.vue'
+import Index from '@/views/Index.vue'
 import Login from '@/views/Login.vue'
-import PaginaPrincipal from '../views/PaginaPrincipal.vue'
+import PaginaPrincipal from '@/views/PaginaPrincipal.vue'
 import CrearUsuario from '@/views/CrearUsuario.vue'
-import IngresarSiniestro from '../views/IngresarSiniestro.vue'
-import ConsultarSiniestro from '../views/ConsultarSiniestro.vue'
+import ConsultarUsuarios from '@/views/ConsultarUsuarios.vue'
+import IngresarSiniestro from '@/views/IngresarSiniestro.vue'
+import ConsultarSiniestro from '@/views/ConsultarSiniestro.vue'
+
 
 const routes = [
   {
@@ -24,9 +26,15 @@ const routes = [
     meta: { requiresAuth: true } // ✅ protegida
   },
   {
-    path: '/crear:usuario',
+    path: '/crear_usuario',
     name: 'CrearUsuario',
     component: CrearUsuario,
+    meta: { requiresAuth: true } // ✅ protegida
+  },
+  {
+    path: '/listar_usuarios',
+    name: 'ConsultarUsuarios',
+    component: ConsultarUsuarios,
     meta: { requiresAuth: true } // ✅ protegida
   },
   {

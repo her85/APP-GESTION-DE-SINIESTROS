@@ -23,6 +23,7 @@
         <div class="row justify-content-md-center">
           <div class="boton-inicio">
             <RouterLink to="/crear_usuario" class="btn btn-primary btn-block crear-usuario">Crear usuario</RouterLink>
+            <RouterLink to="/listar_usuarios" class="btn btn-primary btn-block listar_usuarios">Consultar usuarios</RouterLink>
             <RouterLink to="/ingresar_siniestro" class="btn btn-primary btn-block ingresar-siniestro">
               Ingresar siniestro
             </RouterLink>
