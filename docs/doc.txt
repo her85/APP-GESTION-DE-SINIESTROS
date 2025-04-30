@@ -1,0 +1,92 @@
+CREAR PERFILES/ROLES
+
+Administrador: crud de usuarios y crud siniestros
+
+Tramitador: crud siniestros y consultas
+
+Consulta: Solo consultas
+
+Middleware para verificar JWT y roles:
+
+
+VIEWS
+
+En Vue.js, la carpeta views se utiliza para organizar los componentes que representan las diferentes vistas o páginas de tu aplicación.
+
+Función principal
+
+Organización de vistas: La carpeta views sirve para mantener separados los componentes que definen las páginas principales de tu aplicación. Esto mejora la organización y la mantenibilidad del código.
+Enrutamiento: Los componentes dentro de views suelen ser los destinos de las rutas definidas en tu enrutador (Vue Router). Cada componente en views se asocia a una URL específica, lo que permite la navegación entre las diferentes páginas de la aplicación.
+Componentes de alto nivel: Los componentes en views suelen ser componentes de alto nivel que actúan como contenedores para otros componentes más pequeños.
+Estructura típica
+
+Dentro de la carpeta views, puedes encontrar archivos .vue que representan las diferentes páginas de tu aplicación. Por ejemplo:
+
+views/Home.vue: La página principal de tu aplicación.
+views/About.vue: La página "Acerca de".
+views/Products.vue: La página de productos.
+
+// router/index.js
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import Home from '../views/Home.vue';
+import About from '../views/About.vue';
+
+Vue.use(VueRouter);
+
+const routes = [
+{
+path: '/',
+name: 'Home',
+component: Home,
+},
+{
+path: '/about',
+name: 'About',
+component: About,
+},
+];
+
+const router = new VueRouter({
+mode: 'history',
+base: process.env.BASE_URL,
+routes,
+});
+
+export default router;
+
+COMPONENTS
+
+La carpeta components en Vue.js se utiliza para organizar los componentes reutilizables de tu aplicación. Aquí te explico su función y estructura:
+
+Función principal
+
+Reutilización de código: La carpeta components es donde se almacenan los componentes que se pueden utilizar en múltiples partes de tu aplicación. Esto promueve la reutilización del código y facilita el mantenimiento.
+Modularidad: Los componentes en components suelen ser componentes más pequeños y específicos que realizan una tarea particular. Esto ayuda a dividir la interfaz de usuario en partes más manejables y modulares.
+Organización: Mantener los componentes reutilizables separados de las vistas (páginas) mejora la organización del proyecto y facilita la búsqueda y modificación de componentes.
+Estructura típica
+
+Dentro de la carpeta components, puedes organizar tus componentes en subcarpetas según su funcionalidad o tipo. Por ejemplo:
+
+components/Button.vue: Un componente de botón reutilizable.
+components/Card.vue: Un componente de tarjeta reutilizable.
+components/Form/: Una subcarpeta que contiene componentes relacionados con formularios (por ejemplo, components/Form/Input.vue, components/Form/Select.vue).
+components/UI/: Una subcarpeta que contiene componentes de interfaz de usuario reutilizables (por ejemplo, components/UI/Modal.vue, components/UI/Spinner.vue).
+
+
+<template>
+<div>
+<h1>Página de inicio</h1>
+<MyButton text="Haz clic aquí" />
+</div>
+</template>
+
+<script>
+import MyButton from '../components/Button.vue';
+
+export default {
+components: {
+MyButton,
+},
+};
+</script>

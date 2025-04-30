@@ -1,0 +1,30 @@
+const express = require("express"); // Importa el framework Express.js para crear el servidor web
+const path = require("path"); // Importa el módulo 'path' para trabajar con rutas de archivos y directorios
+const cors = require("cors"); // Importa el middleware CORS para habilitar solicitudes desde diferentes dominios
+const morgan = require("morgan"); //08 - REGISTRAR LOGS Y MONITOREAR ACTIVIDAD
+
+const app = express();  // Crea una instancia de la aplicación Express
+const corsOptions = { // Cors seguro, solo dominios especificos  04-Implementar CORS Seguro
+  origin : ['http://localhost:5173'],
+  methods : ['GET, POST,PUT,DELETE'],
+  allowedHeaders : ['Content-Type', 'Authorization']
+}
+app.use(morgan("combined")); //08 - REGISTRAR LOGS Y MONITOREAR ACTIVIDAD
+app.use(cors(corsOptions)); // Habilitar CORS para todas las rutas
+app.use(express.static(path.join(__dirname, "../frontend/dist"))); // Servir archivos estáticos de la compilación de Vue.js
+app.use(express.json()); // Middleware para analizar el cuerpo de las solicitudes JSON
+app.use(express.urlencoded({ extended: false })); // Middleware para analizar el cuerpo de las solicitudes URL-encoded
+
+/* Ruta para la aplicación Vue.js (maneja las rutas de la aplicación frontend)
+app.get(["/", "/login", "/pagina_principal", "/ingresar_siniestro"], (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/dist/index.html")); // Envía el archivo HTML principal de la aplicación Vue.js
+});*/
+
+// Rutas de la API (devuelven JSON)
+
+app.use("/", require("./routes/auth.routes"));
+app.use("/", require("./routes/usuario.routes"));
+app.use("/", require("./routes/siniestros.routes"));
+
+// Exporta la aplicación para su uso en otros módulos (opcional)  
+module.exports = app;

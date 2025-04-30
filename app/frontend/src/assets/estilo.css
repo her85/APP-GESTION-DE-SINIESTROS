@@ -1,0 +1,36 @@
+body {
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  background-color: whitesmoke;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-size: 16px;
+}
+
+label {
+  font-size: 16px;
+}
+
+footer {
+  padding: 20px;
+  font-size: 12px;
+}
+
+.contenedor-inicio {
+  padding-top: 250px;
+  padding-bottom: 250px;
+}
+
+.boton{
+  padding: 10px;
+  text-align: center;
+}
+.boton-inicio a{
+  margin: 10px;
+}
+
+@media (max-width: 1000px) {
+  .ocultar-en-movil {
+    display: none;
+  }
+}
