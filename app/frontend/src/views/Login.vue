@@ -1,8 +1,8 @@
 <template>
   <header>
     <nav class="navbar">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">
+      <div class="container-sm">
+        <a class="navbar-brand">
           <img src="@/components/icons/logo.jpg" alt="Logo empresa" width="50" height="50" />
         </a>
       </div>
@@ -24,7 +24,7 @@
           <input type="password" id="password" v-model="password" required />
           <br />
           <div class="boton-inicio">
-            <button type="submit" class="btn btn-primary btn-block iniciar-sesion">Iniciar Sesión</button>
+            <button type="submit" class="btn btn-primary btn-block iniciar-sesion">Aceptar</button>
           </div>
         </form>
       </div>
@@ -55,7 +55,7 @@ const login = async () => {
 
     if (response.status === 200) {
       const token = response.data.token
-      const role = response.data.role; // Asumo que el backend devuelve el rol en la respuesta
+      const role = response.data.role; // backend devuelve el rol en la respuesta
       if (token && role) {
         localStorage.setItem('authToken', token);
         localStorage.setItem('userRole', role); // Guardar el rol

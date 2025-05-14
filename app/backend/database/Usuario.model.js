@@ -13,16 +13,19 @@ async function buscarUsuario(usuario) {
   return await usuarios.findOne(usuario);
 }
 
-async function modificarUsuario(id, nuevosDatos){
+async function modificarUsuario(_id, nuevosDatos){
   const resultado = await usuarios.updateOne(
-    { id: id },
+    { _id: _id },
     { $set: nuevosDatos }
   );
   return resultado.modifiedCount > 0;
 };
 
-async function borrarUsuario(id){
-  const resultado = await usuarios.deleteOne({ id: id });
+async function borrarUsuario(_id){
+  console.log(2);
+  console.log(_id);
+  const resultado = await usuarios.deleteOne({ _id:_id });
+  console.log(resultado);
   return resultado.deletedCount > 0;
 };
 

@@ -2,27 +2,48 @@
   <div>
     <header>
       <nav class="navbar">
-        <div class="container-fluid">
+        <div class="container-sm">
           <a class="navbar-brand">
             <img src="@/components/icons/logo.jpg" alt="Logo empresa" width="50" height="50" />
-          </a>
-          <div class="boton-inicio">
-            <RouterLink to="/pagina_principal" class="btn btn-primary btn-block">Inicio</RouterLink>
-            <RouterLink to="/consultar_usuarios" class="btn btn-primary btn-block">Consultar usuarios</RouterLink>
-            <RouterLink to="/" class="btn btn-primary btn-block">Salir</RouterLink>
+          </a> <!-- Botón para salir -->
+          <div class="d-flex  ms-auto align-items-center gap-3">
+            <!-- Menú desplegable -->
+            <div class="dropdown">
+              <button class="btn btn-primary dropdown-toggle mt-2" type="button" id="menuDropdown"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Menú
+              </button>
+              <ul class="dropdown-menu dropdown-menu" aria-labelledby="menuDropdown">
+                <li>
+                  <RouterLink to="/crear_usuario" class="dropdown-item">Crear usuario</RouterLink>
+                </li>
+                <li>
+                  <RouterLink to="/ingresar_siniestro" class="dropdown-item">Ingresar siniestro</RouterLink>
+                </li>
+                <li>
+                  <RouterLink to="/consultar_siniestro" class="dropdown-item">Consultar siniestro</RouterLink>
+                </li>
+              </ul>
+            </div>
+            <!-- Botón para salir -->
+            <div>
+              <button @click="logout" class="btn btn-primary mt-2">Salir</button>
+            </div>
           </div>
         </div>
       </nav>
+
     </header>
 
     <main class="container mt-4">
       <h3 class="text-center">Usuarios Registrados</h3>
 
-          <!-- Formulario de búsqueda -->
-          <form @submit.prevent="buscarUsuarios" class="mb-4">
+      <!-- Formulario de búsqueda -->
+      <form @submit.prevent="buscarUsuarios" class="mb-4">
         <div class="row">
           <div class="col-md-6">
-            <input type="text" class="form-control" v-model="searchParams.nombre" placeholder="Buscar por nombre de usuario" />
+            <input type="text" class="form-control" v-model="searchParams.nombre"
+              placeholder="Buscar por nombre de usuario" />
           </div>
           <div class="col-md-6">
             <select class="form-select" v-model="searchParams.rol" aria-label="Filtrar por rol">
@@ -33,32 +54,34 @@
             </select>
           </div>
         </div>
-        <button type="submit" class="btn btn-primary mt-2">Buscar</button>
+        <!--<button type="submit" class="btn btn-primary mt-2">Buscar</button>-->
       </form>
 
       <div v-if="isAdmin">
         <table class="table table-bordered mt-4">
           <thead class="table-light">
             <tr>
+              <th>Id</th>
               <th>Usuario</th>
               <th>Rol</th>
-              <th>Acciones</th>
-              <th>Acciones</th>
+              <th>Editar</th>
+              <th>Borrar</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="usuario in usuariosFiltrados" :key="usuario._id">
+              <td>{{ usuario._id }}</td>
               <td>{{ usuario.username }}</td>
               <td>{{ usuario.role }}</td>
               <td>
-                <button @click="editarUsuario(usuario)" class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                <button @click="editarUsuario(usuario)" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
                   :data-bs-target="'#editUsuarioModal-' + usuario._id">
                   Editar
                 </button>
               </td>
 
               <td>
-                <button @click="borrarUsuario(usuario._id)" class="btn btn-danger btn-sm">
+                <button @click="borrarUsuario(usuario._id)" class="btn btn-secondary btn-sm">
                   Borrar
                 </button>
               </td>
@@ -134,6 +157,8 @@ const cargarUsuarios = async () => {
     const headers = getAuthHeaders();
     const response = await axios.get('http://localhost:3000/listar_usuarios', { headers });
     usuarios.value = response.data;
+    // Intento de forzar la actualización (si es necesario)
+    //usuarios.value = [...usuarios.value];
   } catch (error) {
     console.error('Error al cargar usuarios:', error);
   }
@@ -147,13 +172,36 @@ const editarUsuario = (usuario) => {
   usuarioEditado.value = { ...usuario };
 };
 
-const guardarUsuarioEditado = async (id) => {
+const guardarUsuarioEditado = async (_id) => {
   try {
     const headers = getAuthHeaders();
-    const response = await axios.put(`http://localhost:3000/modificar_usuario/${id}`, usuarioEditado.value, { headers });
+    const response = await axios.put(
+      'http://localhost:3000/modificar_usuario',
+      {
+        _id: _id,
+        username: usuarioEditado.value.username,
+        role: usuarioEditado.value.role,
+      },
+      { headers }
+    );
     if (response.data.success) {
       alert('Usuario actualizado correctamente.');
-      cargarUsuarios(); // Recargar usuarios después de la actualización
+      buscarUsuarios(); // Forzar reevaluación del filtro
+      // Cerrar el modal manualmente usando Bootstrap
+      const modal = document.getElementById('editUsuarioModal-' + _id);
+      if (modal) {
+        const modalInstance = window.bootstrap?.Modal.getOrCreateInstance(modal);
+        if (modalInstance) {
+          modalInstance.hide();
+        } else {
+          // Fallback: dispara el evento para cerrar el modal si no existe la instancia
+          modal.classList.remove('show');
+          modal.style.display = 'none';
+          document.body.classList.remove('modal-open');
+          const backdrop = document.querySelector('.modal-backdrop');
+          if (backdrop) backdrop.remove();
+        }
+      }
     }
   } catch (error) {
     console.error('Error al actualizar usuario:', error);
@@ -161,13 +209,16 @@ const guardarUsuarioEditado = async (id) => {
   }
 };
 
-const borrarUsuario = async (id) => {
+const borrarUsuario = async (_id) => {
   try {
     const headers = getAuthHeaders();
-    const response = await axios.delete(`http://localhost:3000/borrar_usuario/${id}`, { headers });
+    const response = await axios.delete(`http://localhost:3000/borrar_usuario`, { data: { _id }, headers });
+    console.log(1)
+    console.log(response.data);
     if (response.data.success) {
       alert('Usuario borrado correctamente.');
-      cargarUsuarios(); // Recargar usuarios después de borrar
+      //usuarios.value = usuarios.value.filter(usuario => usuario._id !== _id); // Actualizar la lista de usuarios
+      buscarUsuarios(); // Forzar reevaluación del filtro
     }
   } catch (error) {
     console.error('Error al borrar usuario:', error);
@@ -189,6 +240,10 @@ onMounted(() => {
     cargarUsuarios();
   }
 });
+const logout = () => {
+  localStorage.removeItem('authToken')
+  router.push('/')
+}
 </script>
 
 <style scoped></style>

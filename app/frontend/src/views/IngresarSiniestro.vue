@@ -1,24 +1,42 @@
 <template>
   <div>
     <header>
-      <nav class="navbar">
-        <div class="container-fluid">
-          <a class="navbar-brand">
-            <img src="@/components/icons/logo.jpg" alt="Logo empresa" width="50" height="50" />
-          </a>
-          <div class="boton-inicio">
-            <RouterLink to="/pagina_principal" class="btn btn-primary btn-block ingresar-siniestro">Inicio</RouterLink>
-            <RouterLink to="/crear_usuario" class="btn btn-primary btn-block crear-usuario">Crear usuario</RouterLink>
-            <RouterLink to="/consultar_siniestro" class="btn btn-primary btn-block ingresar-siniestro">Consultar siniestro</RouterLink>
-            <RouterLink to="/" class="btn btn-primary btn-block salir-sesion">Salir</RouterLink>
+        <nav class="navbar">
+          <div class="container-sm">
+            <a class="navbar-brand">
+              <img src="@/components/icons/logo.jpg" alt="Logo empresa" width="50" height="50" />
+            </a> <!-- Botón para salir -->
+            <div class="d-flex  ms-auto align-items-center gap-3">
+              <!-- Menú desplegable -->
+              <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle mt-2" type="button" id="menuDropdown" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  Menú
+                </button>
+                <ul class="dropdown-menu dropdown-menu" aria-labelledby="menuDropdown">
+                  <li>
+                    <RouterLink to="/crear_usuario" class="dropdown-item">Crear usuario</RouterLink>
+                  </li>
+                  <li>
+                    <RouterLink to="/listar_usuarios" class="dropdown-item">Consultar usuarios</RouterLink>
+                  </li>
+                  <li>
+                    <RouterLink to="/consultar_siniestro" class="dropdown-item">Consultar siniestro</RouterLink>
+                  </li>
+                </ul>
+              </div>
+              <!-- Botón para salir -->
+              <div >
+                <button @click="logout" class="btn btn-primary mt-2">Salir</button>
+              </div>
+            </div>
           </div>
-        </div>
       </nav>
     </header>
 
     <main>
       <div class="container-sm">
-        <div class="card">
+        <div v-if="isAdminOrTram" class="card">
           <section class="container mt-5">
             <form id="siniestro-form" @submit.prevent="enviarFormulario">
               <div class="row">
@@ -26,7 +44,8 @@
                 <div class="col-6">
                   <h3 class="mb-3">Datos de la persona</h3>
                   <div class="mb-3">
-                    <input type="number" class="form-control" v-model="formulario.numeroPoliza" placeholder="Número de poliza" required />
+                    <input type="number" class="form-control" v-model="formulario.numeroPoliza"
+                      placeholder="Número de poliza" required />
                   </div>
                   <div class="mb-3">
                     <select class="form-select" v-model="formulario.tipoDocumento" required>
@@ -38,19 +57,24 @@
                     </select>
                   </div>
                   <div class="mb-3">
-                    <input type="number" class="form-control" v-model="formulario.documentoCliente" placeholder="Número de documento" required />
+                    <input type="number" class="form-control" v-model="formulario.documentoCliente"
+                      placeholder="Número de documento" required />
                   </div>
                   <div class="mb-3">
-                    <input type="text" class="form-control" v-model="formulario.nombreCliente" placeholder="Nombre completo" required />
+                    <input type="text" class="form-control" v-model="formulario.nombreCliente"
+                      placeholder="Nombre completo" required />
                   </div>
                   <div class="mb-3">
-                    <input type="text" class="form-control" v-model="formulario.direccionCliente" placeholder="Dirección" required />
+                    <input type="text" class="form-control" v-model="formulario.direccionCliente"
+                      placeholder="Dirección" required />
                   </div>
                   <div class="mb-3">
-                    <input type="tel" class="form-control" v-model="formulario.telefonoCliente" placeholder="Teléfono" required />
+                    <input type="tel" class="form-control" v-model="formulario.telefonoCliente" placeholder="Teléfono"
+                      required />
                   </div>
                   <div class="mb-3">
-                    <input type="email" class="form-control" v-model="formulario.mailCliente" placeholder="E-mail" required />
+                    <input type="email" class="form-control" v-model="formulario.mailCliente" placeholder="E-mail"
+                      required />
                   </div>
                 </div>
 
@@ -68,7 +92,8 @@
                     </select>
                   </div>
                   <div class="mb-3">
-                    <input type="text" class="form-control" v-model="formulario.patente" placeholder="Patente" required />
+                    <input type="text" class="form-control" v-model="formulario.patente" placeholder="Patente"
+                      required />
                   </div>
                   <div class="mb-3">
                     <input type="text" class="form-control" v-model="formulario.marca" placeholder="Marca" required />
@@ -77,13 +102,16 @@
                     <input type="text" class="form-control" v-model="formulario.modelo" placeholder="Modelo" required />
                   </div>
                   <div class="mb-3">
-                    <input type="number" class="form-control" v-model="formulario.anioFabricacion" placeholder="Año de fabricación" required />
+                    <input type="number" class="form-control" v-model="formulario.anioFabricacion"
+                      placeholder="Año de fabricación" required />
                   </div>
                   <div class="mb-3">
-                    <input type="text" class="form-control" v-model="formulario.numeroDeMotor" placeholder="Número de motor" required />
+                    <input type="text" class="form-control" v-model="formulario.numeroDeMotor"
+                      placeholder="Número de motor" required />
                   </div>
                   <div class="mb-3">
-                    <input type="text" class="form-control" v-model="formulario.numeroDeChasis" placeholder="Número de chasis" required />
+                    <input type="text" class="form-control" v-model="formulario.numeroDeChasis"
+                      placeholder="Número de chasis" required />
                   </div>
                 </div>
               </div>
@@ -124,6 +152,9 @@
             </form>
           </section>
         </div>
+        <div v-else>
+          <p class="mt-3 alert alert-warning">No tienes permisos para ver esta página.</p>
+        </div>
       </div>
     </main>
 
@@ -134,8 +165,14 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref, computed } from 'vue'
+import { useRouter } from 'vue-router';
 import axios from 'axios'
+
+const router = useRouter()
+//obtener la información del usuario logueado y su rol del inicio de sesión.
+const loggedInUserRole = localStorage.getItem('userRole'); // Ejemplo: obtener el rol desde localStorage
+const isAdminOrTram = computed(() => loggedInUserRole === 'Administrador' || loggedInUserRole === 'Tramitador');
 
 const formulario = reactive({
   numeroPoliza: null,
@@ -176,6 +213,12 @@ const enviarFormulario = async () => {
     console.error('Error al enviar el formulario:', error)
     alert('Error al crear el siniestro')
   }
+}
+
+
+const logout = () => {
+  localStorage.removeItem('authToken')
+  router.push('/')
 }
 </script>
 

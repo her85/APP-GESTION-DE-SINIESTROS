@@ -1,10 +1,11 @@
 // src/middlewares/auth.middleware.js
 
-//01-Usar Autenticación Segura (JWT) y 02-Implementar Autorización con RBAC
+//AUTENTICACION SEGURA (JWT) y AUTORIZACION CON RBAC
 
 const jwt = require("jsonwebtoken");
 const { SECRET_KEY } = require("../config/config");
 
+//AUTENTICACION SEGURA (JWT)
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
@@ -19,10 +20,10 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-// Middleware para verificar roles
+// Middleware para verificar roles - AUTORIZACION CON RBAC
 const authorizeRole = (rolesPermitidos = []) => {
   return (req, res, next) => {
-    if (!req.user || !rolesPermitidos.includes(req.user.role)) {
+    if (!req.user || !rolesPermitidos.includes(req.user.role)) { 
       return res.status(403).json({ error: "Acceso no autorizado" });
     }
     console.log("Verificacion roles")

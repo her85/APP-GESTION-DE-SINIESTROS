@@ -1,24 +1,42 @@
 <template>
   <div>
     <header>
-      <nav class="navbar">
-        <div class="container-fluid">
-          <a class="navbar-brand">
-            <img src="@/components/icons/logo.jpg" alt="Logo empresa" width="50" height="50" />
-          </a>
-          <div class="boton-inicio">
-            <RouterLink to="/pagina_principal" class="btn btn-primary btn-block">Inicio</RouterLink>
-            <RouterLink to="/ingresar_siniestro" class="btn btn-primary btn-block">Ingresar siniestro</RouterLink>
-            <RouterLink to="/consultar_siniestro" class="btn btn-primary btn-block">Consultar siniestro</RouterLink>
-            <RouterLink to="/" class="btn btn-primary btn-block">Salir</RouterLink>
+          <nav class="navbar">
+          <div class="container-sm">
+            <a class="navbar-brand">
+              <img src="@/components/icons/logo.jpg" alt="Logo empresa" width="50" height="50" />
+            </a> <!-- Botón para salir -->
+            <div class="d-flex  ms-auto align-items-center gap-3">
+              <!-- Menú desplegable -->
+              <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle mt-2" type="button" id="menuDropdown" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  Menú
+                </button>
+                <ul class="dropdown-menu dropdown-menu" aria-labelledby="menuDropdown">
+                  <li>
+                    <RouterLink to="/listar_usuarios" class="dropdown-item">Consultar usuarios</RouterLink>
+                  </li>
+                  <li>
+                    <RouterLink to="/ingresar_siniestro" class="dropdown-item">Ingresar siniestro</RouterLink>
+                  </li>
+                  <li>
+                    <RouterLink to="/consultar_siniestro" class="dropdown-item">Consultar siniestro</RouterLink>
+                  </li>
+                </ul>
+              </div>
+              <!-- Botón para salir -->
+              <div >
+                <button @click="logout" class="btn btn-primary mt-2">Salir</button>
+              </div>
+            </div>
           </div>
-        </div>
       </nav>
     </header>
 
     <main>
       <div class="container-sm">
-        <div class="card col-3 container text-center">
+        <div class="card col-6 container text-center">
           <section class="container mt-5">
             <div v-if="isAdmin" class="col-12">
               <h3 class="mb-3">Crear nuevo usuario</h3>
@@ -67,9 +85,7 @@ import { reactive, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 
-// Asumiendo que tienes un mecanismo para obtener la información del usuario logueado
-// y su rol. Esto podría ser desde un store (como Pinia o Vuex) o desde localStorage
-// después del inicio de sesión.
+//obtener la información del usuario logueado y su rol del inicio de sesión.
 const loggedInUserRole = localStorage.getItem('userRole'); // Ejemplo: obtener el rol desde localStorage
 const isAdmin = computed(() => loggedInUserRole === 'Administrador');
 
@@ -109,6 +125,10 @@ const crearNuevoUsuario = async () => {
     esExito.value = false;
   }
 };
+const logout = () => {
+  localStorage.removeItem('authToken')
+  router.push('/')
+}
 </script>
 
 <style scoped>

@@ -8,6 +8,8 @@ const {
   borrarPorNumeroSiniestro, // Importa la función para eliminar un siniestro por su número
 } = require("../database/Siniestro.model"); // Importa las funciones de la base de datos desde el módulo 'db.js'
 
+const sanitizeHtml = require('sanitize-html'); //SANITIZAR HTML PARA EVITAR INYECCIONES DE CÓDIGO MALICIOSO
+
 const ingresar_siniestro = async (req, res) => {
   // Ruta para ingresar un nuevo siniestro
   try{
@@ -20,7 +22,7 @@ const ingresar_siniestro = async (req, res) => {
     if (!numeroPoliza || !tipoDocumento || !documentoCliente || !nombreCliente || !direccionCliente || !telefonoCliente || !mailCliente || !tipoVehiculo || !patente || !marca || !modelo || !anioFabricacion || !numeroDeMotor || !numeroDeChasis || !tipoSiniestro || !fechaSiniestro || !direccionSiniestro || !descripcionSiniestro) {
       return res.status(400).json({ error: "Todos los campos son obligatorios" });
     }
-
+    const descripcionSanitizada = sanitizeHtml(req.body.descripcionSiniestro);
   await ingresarSiniestro({
     // Llama a la función para insertar un nuevo siniestro en la base de datos
     numeroSiniestro: numeroSiniestro, // Asigna el número de siniestro generado
@@ -45,7 +47,7 @@ const ingresar_siniestro = async (req, res) => {
         new Date(req.body.fechaSiniestro).getTimezoneOffset()
     ), // Ajusta la fecha para la zona horaria local
     direccionSiniestro: req.body.direccionSiniestro.toUpperCase(), // Asigna la dirección del siniestro en mayúsculas
-    descripcionSiniestro: req.body.descripcionSiniestro, // Asigna la descripción del siniestro
+    descripcionSiniestro: descripcionSanitizada, // SANITIZA LA DESCRIPCIÓN DEL SINIESTRO
   }); // Inserta el nuevo siniestro en la base de datos
   console.log("Siniestro ingresado:", req.body); // Agrega este log
   res.json({ message: "Siniestro ingresado correctamente" }); // Devuelve un mensaje de éxito
@@ -147,7 +149,8 @@ const modificar_siniestro = async (req, res) => {
     fechaSiniestro.getMinutes() + fechaSiniestro.getTimezoneOffset()
   ); // Ajusta la fecha para la zona horaria local
   const direccionSiniestro = req.body.direccionSiniestro.toUpperCase(); // Asigna la dirección del siniestro en mayúsculas
-  const descripcionSiniestro = req.body.descripcionSiniestro; // Asigna la descripción del siniestro
+  // Sanitiza la descripción del siniestro
+  const descripcionSiniestro = sanitizeHtml(req.body.descripcionSiniestro); // SANITIZA LA DESCRIPCIÓN DEL SINIESTRO
   console.log("Datos del siniestro a modificar:", req.body); // Agrega este log
   await modificarSiniestro(
     // Llama a la función para modificar el siniestro en la base de datos

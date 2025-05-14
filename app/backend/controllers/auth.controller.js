@@ -14,7 +14,7 @@ const login = async (req, res) => {
       return res.status(401).json({ error: "Credenciales incorrectas" });
     }
   
-    // Genera el token
+    // Genera el token //AUTENTICACION SEGURA (JWT) y AUTORIZACION CON RBAC
     const token = jwt.sign(
       { username: user.username, role: user.role },
       SECRET_KEY,

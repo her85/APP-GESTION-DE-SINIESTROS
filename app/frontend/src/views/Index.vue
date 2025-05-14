@@ -2,7 +2,7 @@
   <div>
     <header>
       <nav class="navbar">
-        <div class="container-fluid">
+        <div class="container-sm">
           <a class="navbar-brand">
             <img src="@/components/icons/logo.jpg" alt="Logo empresa" width="50" height="50" />
           </a>

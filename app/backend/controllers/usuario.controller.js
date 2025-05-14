@@ -1,4 +1,5 @@
 const bcrypt = require("bcryptjs")
+const { ObjectId } = require('mongodb'); // Importa la clase ObjectId desde el driver de MongoDB
 const {
   crearUsuario,
   listarUsuarios,
@@ -48,15 +49,19 @@ const buscar_usuario = async (req, res) => {
 const modificar_usuario = async (req, res) => {
   try {
     const nuevosDatos = { ...req.body };
+    // Eliminar el _id para evitar modificar un campo inmutable
+    delete nuevosDatos._id;
     if (nuevosDatos.password) {
       nuevosDatos.password = bcrypt.hashSync(nuevosDatos.password, 10);
     }
-
-    const modificado = await modificarUsuario(req.params.id, nuevosDatos);
+    const idParaModificar = req.body._id;
+    // Convertir el string _id a ObjectId
+    const objectIdParaModificar = new ObjectId(idParaModificar);
+    const modificado = await modificarUsuario(objectIdParaModificar, nuevosDatos);
     if (!modificado) {
       return res.status(404).json({ message: "Usuario no encontrado o no modificado" });
     }
-    res.json({ message: "Usuario modificado correctamente" });
+    res.json({ success: true, message: "Usuario modificado correctamente" });
   } catch (error) {
     console.error("Error al modificar usuario:", error);
     res.status(500).json({ message: "Error al modificar usuario" });
@@ -65,11 +70,19 @@ const modificar_usuario = async (req, res) => {
 
 const borrar_usuario = async (req, res) => {
   try {
-    const borrado = await borrarUsuario(req.params.id);
+    console.log(1)
+    console.log(req.body._id);
+    const idParaBorrar = req.body._id;
+
+    // Convertir el string _id a ObjectId
+    const objectIdParaBorrar = new ObjectId(idParaBorrar);
+
+    const borrado = await borrarUsuario(objectIdParaBorrar);
     if (!borrado) {
       return res.status(404).json({ message: "Usuario no encontrado o no borrado" });
     }
-    res.json({ message: "Usuario borrado correctamente" });
+    //res.json({ message: "Usuario borrado correctamente" });
+    res.json({ success: true, message: "Usuario borrado correctamente" });
   } catch (error) {
     console.error("Error al borrar usuario:", error);
     res.status(500).json({ message: "Error al borrar usuario" });
