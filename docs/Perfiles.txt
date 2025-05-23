@@ -1,0 +1,11 @@
+PERFILES
+
+Administrador: crud de usuarios y crud siniestros
+
+Tramitador: crud siniestros y consultas
+
+Consulta: Solo consultas
+
+
+
+

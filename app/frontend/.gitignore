@@ -32,6 +32,5 @@ coverage
 # Local env files
 .env
 
-# System files
-.docs
+
 
