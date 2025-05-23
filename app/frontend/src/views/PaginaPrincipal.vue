@@ -1,5 +1,5 @@
 <template>
-  <main class="contenedor-inicio">
+  <div class="contenedor-inicio">
     <section class="container text-center">
       <!-- Menú desplegable -->
       <div class="dropdown">
@@ -18,15 +18,11 @@
           </ul>
       </div>
     </section>
-  </main>
-
-  <footer>
-    <p class="container text-center">&copy; 2024 - Gestión de Siniestros</p>
-  </footer>
+  </div>
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { computed } from 'vue';
 import { useAuthStore } from '@/stores/auth'
 
 const auth = useAuthStore()
@@ -36,7 +32,3 @@ const rolUsuario = computed(() => auth.getRol())
 console.log('Rol de usuario:', rolUsuario.value)
 
 </script>
-
-<style scoped>
-/* Puedes incluir estilos personalizados aquí */
-</style>

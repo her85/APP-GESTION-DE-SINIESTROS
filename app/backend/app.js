@@ -20,10 +20,6 @@ app.use(express.static(path.join(__dirname, "../frontend/dist"))); // Servir arc
 app.use(express.json()); // Middleware para analizar el cuerpo de las solicitudes JSON
 app.use(express.urlencoded({ extended: false })); // Middleware para analizar el cuerpo de las solicitudes URL-encoded
 
-/* Ruta para la aplicación Vue.js (maneja las rutas de la aplicación frontend)
-app.get(["/", "/login", "/pagina_principal", "/ingresar_siniestro"], (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/dist/index.html")); // Envía el archivo HTML principal de la aplicación Vue.js
-});*/
 
 // Rutas de la API (devuelven JSON)
 

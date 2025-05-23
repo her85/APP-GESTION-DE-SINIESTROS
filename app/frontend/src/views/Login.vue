@@ -1,5 +1,5 @@
 <template>
-  <main class="contenedor-inicio">
+  <div class="contenedor-inicio">
     <section class="container text-center">
       <div>
         <h1>Iniciar sesión</h1>
@@ -19,11 +19,7 @@
         </form>
       </div>
     </section>
-  </main>
-
-  <footer>
-    <p class="container text-center">&copy; 2024 - Gestión de Siniestros</p>
-  </footer>
+  </div>
 </template>
 
 <script setup>

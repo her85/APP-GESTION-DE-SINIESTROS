@@ -1,6 +1,5 @@
 <template>
-
-    <main class="container mt-4">
+    <div class="container mt-4">
       <h3 class="text-center">Usuarios Registrados</h3>
 
       <!-- Formulario de búsqueda -->
@@ -58,7 +57,7 @@
       <div v-else class="alert alert-warning text-center mt-4">
         No tienes permisos para ver esta página.
       </div>
-    </main>
+    </div>
     <!-- Modal para editar usuario -->
     <div v-for="usuario in usuarios" :key="'modal-' + usuario._id" class="modal fade"
       :id="'editUsuarioModal-' + usuario._id" tabindex="-1" aria-labelledby="editUsuarioModalLabel" aria-hidden="true">

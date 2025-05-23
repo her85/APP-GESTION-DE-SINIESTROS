@@ -1,5 +1,4 @@
 <template>
-  <main>
     <div class="container-sm">
       <div class="card">
         <section class="container mt-5">
@@ -86,10 +85,6 @@
         </section>
       </div>
     </div>
-  </main>
-  <footer>
-    <p class="container text-center">&copy; 2024 - Gestión de Siniestros</p>
-  </footer>
 
   <div v-for="siniestro in siniestros" :key="siniestro.numeroSiniestro" class="modal fade"
     :id="'editSiniestroModal-' + siniestro.numeroSiniestro" tabindex="-1" aria-labelledby="editSiniestroModalLabel"

@@ -1,6 +1,4 @@
 <template>
-  
-    <main>
       <div class="container-sm">
         <div v-if="isAdminOrTram" class="card">
           <section class="container mt-5">
@@ -122,13 +120,13 @@
           <p class="mt-3 alert alert-warning">No tienes permisos para ver esta página.</p>
         </div>
       </div>
-    </main>
 </template>
 
 <script setup>
-import { reactive, ref, computed } from 'vue'
+import { reactive, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
-import axios from 'axios'
+import axios from 'axios';
+import api from '@/services/api';
 
 const router = useRouter()
 //obtener la información del usuario logueado y su rol del inicio de sesión.

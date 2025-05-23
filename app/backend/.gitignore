@@ -6,3 +6,7 @@ node_modules
 
 #package-lock.json
 package-lock.json
+
+#archivos
+.crear_siniestos.js
+.crear_usuario.j
