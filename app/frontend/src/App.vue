@@ -1,10 +1,14 @@
 <template>
-  <div id="app">
-    <RouterView/>
+  <div>
+    <header>
+      <Navbar />
+    </header>
+    <main>
+      <RouterView />
+    </main>
   </div>
 </template>
 
-<style>
-/* Estilos globales de la aplicación (opcional) */
-</style>
-/
+<script setup>
+import Navbar from '@/components/Navbar.vue';
+</script>

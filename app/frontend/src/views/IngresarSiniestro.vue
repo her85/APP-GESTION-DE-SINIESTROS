@@ -1,39 +1,5 @@
 <template>
-  <div>
-    <header>
-        <nav class="navbar">
-          <div class="container-sm">
-            <a class="navbar-brand">
-              <img src="@/components/icons/logo.jpg" alt="Logo empresa" width="50" height="50" />
-            </a> <!-- Botón para salir -->
-            <div class="d-flex  ms-auto align-items-center gap-3">
-              <!-- Menú desplegable -->
-              <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle mt-2" type="button" id="menuDropdown" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                  Menú
-                </button>
-                <ul class="dropdown-menu dropdown-menu" aria-labelledby="menuDropdown">
-                  <li>
-                    <RouterLink to="/crear_usuario" class="dropdown-item">Crear usuario</RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink to="/listar_usuarios" class="dropdown-item">Consultar usuarios</RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink to="/consultar_siniestro" class="dropdown-item">Consultar siniestro</RouterLink>
-                  </li>
-                </ul>
-              </div>
-              <!-- Botón para salir -->
-              <div >
-                <button @click="logout" class="btn btn-primary mt-2">Salir</button>
-              </div>
-            </div>
-          </div>
-      </nav>
-    </header>
-
+  
     <main>
       <div class="container-sm">
         <div v-if="isAdminOrTram" class="card">
@@ -157,11 +123,6 @@
         </div>
       </div>
     </main>
-
-    <footer>
-      <p class="container text-center">&copy; 2024 - Gestión de Siniestros</p>
-    </footer>
-  </div>
 </template>
 
 <script setup>
@@ -215,11 +176,6 @@ const enviarFormulario = async () => {
   }
 }
 
-
-const logout = () => {
-  localStorage.removeItem('authToken')
-  router.push('/')
-}
 </script>
 
 <style scoped>

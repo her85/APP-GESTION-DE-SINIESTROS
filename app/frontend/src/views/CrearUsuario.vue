@@ -1,83 +1,43 @@
 <template>
-  <div>
-    <header>
-          <nav class="navbar">
-          <div class="container-sm">
-            <a class="navbar-brand">
-              <img src="@/components/icons/logo.jpg" alt="Logo empresa" width="50" height="50" />
-            </a> <!-- Botón para salir -->
-            <div class="d-flex  ms-auto align-items-center gap-3">
-              <!-- Menú desplegable -->
-              <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle mt-2" type="button" id="menuDropdown" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                  Menú
-                </button>
-                <ul class="dropdown-menu dropdown-menu" aria-labelledby="menuDropdown">
-                  <li>
-                    <RouterLink to="/listar_usuarios" class="dropdown-item">Consultar usuarios</RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink to="/ingresar_siniestro" class="dropdown-item">Ingresar siniestro</RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink to="/consultar_siniestro" class="dropdown-item">Consultar siniestro</RouterLink>
-                  </li>
-                </ul>
-              </div>
-              <!-- Botón para salir -->
-              <div >
-                <button @click="logout" class="btn btn-primary mt-2">Salir</button>
-              </div>
+  <main>
+    <div class="container-sm">
+      <div class="card col-6 container text-center">
+        <section class="container mt-5">
+          <div v-if="isAdmin" class="col-12">
+            <h3 class="mb-3">Crear nuevo usuario</h3>
+            <div>
+              <form id="crear-usuario-form" @submit.prevent="crearNuevoUsuario">
+                <div class="mb-3">
+                  <input type="text" class="form-control" id="username" v-model="nuevoUsuario.username"
+                    placeholder="Nombre de usuario" required />
+                </div>
+                <div class="mb-3">
+                  <input type="password" class="form-control" id="password" v-model="nuevoUsuario.password"
+                    placeholder="Contraseña" required />
+                </div>
+                <div class="mb-3">
+                  <label for="role" class="form-label">Rol</label>
+                  <select class="form-select" id="role" v-model="nuevoUsuario.role" required>
+                    <option value="Administrador">Administrador</option>
+                    <option value="Tramitador">Tramitador</option>
+                    <option value="Consulta">Consulta</option>
+                  </select>
+                </div>
+                <div class="boton"><button type="submit" class="btn btn-primary mt-2">Crear usuario</button></div>
+                <div v-if="mensaje" :class="{ 'alert': true, 'alert-success': esExito, 'alert-danger': !esExito }"
+                  class="mt-3">
+                  {{ mensaje }}
+                </div>
+              </form>
             </div>
           </div>
-      </nav>
-    </header>
-
-    <main>
-      <div class="container-sm">
-        <div class="card col-6 container text-center">
-          <section class="container mt-5">
-            <div v-if="isAdmin" class="col-12">
-              <h3 class="mb-3">Crear nuevo usuario</h3>
-              <div>
-                <form id="crear-usuario-form" @submit.prevent="crearNuevoUsuario">
-                  <div class="mb-3">
-                    <input type="text" class="form-control" id="username" v-model="nuevoUsuario.username"
-                      placeholder="Nombre de usuario" required />
-                  </div>
-                  <div class="mb-3">
-                    <input type="password" class="form-control" id="password" v-model="nuevoUsuario.password"
-                      placeholder="Contraseña" required />
-                  </div>
-                  <div class="mb-3">
-                    <label for="role" class="form-label">Rol</label>
-                    <select class="form-select" id="role" v-model="nuevoUsuario.role" required>
-                      <option value="Administrador">Administrador</option>
-                      <option value="Tramitador">Tramitador</option>
-                      <option value="Consulta">Consulta</option>
-                    </select>
-                  </div>
-                  <div class="boton"><button type="submit" class="btn btn-primary mt-2">Crear usuario</button></div>
-                  <div v-if="mensaje" :class="{ 'alert': true, 'alert-success': esExito, 'alert-danger': !esExito }"
-                    class="mt-3">
-                    {{ mensaje }}
-                  </div>
-                </form>
-              </div>
-            </div>
-            <div v-else>
-              <p class="mt-3 alert alert-warning">No tienes permisos para ver esta página.</p>
-            </div>
-          </section>
-        </div>
+          <div v-else>
+            <p class="mt-3 alert alert-warning">No tienes permisos para ver esta página.</p>
+          </div>
+        </section>
       </div>
-    </main>
-
-    <footer>
-      <p class="container text-center">&copy; {{ new Date().getFullYear() }} - Gestión de Siniestros</p>
-    </footer>
-  </div>
+    </div>
+  </main>
 </template>
 
 <script setup>
@@ -125,10 +85,6 @@ const crearNuevoUsuario = async () => {
     esExito.value = false;
   }
 };
-const logout = () => {
-  localStorage.removeItem('authToken')
-  router.push('/')
-}
 </script>
 
 <style scoped>

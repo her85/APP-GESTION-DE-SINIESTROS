@@ -1,20 +1,5 @@
 <template>
   <div>
-    <header>
-      <nav class="navbar">
-        <div class="container-sm">
-          <a class="navbar-brand">
-            <img src="@/components/icons/logo.jpg" alt="Logo empresa" width="50" height="50" />
-          </a>
-          <div>
-            <RouterLink to="/login" class="btn btn-primary btn-block ingresar-sesion">
-              Ingresar
-            </RouterLink>
-          </div>
-        </div>
-      </nav>
-    </header>
-
     <main class="contenedor-inicio">
       <section class="container text-center">
         <div>

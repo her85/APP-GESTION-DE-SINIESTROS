@@ -1,73 +1,40 @@
 <template>
-  <div>
-    <header>
-      <nav class="navbar">
-        <div class="container-sm">
-          <a class="navbar-brand">
-            <img src="@/components/icons/logo.jpg" alt="Logo empresa" width="50" height="50" />
-          </a>
-          <div>
-            <button @click="logout" class="btn btn-primary btn-block salir-sesion">
-              Salir
-            </button>
-          </div>
-        </div>
-      </nav>
-    </header>
+  <main class="contenedor-inicio">
+    <section class="container text-center">
+      <!-- Menú desplegable -->
+      <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" id="menuDropdown" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Eliga una opción
+        </button>
+       <!-- Solo visible para Administrador -->
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li v-if="rolUsuario === 'Administrador'"><RouterLink class="dropdown-item" to="/crear_usuario">Crear usuario</RouterLink></li>
+            <li v-if="rolUsuario === 'Administrador'"><RouterLink class="dropdown-item" to="/listar_usuarios">Consultar usuarios</RouterLink></li>
+           <!-- Visible para Admininistrador, Tramitador-->
+            <li v-if="rolUsuario !== 'Consulta'"><RouterLink class="dropdown-item" to="/ingresar_siniestro">Ingresar siniestro</RouterLink></li>
+            <!-- Visible para Admininistrador, Tramitador y Consulta -->
+            <li><RouterLink class="dropdown-item" to="/consultar_siniestro">Consultar siniestro</RouterLink></li>
+          </ul>
+      </div>
+    </section>
+  </main>
 
-    <main class="contenedor-inicio">
-      <section class="container text-center">
-       <!-- <div>
-          <h2>Siniestros</h2>
-        </div>
-        <div class="row justify-content-md-center">
-          <div class="boton-inicio">
-            <RouterLink to="/crear_usuario" class="btn btn-primary btn-block crear-usuario">Crear usuario</RouterLink>
-            <RouterLink to="/listar_usuarios" class="btn btn-primary btn-block listar_usuarios">Consultar usuarios</RouterLink>
-            <RouterLink to="/ingresar_siniestro" class="btn btn-primary btn-block ingresar-siniestro">
-              Ingresar siniestro
-            </RouterLink>
-            <RouterLink to="/consultar_siniestro" class="btn btn-primary btn-block consultar-siniestro">
-              Consultar siniestro
-            </RouterLink>
-          </div>
-        </div>-->
-          <!-- Menú desplegable -->
-            <div class="dropdown">
-              <button
-                class="btn btn-primary dropdown-toggle"
-                type="button"
-                id="menuDropdown"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Eliga una opción
-              </button>
-              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="menuDropdown">
-                <li><RouterLink to="/crear_usuario" class="dropdown-item">Crear usuario</RouterLink></li>
-                <li><RouterLink to="/listar_usuarios" class="dropdown-item">Consultar usuarios</RouterLink></li>
-                <li><RouterLink to="/ingresar_siniestro" class="dropdown-item">Ingresar siniestro</RouterLink></li>
-                <li><RouterLink to="/consultar_siniestro" class="dropdown-item">Consultar siniestro</RouterLink></li>
-              </ul>
-            </div>
-      </section>
-    </main>
-
-    <footer>
-      <p class="container text-center">&copy; 2024 - Gestión de Siniestros</p>
-    </footer>
-  </div>
+  <footer>
+    <p class="container text-center">&copy; 2024 - Gestión de Siniestros</p>
+  </footer>
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router'
+import { ref, onMounted, computed } from 'vue';
+import { useAuthStore } from '@/stores/auth'
 
-const router = useRouter()
+const auth = useAuthStore()
 
-const logout = () => {
-  localStorage.removeItem('authToken')
-  router.push('/')
-}
+const rolUsuario = computed(() => auth.getRol())
+
+console.log('Rol de usuario:', rolUsuario.value)
+
 </script>
 
 <style scoped>

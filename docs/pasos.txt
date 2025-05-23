@@ -1,6 +1,6 @@
 Buenas practicas de programacion
 
-Entrega 1: BE (JWT + RBAC + Buenas Practicas)
+Entrega 1: BE (JWT + RBAC + Buenas Practicas){
 [sanitizar, validar datos, registro de logs, limite de peticiones]
 
 1- Usar Autenticación Segura (JWT, OAuth, API Keys)
@@ -16,10 +16,8 @@ Entrega 1: BE (JWT + RBAC + Buenas Practicas)
 6- Proteger contra Cross-Site Scripting (XSS)
 
 7- Registrar Logs y Monitorear Actividad
+}
 
-
-
-VISTA SEGUN ROLE, QUE SE VE Y QUE NO
 
 REFACTORIZAR CODIGO Y HACERLO REUTILIZABLE EN EL FRONT
 

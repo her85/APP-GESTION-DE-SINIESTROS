@@ -1,14 +1,4 @@
 <template>
-  <header>
-    <nav class="navbar">
-      <div class="container-sm">
-        <a class="navbar-brand">
-          <img src="@/components/icons/logo.jpg" alt="Logo empresa" width="50" height="50" />
-        </a>
-      </div>
-    </nav>
-  </header>
-
   <main class="contenedor-inicio">
     <section class="container text-center">
       <div>
@@ -41,10 +31,13 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import api from '@/services/api'
 
+import { useAuthStore } from '@/stores/auth'
+
 const username = ref('')
 const password = ref('')
 const error = ref(null)
 const router = useRouter()
+const auth = useAuthStore()
 
 const login = async () => {
   try {
@@ -57,8 +50,7 @@ const login = async () => {
       const token = response.data.token
       const role = response.data.role; // backend devuelve el rol en la respuesta
       if (token && role) {
-        localStorage.setItem('authToken', token);
-        localStorage.setItem('userRole', role); // Guardar el rol
+        auth.setAuth(token, role)
         console.log('Login exitoso, token:', token, 'rol:', role);
         router.push('/pagina_principal');
       } else {
