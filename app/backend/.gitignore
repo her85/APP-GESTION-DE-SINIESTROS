@@ -8,5 +8,5 @@ node_modules
 package-lock.json
 
 #archivos
-.crear_siniestos.js
-.crear_usuario.j
+crear_siniestros.js
+crear_usuario_script.js
