@@ -7,6 +7,5 @@ node_modules
 #package-lock.json
 package-lock.json
 
-#archivos
-crear_siniestros.js
-crear_usuario_script.js
+# utlils
+utils/
