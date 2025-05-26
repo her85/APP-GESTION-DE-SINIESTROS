@@ -1,6 +1,8 @@
 import '@/assets/estilo.css'
 import 'bootstrap/dist/css/bootstrap.min.css'; // Importa los estilos de Bootstrap
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'; //Si deseas usar el javascript de bootstrap
+//import 'bootstrap/dist/js/bootstrap.bundle.min.js'; //Si deseas usar el javascript de bootstrap
+import * as bootstrap from 'bootstrap';
+window.bootstrap = bootstrap;
 
 import { createApp } from 'vue';
 import App from '@/App.vue';

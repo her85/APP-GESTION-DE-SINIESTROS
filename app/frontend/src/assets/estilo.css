@@ -1,36 +1,75 @@
 body {
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-  background-color: whitesmoke;
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e3f0ff 0%, #fafcff 100%);
+  font-family: 'Segoe UI', 'Arial', sans-serif;
   font-size: 16px;
+  color: #222;
 }
 
-label {
-  font-size: 16px;
+label, .form-label {
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 footer {
   padding: 20px;
-  font-size: 12px;
+  font-size: 14px;
+  background: #222;
+  color: #fff;
+  letter-spacing: 1px;
 }
 
 .contenedor-inicio {
-  padding-top: 250px;
-  padding-bottom: 250px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  padding: 0;
 }
 
-.boton{
+.card, .login-card {
+  box-shadow: 0 4px 24px 0 rgba(0,0,0,0.08);
+  border-radius: 16px;
+  background: #fff;
+  padding: 2rem 1.5rem;
+  margin: 1rem auto;
+}
+
+.boton, .boton-inicio {
   padding: 10px;
   text-align: center;
 }
-.boton-inicio a{
-  margin: 10px;
+.boton-inicio a, .boton-inicio button {
+  margin: 10px 5px;
+}
+
+.table {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.table th, .table td {
+  vertical-align: middle;
+}
+
+.alert {
+  border-radius: 8px;
 }
 
 @media (max-width: 1000px) {
   .ocultar-en-movil {
     display: none;
   }
+  .card, .login-card {
+    padding: 1rem 0.5rem;
+  }
+}
+
+/* Animaciones para feedback visual */
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
 }

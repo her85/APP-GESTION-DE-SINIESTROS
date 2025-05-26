@@ -1,11 +1,11 @@
 <template>
-    <header>
-      <Navbar />
-    </header>
-    <main>
-      <RouterView />
-    </main>
-    <Footer v-if="shouldShowFooter"/>
+  <header v-if="showNavbar">
+    <Navbar />
+  </header>
+  <main>
+    <RouterView />
+  </main>
+  <Footer v-if="shouldShowFooter"/>
 </template>
 
 <script setup>
@@ -14,9 +14,12 @@ import Footer from '@/components/Footer.vue';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 
-const route = useRoute(); 
+const route = useRoute();
 
-// Una propiedad computada que devuelve true si la ruta actual es '/' o '/login'
+// Navbar solo se muestra si la ruta no es '/'
+const showNavbar = computed(() => route.path !== '/');
+
+// Footer solo en '/' o '/login'
 const shouldShowFooter = computed(() => {
   return route.path === '/' || route.path === '/login';
 });

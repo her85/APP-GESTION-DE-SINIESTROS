@@ -1,58 +1,56 @@
+<!--src/views/CrearUsuario.vue-->
 <template>
-  <div class="container-sm">
-    <div class="card col-6 container text-center">
-      <section class="container mt-5">
-        <div v-if="isAdmin" class="col-12">
-          <h3 class="mb-3">Crear nuevo usuario</h3>
-          <div>
-            <form id="crear-usuario-form" @submit.prevent="handleCrearUsuario">
-              <div class="mb-3">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="username"
-                  v-model="nuevoUsuario.username"
-                  placeholder="Nombre de usuario"
-                  required
-                />
-              </div>
-              <div class="mb-3">
-                <input
-                  type="password"
-                  class="form-control"
-                  id="password"
-                  v-model="nuevoUsuario.password"
-                  placeholder="Contraseña"
-                  required
-                />
-              </div>
-              <div class="mb-3">
-                <label for="role" class="form-label">Rol</label>
-                <select class="form-select" id="role" v-model="nuevoUsuario.role" required>
-                  <option value="Administrador">Administrador</option>
-                  <option value="Tramitador">Tramitador</option>
-                  <option value="Consulta">Consulta</option>
-                </select>
-              </div>
-              <div class="boton">
-                <button type="submit" class="btn btn-primary mt-2" :disabled="isLoading">
-                  {{ isLoading ? 'Creando...' : 'Crear usuario' }}
-                </button>
-              </div>
-              <div
-                v-if="successMessage"
-                class="alert alert-success mt-3"
-              >
-                {{ successMessage }}
-              </div>
-              <div
-                v-if="error"
-                class="alert alert-danger mt-3"
-              >
-                {{ error }}
-              </div>
-            </form>
-          </div>
+  <div class="contenedor-inicio bg-light d-flex align-items-center justify-content-center min-vh-100">
+    <div class="crear-usuario-card card col-12 col-md-7 col-lg-5 p-4 text-center">
+      <section>
+        <div v-if="isAdmin">
+          <h3 class="mb-3 fw-bold text-primary">Crear nuevo usuario</h3>
+          <form id="crear-usuario-form" @submit.prevent="handleCrearUsuario" class="text-start">
+            <div class="mb-3">
+              <label for="username" class="form-label">Nombre de usuario</label>
+              <input
+                type="text"
+                class="form-control"
+                id="username"
+                v-model="nuevoUsuario.username"
+                placeholder="Nombre de usuario"
+                required
+                autocomplete="username"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Contraseña</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                v-model="nuevoUsuario.password"
+                placeholder="Contraseña"
+                required
+                autocomplete="new-password"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="role" class="form-label">Rol</label>
+              <select class="form-select" id="role" v-model="nuevoUsuario.role" required>
+                <option value="Administrador">Administrador</option>
+                <option value="Tramitador">Tramitador</option>
+                <option value="Consulta">Consulta</option>
+              </select>
+            </div>
+            <div class="d-grid gap-2 mt-3">
+              <button type="submit" class="btn btn-primary btn-lg" :disabled="isCreating">
+                <span v-if="isCreating" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                {{ isCreating ? 'Creando...' : 'Crear usuario' }}
+              </button>
+            </div>
+            <transition name="fade">
+              <div v-if="createSuccessMessage" class="alert alert-success mt-3 text-center">{{ createSuccessMessage }}</div>
+            </transition>
+            <transition name="fade">
+              <div v-if="createError" class="alert alert-danger mt-3 text-center">{{ createError }}</div>
+            </transition>
+          </form>
         </div>
         <div v-else>
           <p class="mt-3 alert alert-warning">No tienes permisos para ver esta página.</p>
@@ -69,7 +67,7 @@ import { useUserActions } from '@/composables/useUserActions'; // Importamos el 
 
 
 const authStore = useAuthStore();
-const { createUser, isLoading, error, successMessage } = useUserActions(); // Usamos el composable
+const { createUser, isCreating, createError, createSuccessMessage } = useUserActions(); // Usamos el composable
 
 const isAdmin = computed(() => authStore.getRol() === 'Administrador');
 
@@ -110,5 +108,11 @@ const resetForm = () => {
 </script>
 
 <style scoped>
-/* Aquí puedes poner estilos personalizados si lo deseas */
+.crear-usuario-card {
+  max-width: 420px;
+  margin: 0 auto;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px 0 rgba(0,0,0,0.08);
+  background: #fff;
+}
 </style>

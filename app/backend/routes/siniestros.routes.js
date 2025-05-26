@@ -25,8 +25,8 @@ const validarSiniestro = (req, res, next) => {
 // Ingreso (Administrador y Tramitador)
 //router.post("/ingresar_siniestro", limit, authenticateToken, authorizeRole(["Administrador", "Tramitador"]), ctrl.ingresar_siniestro);
 router.post("/ingresar_siniestro", limit, authenticateToken, authorizeRole(["Administrador", "Tramitador"]), [
-    body('numeroPoliza').notEmpty().withMessage('El número de póliza es obligatorio').isInt().withMessage('El número de póliza debe ser un entero'),
-    body('tipoDocumento').notEmpty().withMessage('El tipo de documento es obligatorio').isIn(['DNI', 'CUIT', 'CUIL']).withMessage('El tipo de documento no es válido'),
+    /*body('numeroPoliza').notEmpty().withMessage('El número de póliza es obligatorio').isInt().withMessage('El número de póliza debe ser un entero'),
+    body('tipoDocumento').notEmpty().withMessage('El tipo de documento es obligatorio').isIn(['DNI', 'CUIT', 'CUIL', 'LE', 'Pasaporte']).withMessage('El tipo de documento no es válido'),
     body('documentoCliente').notEmpty().withMessage('El documento del cliente es obligatorio').isInt().withMessage('El documento del cliente debe ser un entero'),
     body('nombreCliente').notEmpty().withMessage('El nombre del cliente es obligatorio').trim(),
     body('direccionCliente').notEmpty().withMessage('La dirección del cliente es obligatoria').trim(),
@@ -42,7 +42,7 @@ router.post("/ingresar_siniestro", limit, authenticateToken, authorizeRole(["Adm
     body('tipoSiniestro').notEmpty().withMessage('El tipo de siniestro es obligatorio').trim(),
     body('fechaSiniestro').notEmpty().withMessage('La fecha del siniestro es obligatoria').isISO8601().withMessage('La fecha del siniestro debe ser una fecha válida'),
     body('direccionSiniestro').notEmpty().withMessage('La dirección del siniestro es obligatoria').trim(),
-    body('descripcionSiniestro').notEmpty().withMessage('La descripción del siniestro es obligatoria').trim(),
+    body('descripcionSiniestro').notEmpty().withMessage('La descripción del siniestro es obligatoria').trim(),*/
 ], validarSiniestro, ctrl.ingresar_siniestro);
 
 // Consultas (Administrador, Tramitador y Consulta)
