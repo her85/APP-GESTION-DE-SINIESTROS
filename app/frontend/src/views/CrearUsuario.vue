@@ -39,16 +39,16 @@
               </select>
             </div>
             <div class="d-grid gap-2 mt-3">
-              <button type="submit" class="btn btn-primary btn-lg" :disabled="isCreating">
-                <span v-if="isCreating" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                {{ isCreating ? 'Creando...' : 'Crear usuario' }}
+              <button type="submit" class="btn btn-primary btn-lg" :disabled="isCreating || isLoading">
+                <span v-if="isCreating || isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                {{ (isCreating || isLoading) ? 'Creando...' : 'Crear usuario' }}
               </button>
             </div>
             <transition name="fade">
-              <div v-if="createSuccessMessage" class="alert alert-success mt-3 text-center">{{ createSuccessMessage }}</div>
+              <div v-if="success" class="alert alert-success mt-3 text-center">{{ success }}</div>
             </transition>
             <transition name="fade">
-              <div v-if="createError" class="alert alert-danger mt-3 text-center">{{ createError }}</div>
+              <div v-if="error" class="alert alert-danger mt-3 text-center">{{ error }}</div>
             </transition>
           </form>
         </div>
@@ -61,50 +61,36 @@
 </template>
 
 <script setup>
-import { reactive, computed } from 'vue';
-import { useAuthStore } from '@/stores/auth';
-import { useUserActions } from '@/composables/useUserActions'; // Importamos el nuevo composable
+import { useForm } from '@/composables/useForm'
+import { computed } from 'vue'
+import { useAuthStore } from '@/stores/auth'
+import { useUserActions } from '@/composables/useUserActions'
+import { useFeedback } from '@/composables/useFeedback'
 
+const authStore = useAuthStore()
+const { createUser, isCreating } = useUserActions()
+const isAdmin = computed(() => authStore.getRol() === 'Administrador')
 
-const authStore = useAuthStore();
-const { createUser, isCreating, createError, createSuccessMessage } = useUserActions(); // Usamos el composable
+const {
+  form: nuevoUsuario,
+  validate,
+  resetForm
+} = useForm({ username: '', password: '', role: 'Consulta' })
 
-const isAdmin = computed(() => authStore.getRol() === 'Administrador');
-
-const nuevoUsuario = reactive({
-  username: '',
-  password: '',
-  role: 'Consulta',
-});
+const { error, success, setError, setSuccess, clearFeedback } = useFeedback()
 
 const handleCrearUsuario = async () => {
-  if (!isAdmin.value) {
-    // Esto ya lo maneja el template, pero una capa extra de seguridad no está de más
-    // Podrías mostrar un mensaje de error o redirigir aquí si lo deseas
-    return;
-  }
-
-  const creationSuccessful = await createUser(nuevoUsuario);
-
+  if (!isAdmin.value) return
+  clearFeedback()
+  if (!validate()) return
+  const creationSuccessful = await createUser(nuevoUsuario.value)
   if (creationSuccessful) {
-    resetForm();
+    resetForm()
+    setSuccess('Usuario creado con éxito.')
+  } else {
+    setError('Error al crear el usuario.')
   }
-  // Los mensajes de éxito/error y el estado de carga ahora son manejados por el composable
-};
-
-const resetForm = () => {
-  nuevoUsuario.username = '';
-  nuevoUsuario.password = '';
-  nuevoUsuario.role = 'Consulta';
-};
-
-// Puedes añadir aquí una lógica para redirigir si el usuario no es admin al cargar la página.
-// import { onMounted } from 'vue';
-// onMounted(() => {
-//   if (!isAdmin.value) {
-//     router.push('/unauthorized'); // O la ruta que definas para no autorizado
-//   }
-// });
+}
 </script>
 
 <style scoped>

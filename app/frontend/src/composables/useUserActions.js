@@ -1,6 +1,7 @@
 // src/composables/useUserActions.js
 import { ref } from 'vue';
 import api from '@/services/api'; // Importamos la instancia de axios preconfigurada
+import { useFeedback } from '@/composables/useFeedback'
 
 export function useUserActions() {
   // Estado para la creación de usuario (ya existía)
@@ -22,6 +23,8 @@ export function useUserActions() {
   const isDeleting = ref(false);
   const deleteError = ref(null);
   const deleteSuccessMessage = ref(null);
+
+  const { error, success, setError, setSuccess, clearFeedback } = useFeedback()
 
   // Acción para crear usuario (ya existía)
   const createUser = async (userData) => {
@@ -122,5 +125,12 @@ export function useUserActions() {
     isDeleting,
     deleteError,
     deleteSuccessMessage,
+
+    // Feedback
+    error,
+    success,
+    setError,
+    setSuccess,
+    clearFeedback,
   };
 }

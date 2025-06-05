@@ -22,10 +22,7 @@ async function modificarUsuario(_id, nuevosDatos){
 };
 
 async function borrarUsuario(_id){
-  console.log(2);
-  console.log(_id);
   const resultado = await usuarios.deleteOne({ _id:_id });
-  console.log(resultado);
   return resultado.deletedCount > 0;
 };
 

@@ -17,7 +17,7 @@ import { useRoute } from 'vue-router';
 const route = useRoute();
 
 // Navbar solo se muestra si la ruta no es '/'
-const showNavbar = computed(() => route.path !== '/');
+const showNavbar = computed(() => { return route.path !== '/' && route.path !== '/login';});
 
 // Footer solo en '/' o '/login'
 const shouldShowFooter = computed(() => {

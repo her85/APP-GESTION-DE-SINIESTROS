@@ -2,7 +2,7 @@
   <div class="contenedor-inicio bg-light d-flex align-items-center justify-content-center min-vh-100">
     <section class="ingresar-siniestro-card card col-12 col-lg-10 p-4">
       <div v-if="isAdminOrTram">
-        <h2 class="fw-bold text-primary mb-4 text-center">Ingresar Siniestro</h2>
+        <h2 class="fw-bold text-primary mb-4 text-center">Ingresar siniestro</h2>
         <form id="siniestro-form" @submit.prevent="enviarFormulario">
           <div class="row">
             <!-- Datos de la persona -->
@@ -98,8 +98,13 @@
             <label for="descripcionSiniestro" class="form-label">Descripción</label>
             <textarea class="form-control" v-model="formulario.descripcionSiniestro" rows="3" required></textarea>
           </div>
+             <div v-if="success" class="alert alert-success text-center mb-3">{{ success }}</div>
+        <div v-if="error" class="alert alert-danger text-center mb-3">{{ error }}</div>
           <div class="d-grid gap-2 mt-3">
-            <button type="submit" class="btn btn-primary btn-lg">Crear siniestro</button>
+            <button type="submit" class="btn btn-primary btn-lg" :disabled="isLoading">
+              <span v-if="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              {{ isLoading ? 'Creando...' : 'Crear siniestro' }}
+            </button>
           </div>
         </form>
       </div>
@@ -111,17 +116,20 @@
 </template>
 
 <script setup>
-import { reactive, ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
-import axios from 'axios';
-import api from '@/services/api';
+import { useForm } from '@/composables/useForm'
+import { computed } from 'vue'
+import api from '@/services/api'
+import { useFeedback } from '@/composables/useFeedback'
 
-const router = useRouter()
-//obtener la información del usuario logueado y su rol del inicio de sesión.
-const loggedInUserRole = localStorage.getItem('userRole'); // Ejemplo: obtener el rol desde localStorage
-const isAdminOrTram = computed(() => loggedInUserRole === 'Administrador' || loggedInUserRole === 'Tramitador');
+const loggedInUserRole = localStorage.getItem('userRole')
+const isAdminOrTram = computed(() => loggedInUserRole === 'Administrador' || loggedInUserRole === 'Tramitador')
 
-const formulario = reactive({
+const {
+  form: formulario,
+  isLoading,
+  validate,
+  resetForm
+} = useForm({
   numeroPoliza: null,
   tipoDocumento: '',
   documentoCliente: null,
@@ -142,25 +150,23 @@ const formulario = reactive({
   descripcionSiniestro: '',
 })
 
-/*const getAuthHeaders = () => {
-  const token = localStorage.getItem('authToken')
-  if (!token) {
-    throw new Error('Token no encontrado. Debes iniciar sesión.')
-  }
-  return { Authorization: `Bearer ${token}` }
-}*/
+const { error, success, setError, setSuccess, clearFeedback } = useFeedback()
 
 const enviarFormulario = async () => {
+  if (!validate()) return
+  isLoading.value = true
+  clearFeedback()
   try {
-    await api.post('/ingresar_siniestro', formulario)
-    alert('Siniestro creado con éxito')
-    Object.keys(formulario).forEach((key) => (formulario[key] = ''))
+    await api.post('/ingresar_siniestro', formulario.value)
+    setSuccess('Siniestro creado con éxito')
+    resetForm()
   } catch (error) {
+    setError('Error al crear el siniestro')
     console.error('Error al enviar el formulario:', error)
-    alert('Error al crear el siniestro')
+  } finally {
+    isLoading.value = false
   }
 }
-
 </script>
 
 <style scoped>

@@ -6,8 +6,8 @@
         <h1 class="fw-bold text-primary mb-2">Claims Service Integrate</h1>
         <p class="lead text-secondary">Gestione los siniestros de forma fácil y rápida.</p>
       </div>
-      <router-link to="/login" class="btn btn-primary btn-lg rounded-pill shadow-sm mt-2 px-5">
-        Iniciar Sesión
+      <router-link to="/login" class="btn btn-primary btn-lg mt-2 px-5">
+        Iniciar sesión
       </router-link>
     </section>
   </div>

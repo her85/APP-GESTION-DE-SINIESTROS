@@ -14,8 +14,6 @@ const ingresar_siniestro = async (req, res) => {
   // Ruta para ingresar un nuevo siniestro
   try{
   const numeroSiniestro = await generarNumeroSiniestro(); // Llama a la función para generar un número único de siniestro
-  console.log("Número de siniestro generado:", numeroSiniestro); // Agrega este log
-
     // Realizar la misma validación para los campos
     const { numeroPoliza, tipoDocumento, documentoCliente, nombreCliente, direccionCliente, telefonoCliente, mailCliente, tipoVehiculo, patente, marca, modelo, anioFabricacion, numeroDeMotor, numeroDeChasis, tipoSiniestro, fechaSiniestro, direccionSiniestro, descripcionSiniestro } = req.body;
 
@@ -49,7 +47,6 @@ const ingresar_siniestro = async (req, res) => {
     direccionSiniestro: req.body.direccionSiniestro.toUpperCase(), // Asigna la dirección del siniestro en mayúsculas
     descripcionSiniestro: descripcionSanitizada, // SANITIZA LA DESCRIPCIÓN DEL SINIESTRO
   }); // Inserta el nuevo siniestro en la base de datos
-  console.log("Siniestro ingresado:", req.body); // Agrega este log
   res.json({ message: "Siniestro ingresado correctamente" }); // Devuelve un mensaje de éxito
 } catch (error) {
   console.error("Error al modificar siniestro:", error);
@@ -60,9 +57,7 @@ const ingresar_siniestro = async (req, res) => {
 const consultar_siniestro = async (req, res) => {
   // Ruta para consultar todos los siniestros
   try {
-    console.log("consultar siniestros"); // Agrega este log
     const siniestros = await mostrarTodo(); // Llama a la función para obtener todos los siniestros de la base de datos
-    console.log("Siniestros recuperados:", siniestros); // Agrega este log
     res.json(siniestros); // Devuelve la lista de siniestros como respuesta JSON
   } catch (error) {
     res.status(500).json({ error: error.message }); // Si ocurre un error en la consulta, devuelve un error 500
@@ -73,7 +68,6 @@ const consultar_siniestro = async (req, res) => {
 const consultar_siniestro_datos = async (req, res) => {
   try {
     // Ruta para consultar siniestros con filtros
-    console.log("consultar datos"); // Agrega este log
     const query = {}; // Inicializa un objeto de consulta vacío
     if (req.query.numeroSiniestro) {
       // Si se proporciona un número de siniestro en la consulta
@@ -113,25 +107,18 @@ const consultar_siniestro_datos = async (req, res) => {
 
 const borrar_siniestro = async (req, res) => {
   // Ruta para borrar un siniestro
-  console.log("Borrar siniestro");
   const numeroSiniestro = parseInt(req.body.numeroSiniestro); // Accede a la propiedad numeroSiniestro y la convierte a entero
-  console.log("Número de siniestro a borrar:", numeroSiniestro);
   await borrarPorNumeroSiniestro(numeroSiniestro); // Llama a la función para eliminar el siniestro de la base de datos
-  console.log("Siniestro borrado:", numeroSiniestro);
   res.json({ message: "Siniestro borrado correctamente" });
 };
 
 const modificar_siniestro = async (req, res) => {
   // Ruta para modificar un siniestro
-  console.log("Modificar siniestro"); // Agrega este log
   const numeroSiniestro = parseInt(req.body.numeroSiniestro); // Convierte el número de siniestro a entero
-  console.log("Número de siniestro a modificar:", numeroSiniestro); // Agrega este log
   const numeroPoliza = parseInt(req.body.numeroPoliza); // Convierte el número de póliza a entero
   const tipoDocumento = req.body.tipoDocumento; // Asigna el tipo de documento
   const documentoCliente = parseInt(req.body.documentoCliente); // Convierte el documento de cliente a entero
   const nombreCliente = req.body.nombreCliente.toUpperCase(); // Asigna el nombre del cliente en mayúsculas
-  console.log(req.body.nombreCliente);
-  console.log(nombreCliente);
   const direccionCliente = req.body.direccionCliente.toUpperCase(); // Asigna la dirección del cliente en mayúsculas
   const telefonoCliente = req.body.telefonoCliente; // Asigna el teléfono del cliente
   const mailCliente = req.body.mailCliente; // Asigna el correo electrónico del cliente
@@ -151,7 +138,6 @@ const modificar_siniestro = async (req, res) => {
   const direccionSiniestro = req.body.direccionSiniestro.toUpperCase(); // Asigna la dirección del siniestro en mayúsculas
   // Sanitiza la descripción del siniestro
   const descripcionSiniestro = sanitizeHtml(req.body.descripcionSiniestro); // SANITIZA LA DESCRIPCIÓN DEL SINIESTRO
-  console.log("Datos del siniestro a modificar:", req.body); // Agrega este log
   await modificarSiniestro(
     // Llama a la función para modificar el siniestro en la base de datos
     numeroSiniestro, // Asigna el número de siniestro
@@ -174,7 +160,6 @@ const modificar_siniestro = async (req, res) => {
     direccionSiniestro, // Asigna la dirección del siniestro
     descripcionSiniestro // Asigna la descripción del siniestro
   ); // Modifica el siniestro en la base de datos
-  console.log("Siniestro modificado:", req.body); // Agrega este log
   res.json({ message: "Siniestro modificado correctamente" }); // Devuelve un mensaje de éxito
 };
 

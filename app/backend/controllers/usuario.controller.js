@@ -70,18 +70,13 @@ const modificar_usuario = async (req, res) => {
 
 const borrar_usuario = async (req, res) => {
   try {
-    console.log(1)
-    console.log(req.body._id);
     const idParaBorrar = req.body._id;
-
     // Convertir el string _id a ObjectId
     const objectIdParaBorrar = new ObjectId(idParaBorrar);
-
     const borrado = await borrarUsuario(objectIdParaBorrar);
     if (!borrado) {
       return res.status(404).json({ message: "Usuario no encontrado o no borrado" });
     }
-    //res.json({ message: "Usuario borrado correctamente" });
     res.json({ success: true, message: "Usuario borrado correctamente" });
   } catch (error) {
     console.error("Error al borrar usuario:", error);

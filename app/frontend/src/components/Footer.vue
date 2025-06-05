@@ -3,7 +3,7 @@
     <div class="footer-content d-flex flex-column flex-md-row justify-content-between align-items-center">
       <div class="footer-logo d-flex align-items-center mb-2 mb-md-0">
         <img src="/src/components/icons/logo.jpg" alt="Logo" class="footer-logo-img me-2" height="32" />
-        <span class="fw-bold">Gestión de Siniestros</span>
+        <span class="fw-bold">Gestión de siniestros</span>
       </div>
       <div class="footer-copy small">
         &copy; 2024 - Todos los derechos reservados

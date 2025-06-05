@@ -6,16 +6,19 @@
       </div>
       <div class="row justify-content-md-center">
         <transition name="fade">
-          <div v-if="error" class="alert alert-danger py-2 px-3 mb-3 w-100 text-center">{{ error }}</div>
+          <div v-if="success" class="alert alert-success mt-3 text-center">{{ success }}</div>
+        </transition>
+        <transition name="fade">
+          <div v-if="error" class="alert alert-danger mt-3 text-center">{{ error }}</div>
         </transition>
         <form @submit.prevent="login" class="needs-validation" novalidate>
           <div class="mb-3 text-start">
             <label for="username" class="form-label">Usuario</label>
-            <input type="text" id="username" v-model="username" class="form-control" :disabled="isLoading" required autocomplete="username" />
+            <input type="text" id="username" v-model="form.username" class="form-control" :disabled="isLoading" required autocomplete="username" />
           </div>
           <div class="mb-3 text-start">
             <label for="password" class="form-label">Contraseña</label>
-            <input type="password" id="password" v-model="password" class="form-control" :disabled="isLoading" required autocomplete="current-password" />
+            <input type="password" id="password" v-model="form.password" class="form-control" :disabled="isLoading" required autocomplete="current-password" />
           </div>
           <div class="d-grid gap-2">
             <button type="submit" class="btn btn-primary btn-lg" :disabled="isLoading">
@@ -30,50 +33,47 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { useForm } from '@/composables/useForm'
 import { useRouter } from 'vue-router'
 import api from '@/services/api'
 import { useAuthStore } from '@/stores/auth'
+import { useFeedback } from '@/composables/useFeedback'
 
-const username = ref('')
-const password = ref('')
-const error = ref(null)
-const isLoading = ref(false)
 const router = useRouter()
 const auth = useAuthStore()
 
-const resetForm = () => {
-  username.value = ''
-  password.value = ''
-}
+const {
+  form,
+  isLoading,
+  validate,
+  resetForm
+} = useForm({ username: '', password: '' })
+
+const { error, success, setError, setSuccess, clearFeedback } = useFeedback()
 
 const login = async () => {
   error.value = null
   isLoading.value = true
   try {
-    // Validación básica en frontend
-    if (!username.value.trim() || !password.value.trim()) {
-      error.value = 'Por favor, completa todos los campos.'
-      return
-    }
+    if (!validate()) return
     const response = await api.post('/login', {
-      username: username.value.trim(),
-      password: password.value
+      username: form.value.username.trim(),
+      password: form.value.password
     })
     if (response.status === 200 && response.data.token && response.data.role) {
       auth.setAuth(response.data.token, response.data.role)
       resetForm()
       router.push('/pagina_principal')
     } else {
-      error.value = response.data?.error || 'No se recibió el token o el rol del servidor.'
+      setError(response.data?.error || 'No se recibió el token o el rol del servidor.')
     }
   } catch (err) {
     if (err.response && err.response.status === 401) {
-      error.value = 'Credenciales incorrectas.'
+      setError('Credenciales incorrectas.')
     } else if (err.response && err.response.data?.error) {
-      error.value = err.response.data.error
+      setError(err.response.data.error)
     } else {
-      error.value = 'Error de conexión con el servidor.'
+      setError('Error de conexión con el servidor.')
     }
   } finally {
     isLoading.value = false

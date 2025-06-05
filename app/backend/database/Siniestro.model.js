@@ -73,7 +73,6 @@ async function modificarSiniestro(
 }
 
 async function borrarPorNumeroSiniestro(numeroSiniestro) {
-  console.log(numeroSiniestro);
   await siniestros.deleteOne({ numeroSiniestro });
 }
 

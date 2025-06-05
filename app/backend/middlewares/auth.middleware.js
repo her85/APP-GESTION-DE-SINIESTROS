@@ -15,7 +15,6 @@ const authenticateToken = (req, res, next) => {
   jwt.verify(token, SECRET_KEY, (err, user) => {
     if (err) return res.status(403).json({ error: "Token inválido o expirado" });
     req.user = user;
-    console.log("verificacion token");
     next();
   });
 };
@@ -26,11 +25,9 @@ const authorizeRole = (rolesPermitidos = []) => {
     if (!req.user || !rolesPermitidos.includes(req.user.role)) { 
       return res.status(403).json({ error: "Acceso no autorizado" });
     }
-    console.log("Verificacion roles")
     next();
   };
 };
 
 
-//module.exports = authenticateToken;
 module.exports = { authenticateToken, authorizeRole };
