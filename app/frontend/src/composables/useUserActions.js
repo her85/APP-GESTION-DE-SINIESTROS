@@ -3,8 +3,12 @@ import { ref } from 'vue';
 import api from '@/services/api'; // Importamos la instancia de axios preconfigurada
 import { useFeedback } from '@/composables/useFeedback'
 
+/**
+ * Composable para acciones relacionadas a usuarios: crear, listar, actualizar y eliminar usuarios.
+ * @returns {Object} API del composable con estados y acciones de usuario
+ */
 export function useUserActions() {
-  // Estado para la creación de usuario (ya existía)
+  // Estado para la creación de usuario 
   const isCreating = ref(false);
   const createError = ref(null);
   const createSuccessMessage = ref(null);
@@ -26,7 +30,11 @@ export function useUserActions() {
 
   const { error, success, setError, setSuccess, clearFeedback } = useFeedback()
 
-  // Acción para crear usuario (ya existía)
+  /**
+   * Crea un nuevo usuario en la base de datos.
+   * @param {Object} userData - Datos del usuario a crear
+   * @returns {Promise<boolean>} true si fue exitoso, false si hubo error
+   */
   const createUser = async (userData) => {
     isCreating.value = true;
     createError.value = null;
@@ -45,7 +53,10 @@ export function useUserActions() {
     }
   };
 
-  // Acción para cargar/listar usuarios
+  /**
+   * Obtiene la lista de usuarios desde la API.
+   * @returns {Promise<boolean>} true si fue exitoso, false si hubo error
+   */
   const fetchUsers = async () => {
     isLoadingUsers.value = true;
     usersError.value = null;
@@ -63,7 +74,12 @@ export function useUserActions() {
     }
   };
 
-  // Acción para actualizar usuario
+  /**
+   * Actualiza los datos de un usuario existente.
+   * @param {string} userId - ID del usuario
+   * @param {Object} userData - Nuevos datos del usuario
+   * @returns {Promise<boolean>} true si fue exitoso, false si hubo error
+   */
   const updateUser = async (userId, userData) => {
     isUpdating.value = true;
     updateError.value = null;
@@ -81,7 +97,11 @@ export function useUserActions() {
     }
   };
 
-  // Acción para eliminar usuario
+  /**
+   * Elimina un usuario por su ID.
+   * @param {string} userId - ID del usuario a eliminar
+   * @returns {Promise<boolean>} true si fue exitoso, false si hubo error
+   */
   const deleteUser = async (userId) => {
     isDeleting.value = true;
     deleteError.value = null;

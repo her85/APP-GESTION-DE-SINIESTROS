@@ -49,25 +49,29 @@ const {
   resetForm
 } = useForm({ username: '', password: '' })
 
-const { error, success, setError, setSuccess, clearFeedback } = useFeedback()
+const { error, success, setError} = useFeedback()
 
 const login = async () => {
   error.value = null
   isLoading.value = true
   try {
+    //console.log('Enviando login:', form.value.username);
     if (!validate()) return
     const response = await api.post('/login', {
       username: form.value.username.trim(),
       password: form.value.password
     })
-    if (response.status === 200 && response.data.token && response.data.role) {
-      auth.setAuth(response.data.token, response.data.role)
+    //console.log('Respuesta login:', response);
+    if (response.status === 200 && response.data.role) {
+      auth.setAuth(response.data.role)
       resetForm()
       router.push('/pagina_principal')
     } else {
-      setError(response.data?.error || 'No se recibió el token o el rol del servidor.')
+      setError(response.data?.error || 'No se recibió el rol del servidor.')
+      //console.error('Error login: No se recibió el rol del servidor.', response.data)
     }
   } catch (err) {
+    //console.error('Error en login:', err);
     if (err.response && err.response.status === 401) {
       setError('Credenciales incorrectas.')
     } else if (err.response && err.response.data?.error) {

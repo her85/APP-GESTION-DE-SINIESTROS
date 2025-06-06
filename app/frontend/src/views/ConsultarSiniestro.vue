@@ -2,7 +2,7 @@
   <div class="contenedor-inicio bg-light d-flex align-items-center justify-content-center min-vh-100">
     <section class="consultar-siniestro-card card col-12 col-lg-10 p-4">
       <h2 class="fw-bold text-primary mb-4 text-center">Consultar siniestros</h2>
-      <form id="siniestro-search-form" @submit.prevent="buscarSiniestros" class="mb-4">
+      <form id="siniestro-search-form" @submit.prevent="searchClaims" class="mb-4">
         <div class="row g-3">
           <div class="col-md-4">
             <input type="number" class="form-control" id="numeroSiniestro" v-model="searchParams.numeroSiniestro" placeholder="N° de siniestro" />
@@ -25,7 +25,7 @@
           </div>
         </div>
         <div class="d-grid gap-2 mt-3 d-md-flex justify-content-md-end">
-          <button type="button" class="btn btn-outline-secondary btn-md" @click="limpiarFiltros">Limpiar filtros</button>
+          <button type="button" class="btn btn-outline-secondary btn-md" @click="clearFilters">Limpiar filtros</button>
           <button type="submit" class="btn btn-primary btn-md me-2">Buscar</button>
         </div>
       </form>
@@ -62,7 +62,7 @@
                   </button>
                 </td>
                 <td v-if="rolUsuario !== 'Consulta'">
-                  <button @click="borrarSiniestro(siniestro.numeroSiniestro)" class="btn btn-outline-danger btn-sm px-3">Borrar</button>
+                  <button @click="deleteClaim(siniestro.numeroSiniestro)" class="btn btn-outline-danger btn-sm px-3">Borrar</button>
                 </td>
               </tr>
             </template>
@@ -91,7 +91,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, reactive } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import ReusableTable from '@/components/ReusableTable.vue';
 import ModalSiniestro from '@/components/ModalSiniestro.vue';
@@ -127,7 +127,7 @@ const fetchSiniestros = async () => {
   }
 };
 
-const buscarSiniestros = async () => {
+const searchClaims = async () => {
   isLoadingSiniestros.value = true;
   try {
     const params = { ...searchParams.value };
@@ -142,7 +142,7 @@ const buscarSiniestros = async () => {
   }
 };
 
-const borrarSiniestro = async (numeroSiniestro) => {
+const deleteClaim = async (numeroSiniestro) => {
   try {
     await api.delete('/borrar_siniestro', {
       data: { numeroSiniestro },
@@ -156,34 +156,7 @@ const borrarSiniestro = async (numeroSiniestro) => {
   }
 };
 
-// Estado para errores de campos en el modal de edición
-const modalFieldErrors = reactive({});
-
-function validarCamposEdicion(siniestro) {
-  const errors = {};
-  if (!siniestro.cliente || siniestro.cliente.trim().length < 3) {
-    errors.cliente = 'El nombre del cliente es obligatorio (mín. 3 caracteres).';
-  }
-  if (!siniestro.documento || isNaN(Number(siniestro.documento))) {
-    errors.documento = 'El documento es obligatorio y debe ser numérico.';
-  }
-  if (!siniestro.patente || siniestro.patente.trim().length < 6) {
-    errors.patente = 'La patente es obligatoria (mín. 6 caracteres).';
-  }
-  if (!siniestro.tipoSiniestro) {
-    errors.tipoSiniestro = 'El tipo de siniestro es obligatorio.';
-  }
-  if (!siniestro.fechaSiniestro) {
-    errors.fechaSiniestro = 'La fecha del siniestro es obligatoria.';
-  }
-  if (!siniestro.descripcionSiniestro || siniestro.descripcionSiniestro.trim().length < 5) {
-    errors.descripcionSiniestro = 'La descripción es obligatoria (mín. 5 caracteres).';
-  }
-  // Puedes agregar más validaciones según necesidad
-  return errors;
-}
-
-const modificarSiniestro = async (siniestro) => {
+const updateClaim = async (siniestro) => {
   try {
     const dataToSend = {
       numeroSiniestro: siniestro.numeroSiniestro,
@@ -226,7 +199,7 @@ const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString('es-AR', options);
 };
 
-const limpiarFiltros = () => {
+const clearFilters = () => {
   searchParams.value = {
     numeroSiniestro: null,
     documentoCliente: null,
@@ -239,7 +212,8 @@ const limpiarFiltros = () => {
 
 function onModalSave(editedSiniestro) {
   // Validación ya fue hecha en el modal
-  modificarSiniestro(editedSiniestro);
+  console.log('DEBUG fechaSiniestro antes de guardar:', editedSiniestro.fechaSiniestro, typeof editedSiniestro.fechaSiniestro);
+  updateClaim(editedSiniestro);
   // Cerrar el modal programáticamente tras guardar
   const modalId = `editSiniestroModal-${editedSiniestro.numeroSiniestro}`;
   const modalEl = document.getElementById(modalId);

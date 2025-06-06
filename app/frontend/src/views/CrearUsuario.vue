@@ -5,7 +5,7 @@
       <section>
         <div v-if="isAdmin">
           <h3 class="mb-3 fw-bold text-primary">Crear nuevo usuario</h3>
-          <form id="crear-usuario-form" @submit.prevent="handleCrearUsuario" class="text-start">
+          <form id="crear-usuario-form" @submit.prevent="handleCreateUser" class="text-start">
             <div class="mb-3">
               <label for="username" class="form-label">Nombre de usuario</label>
               <input
@@ -39,9 +39,9 @@
               </select>
             </div>
             <div class="d-grid gap-2 mt-3">
-              <button type="submit" class="btn btn-primary btn-lg" :disabled="isCreating || isLoading">
-                <span v-if="isCreating || isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                {{ (isCreating || isLoading) ? 'Creando...' : 'Crear usuario' }}
+              <button type="submit" class="btn btn-primary btn-lg" :disabled="isCreating">
+                <span v-if="isCreating" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                {{ isCreating ? 'Creando...' : 'Crear usuario' }}
               </button>
             </div>
             <transition name="fade">
@@ -79,7 +79,7 @@ const {
 
 const { error, success, setError, setSuccess, clearFeedback } = useFeedback()
 
-const handleCrearUsuario = async () => {
+const handleCreateUser = async () => {
   if (!isAdmin.value) return
   clearFeedback()
   if (!validate()) return

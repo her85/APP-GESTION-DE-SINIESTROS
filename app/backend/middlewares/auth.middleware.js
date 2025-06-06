@@ -8,7 +8,8 @@ const { SECRET_KEY } = require("../config/config");
 //AUTENTICACION SEGURA (JWT)
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
+  // Busca el token primero en la cookie, luego en el header
+  const token = req.cookies?.token || (authHeader && authHeader.split(' ')[1]);
 
   if (!token) return res.status(401).json({ error: "Token requerido" });
 

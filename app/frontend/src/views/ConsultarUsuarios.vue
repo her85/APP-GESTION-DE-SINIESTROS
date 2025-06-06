@@ -22,6 +22,13 @@
             </select>
           </div>
         </div>
+        <div class="d-grid gap-2 mt-3 d-md-flex justify-content-md-end">
+          <button type="button" class="btn btn-outline-secondary btn-md" @click="clearFilters">Limpiar filtros</button>
+          <!--<button type="submit" class="btn btn-primary btn-md me-2" :disabled="isLoadingUsers">
+            <span v-if="isLoadingUsers" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            Buscar
+          </button>-->
+        </div>
       </form>
       <div v-if="isAdmin">
         <div v-if="isLoadingUsers" class="text-center py-4">
@@ -122,11 +129,11 @@ import ReusableTable from '@/components/ReusableTable.vue';
 
 const authStore = useAuthStore();
 const {
-  users, fetchUsers, isLoadingUsers, // Para listar
+  users, fetchUsers, isLoadingUsers, usersError, // <-- agregar usersError aquí
   updateUser, isUpdating, // Para actualizar
   deleteUser, isDeleting, // Para eliminar
 } = useUserActions();
-const { error, success, setError, setSuccess, clearFeedback } = useFeedback()
+const { error, success, setError, setSuccess } = useFeedback()
 
 const {
   form: searchParams,
@@ -181,6 +188,11 @@ const confirmDeleteUser = async (userId, username) => {
 
 const applyFilters = () => {
   if (!validateSearch()) return;
+};
+
+const clearFilters = () => {
+  resetSearchForm();
+  fetchUsers();
 };
 
 onMounted(async () => {

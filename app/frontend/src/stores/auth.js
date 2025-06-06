@@ -3,30 +3,22 @@ import { defineStore } from "pinia";
 import { ref } from 'vue'
 
 export const useAuthStore = defineStore('auth', () => {
-  const token = ref(localStorage.getItem('authToken') || '')
+  // Ya no se guarda el token en localStorage, solo el rol
   const rol = ref(localStorage.getItem('userRole') || '')
 
-  function setAuth(tokenValue, rolValue) {
-    token.value = tokenValue
+  function setAuth(rolValue) {
     rol.value = rolValue
-    localStorage.setItem('authToken', tokenValue)
     localStorage.setItem('userRole', rolValue)
   }
 
   function clearAuth() {
-    token.value = ''
     rol.value = ''
-    localStorage.removeItem('authToken')
     localStorage.removeItem('userRole')
-  }
-
-  function getToken() {
-    return token.value
   }
 
   function getRol() {
     return rol.value
   }
 
-  return { token, rol, setAuth, clearAuth, getToken, getRol }
+  return { rol, setAuth, clearAuth, getRol }
 })

@@ -19,7 +19,7 @@ const crear_usuario = async (req, res) => {
     res.json({ message: "Usuario ingresado correctamente" });
   } catch (error) {
     console.error("Error al crear usuario:", error);
-    res.status(500).json({ message: "Error al crear usuario" });
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 
@@ -29,7 +29,7 @@ const listar_usuarios = async (req, res) => {
     res.json(usuarios);
   } catch (error) {
     console.error("Error al listar usuarios:", error);
-    res.status(500).json({ message: "Error al listar usuarios" });
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 
@@ -42,7 +42,7 @@ const buscar_usuario = async (req, res) => {
     res.json(usuario);
   } catch (error) {
     console.error("Error al buscar usuario:", error);
-    res.status(500).json({ message: "Error al buscar usuario" });
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 
@@ -64,7 +64,7 @@ const modificar_usuario = async (req, res) => {
     res.json({ success: true, message: "Usuario modificado correctamente" });
   } catch (error) {
     console.error("Error al modificar usuario:", error);
-    res.status(500).json({ message: "Error al modificar usuario" });
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 
@@ -80,7 +80,7 @@ const borrar_usuario = async (req, res) => {
     res.json({ success: true, message: "Usuario borrado correctamente" });
   } catch (error) {
     console.error("Error al borrar usuario:", error);
-    res.status(500).json({ message: "Error al borrar usuario" });
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 

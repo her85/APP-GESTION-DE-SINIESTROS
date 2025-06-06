@@ -3,7 +3,7 @@
     <section class="ingresar-siniestro-card card col-12 col-lg-10 p-4">
       <div v-if="isAdminOrTram">
         <h2 class="fw-bold text-primary mb-4 text-center">Ingresar siniestro</h2>
-        <form id="siniestro-form" @submit.prevent="enviarFormulario">
+        <form id="siniestro-form" @submit.prevent="submitForm">
           <div class="row">
             <!-- Datos de la persona -->
             <div class="col-12 col-md-6">
@@ -87,7 +87,7 @@
           <div class="row">
             <div class="col-12 col-md-6 mb-3">
               <label for="fechaSiniestro" class="form-label">Fecha</label>
-              <input type="date" class="form-control" v-model="formulario.fechaSiniestro" required />
+              <input type="date" class="form-control" v-model="formulario.fechaSiniestro" required :max="new Date().toISOString().slice(0,10)" />
             </div>
             <div class="col-12 col-md-6 mb-3">
               <label for="direccionSiniestro" class="form-label">Lugar del siniestro</label>
@@ -152,7 +152,7 @@ const {
 
 const { error, success, setError, setSuccess, clearFeedback } = useFeedback()
 
-const enviarFormulario = async () => {
+const submitForm = async () => {
   if (!validate()) return
   isLoading.value = true
   clearFeedback()

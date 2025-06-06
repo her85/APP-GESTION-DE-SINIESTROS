@@ -50,7 +50,7 @@ const ingresar_siniestro = async (req, res) => {
   res.json({ message: "Siniestro ingresado correctamente" }); // Devuelve un mensaje de éxito
 } catch (error) {
   console.error("Error al modificar siniestro:", error);
-  res.status(500).json({ error: error.message });
+  res.status(500).json({ error: "Error interno del servidor" });
 }
 };
 
@@ -60,7 +60,7 @@ const consultar_siniestro = async (req, res) => {
     const siniestros = await mostrarTodo(); // Llama a la función para obtener todos los siniestros de la base de datos
     res.json(siniestros); // Devuelve la lista de siniestros como respuesta JSON
   } catch (error) {
-    res.status(500).json({ error: error.message }); // Si ocurre un error en la consulta, devuelve un error 500
+    res.status(500).json({ error: "Error interno del servidor" }); // Si ocurre un error en la consulta, devuelve un error 500
     console.error("Error al consultar siniestros:", error); // Agrega este log para depuración
   }
 };
@@ -101,7 +101,7 @@ const consultar_siniestro_datos = async (req, res) => {
     }
   } catch (error) {
     console.error("Error al consultar siniestros con filtros:", error);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: "Error interno del servidor" });
   }
 };
 

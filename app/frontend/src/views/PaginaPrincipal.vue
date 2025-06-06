@@ -36,16 +36,22 @@
 <script setup>
 import { computed } from 'vue';
 import { useAuthStore } from '@/stores/auth';
+//import api from '@/services/api';
+import { useRouter } from 'vue-router';
 
 const authStore = useAuthStore();
+//const router = useRouter();
 const userRole = computed(() => authStore.rol);
 const isAdmin = computed(() => userRole.value === 'Administrador');
 const isTramitador = computed(() => userRole.value === 'Tramitador');
+
+//console.log('Rol en PaginaPrincipal:', userRole.value);
+
 </script>
 
 <style scoped>
 .contenedor-inicio {
-  margin-top: 50px; /* Ejemplo de estilo, ajusta según necesidad */
+  margin-top: 10px; /* Ejemplo de estilo, ajusta según necesidad */
 }
 
 .main-menu-card {

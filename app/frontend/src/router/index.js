@@ -58,8 +58,9 @@ const router = createRouter({
 
 // ✅ Middleware de autenticación
 router.beforeEach((to, from, next) => {
-  const token = localStorage.getItem('authToken');
-  if (to.meta.requiresAuth && !token) {
+  // Solo revisa el rol, ya no el token
+  const rol = localStorage.getItem('userRole');
+  if (to.meta.requiresAuth && !rol) {
     next('/login');
   } else {
     next();

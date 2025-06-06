@@ -12,5 +12,6 @@ const limit = rateLimit({
 });
 
 router.post("/login", limit ,ctrl.login);
+router.post("/logout", ctrl.logout);
 
 module.exports = router;

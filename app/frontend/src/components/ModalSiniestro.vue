@@ -103,8 +103,15 @@
               </div>
             </div>
             <div class="mb-3">
-              <label for="editarFechaSiniestro" class="form-label">Fecha del siniestro</label>
-              <input type="date" class="form-control rounded-pill" :id="'editarFechaSiniestro-' + localSiniestro.numeroSiniestro" v-model="localSiniestro.fechaSiniestro" name="editarFechaSiniestro" :disabled="isReadOnly" :class="{'is-invalid': localFieldErrors?.fechaSiniestro}" />
+              <label :for="'editarFechaSiniestro-' + localSiniestro.numeroSiniestro" class="form-label">Fecha del siniestro</label>
+              <input type="date"
+                     class="form-control rounded-pill"
+                     :id="'editarFechaSiniestro-' + localSiniestro.numeroSiniestro"
+                     v-model="localSiniestro.fechaSiniestro"
+                     name="editarFechaSiniestro"
+                     :disabled="isReadOnly"
+                     :max="new Date().toISOString().slice(0,10)"
+                     :class="{'is-invalid': localFieldErrors?.fechaSiniestro}" />
               <div v-if="localFieldErrors?.fechaSiniestro" class="invalid-feedback d-block">
                 {{ localFieldErrors.fechaSiniestro }}
               </div>
@@ -132,7 +139,7 @@
 </template>
 
 <script setup>
-import { reactive, watch, toRefs } from 'vue';
+import { reactive, watch} from 'vue';
 const props = defineProps({
   siniestro: Object,
   modalId: String,
@@ -143,11 +150,27 @@ const emit = defineEmits(['save', 'close']);
 const localSiniestro = reactive({ ...props.siniestro });
 const localFieldErrors = reactive({});
 
+const normalizeDate = (fecha) => {
+  if (!fecha) return '';
+  if (typeof fecha === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(fecha)) {
+    return fecha;
+  }
+  const d = new Date(fecha);
+  if (!isNaN(d)) {
+    return d.toISOString().slice(0, 10);
+  }
+  return '';
+};
+
+// Inicializar la fecha normalizada al crear el componente
+localSiniestro.fechaSiniestro = normalizeDate(localSiniestro.fechaSiniestro);
+
 watch(() => props.siniestro, (nuevo) => {
   Object.assign(localSiniestro, nuevo);
+  localSiniestro.fechaSiniestro = normalizeDate(localSiniestro.fechaSiniestro);
 }, { deep: true });
 
-function validarCamposEdicion(s) {
+function validateEditFields(s) {
   const errors = {};
   if (!s.cliente || s.cliente.trim().length < 3) {
     errors.cliente = 'El nombre del cliente es obligatorio (mín. 3 caracteres).';
@@ -173,7 +196,7 @@ function validarCamposEdicion(s) {
 function handleSave(e) {
   e.preventDefault();
   Object.keys(localFieldErrors).forEach(k => delete localFieldErrors[k]);
-  const errors = validarCamposEdicion(localSiniestro);
+  const errors = validateEditFields(localSiniestro);
   if (Object.keys(errors).length > 0) {
     Object.assign(localFieldErrors, errors);
     return;
