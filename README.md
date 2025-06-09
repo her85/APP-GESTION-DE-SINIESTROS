@@ -1,48 +1,128 @@
-Gestion de siniestros
+# Gestión de Siniestros
 
-Funcionalidades
+Sistema web para la gestión integral de siniestros, con autenticación segura, control de roles y experiencia de usuario moderna.
 
-Registro de siniestros: Los usuarios pueden registrar nuevos siniestros proporcionando 
-detalles como la descripción del incidente, fecha, ubicación, tipo de siniestro, etc.
+## Funcionalidades
+- **Registro de siniestros:** Alta de siniestros con descripción, fecha, ubicación, tipo, etc.
+- **Visualización:** Listado y detalle de siniestros registrados.
+- **Edición:** Modificación de siniestros por usuarios autorizados.
+- **Eliminación:** Borrado de siniestros por usuarios autorizados.
+- **Búsqueda y filtrado:** Por patente, DNI del cliente o rango de fechas.
+- **Autenticación y autorización:**
+  - Inicio de sesión seguro (JWT en cookie httpOnly).
+  - Control de acceso por roles: Administrador, Tramitador, Consulta.
 
-Visualización: Los usuarios pueden ver un listado de todos los siniestros registrados.
+## Herramientas utilizadas
+- **Backend:**
+  - Node.js, Express, MongoDB
+  - JWT para autenticación
+  - Helmet y CORS para seguridad
+  - Winston y Morgan para logs
+- **Frontend:**
+  - Vue 3, Pinia, Vue Router
+  - Bootstrap 5 para UI
+  - Axios para consumo de API
 
-Editar siniestros: Los usuarios con permisos adecuados pueden editar los detalles de un siniestro existente.
+## Requisitos previos
+- Node.js >= 16
+- MongoDB Atlas o local
 
-Eliminar siniestros: Los usuarios con permisos adecuados pueden eliminar un siniestro existente.
+## Instalación
+1. Clona el repositorio y entra a la carpeta del proyecto.
+2. Instala dependencias en backend y frontend:
+   ```sh
+   cd app/backend
+   npm install
+   cd ../frontend
+   npm install
+   ```
+3. Configura las variables de entorno en `app/backend/.env` .
 
+## Ejecución
+### Backend
+```sh
+cd app/backend
+npm start
+```
+### Frontend
+```sh
+cd app/frontend
+npm run dev
+```
 
-Búsqueda y filtrado: Herramientas para buscar siniestros patente, dni del cliente o filtrar por fecha.
+## Usuarios de prueba
+| Rol           | Usuario        | Contraseña  |
+|---------------|---------------|-------------|
+| Administrador | Administrador  | string   |
+| Tramitador    | Tramitador    | string    |
+| Consulta      | Consulta      | string    |
 
-Autenticación y autorización
+## Estructura del proyecto
+```
+app/
+  backend/   # API Express, controladores, modelos, middlewares
+  frontend/  # Vue 3, Pinia, componentes, vistas, servicios
+```
 
-Inicio de sesión seguro: Los usuarios pueden iniciar sesión con sus credenciales, 
-recibiendo un JSON Web Token (JWT) para autenticación en solicitudes posteriores.
+## Ejemplos de uso de la API
+### Login (autenticación)
+```http
+POST /login
+Content-Type: application/json
+{
+  "username": "Administrador",
+  "password": "string"
+}
+```
+Respuesta:
+```json
+{
+  "message": "Login exitoso",
+  "role": "Administrador"
+}
+```
 
-Roles de usuario: Implementación de diferentes roles (administrador, tramitador, consultas) 
-para controlar el acceso a ciertas funcionalidades y datos. 
-Por ejemplo, solo los administradores y tramitadores podrían eliminar siniestros.
+### Listar usuarios (requiere rol Administrador)
+```http
+GET /listar_usuarios
+Cookie: token=... (se envía automáticamente si usas el frontend)
+```
 
-Herramientas utilizadas
+### Ingresar siniestro (requiere rol Administrador o Tramitador)
+```http
+POST /ingresar_siniestro
+Content-Type: application/json
+{
+  "numeroPoliza": 12345,
+  "tipoDocumento": "DNI",
+  ...otros campos...
+}
+```
 
-Node.js: Entorno de ejecución de JavaScript en el servidor para la lógica de la aplicación y la API RESTful.
+### Consultar siniestros
+```http
+GET /consultar_siniestro
+```
 
-Express: Framework web para Node.js que facilita la creación de la API, el manejo de rutas
-y la implementación de middleware para la autenticación con JWT.
-MongoDB: Base de datos NoSQL para almacenar información sobre usuarios, siniestros, documentos adjuntos, etc.
+## Notas de seguridad
+- El sistema usa JWT en cookies httpOnly para autenticación.
+- Helmet y CORS están configurados para máxima seguridad.
+- (Opcional) Puedes activar CSRF y CSP según tus necesidades.
+- Variables sensibles se gestionan en `.env` y nunca se suben al repositorio.
 
-Vue 3: Framework progresivo de JavaScript para construir la interfaz de usuario del lado del cliente. 
-Permite una experiencia de usuario dinámica y reactiva.
+## Notas de desarrollo
+- **Frontend:**
+  - Lógica de formularios y feedback centralizada en composables (`useForm.js`, `useFeedback.js`).
+  - Componentes reutilizables y estructura modular.
+- **Backend:**
+  - Lógica de negocio en controladores, validación y autenticación en middlewares.
+  - Logger centralizado (Winston) y logs de acceso (Morgan).
+- **Extensión:**
+  - Para agregar nuevas vistas, crea un componente en `src/views` y registra la ruta en `src/router/index.js`.
+- **Pruebas:**
+  - Usuarios de prueba y datos de ejemplo están en el README y `.env`.
 
-Vue Router: Para la gestión de rutas en el lado del cliente (SPA - Single Page Application).
-
-Pinia: Para la gestión centralizada del estado de la aplicación, como la información del usuario autenticado o los datos de los siniestros.
-
-Bootstrap: Framework CSS para el diseño y la presentación responsiva de la aplicación. Se utilizarán sus componentes (formularios, tablas, modales, alertas, etc.) para acelerar el desarrollo de la interfaz de usuario y asegurar una apariencia profesional.
-
-JavaScript: Lenguaje de programación para la lógica del cliente (navegador) y la interacción con la API.
-
-JSON Web Tokens (JWT): Estándar abierto para la creación de tokens de acceso que verifican la identidad del usuario y aseguran la comunicación entre el cliente y el servidor. Se utilizará para la autenticación y autorización en la API.
+---
 
 
 
