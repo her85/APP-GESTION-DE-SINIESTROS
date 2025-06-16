@@ -120,7 +120,7 @@ GET /consultar_siniestro
 - **Extensión:**
   - Para agregar nuevas vistas, crea un componente en `src/views` y registra la ruta en `src/router/index.js`.
 - **Pruebas:**
-  - Usuarios de prueba y datos de ejemplo están en el README y `.env`.
+  - Usuario de prueba Usuario= Consulta y Contraseña= 8910**Rt 
 
 ---
 
