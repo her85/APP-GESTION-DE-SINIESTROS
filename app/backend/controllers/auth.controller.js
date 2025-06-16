@@ -26,7 +26,8 @@ const login = async (req, res) => {
     res
       .cookie('token', token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
+        secure: true,
+        //secure: process.env.NODE_ENV === 'production',
         sameSite: 'none', // Permite cookies entre dominios (cross-site)
         maxAge: 60 * 60 * 1000 // 1 hora
       })
@@ -41,7 +42,8 @@ const logout = (req, res) => {
   res.clearCookie('token', {
     httpOnly: true,
     sameSite: 'none', // También aquí para limpiar correctamente
-    secure: process.env.NODE_ENV === 'production'
+    secure: true,
+    //secure: process.env.NODE_ENV === 'production'
   });
   res.json({ message: 'Logout exitoso' });
 };
