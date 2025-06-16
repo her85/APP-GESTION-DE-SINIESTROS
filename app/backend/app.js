@@ -8,7 +8,11 @@ const cookieParser = require('cookie-parser'); // Importa el middleware para man
 
 const app = express();  // Crea una instancia de la aplicación Express
 
-const corsOptions = { // Cors seguro, solo dominios especificos - CORS SEGURO
+// Habilita trust proxy para que Express reconozca correctamente el header X-Forwarded-For en Render
+app.set('trust proxy', 1);
+
+// Cors seguro, solo dominios especificos - CORS SEGURO
+const corsOptions = {
   origin : ['https://gestor-de-siniestros.onrender.com', 'http://localhost:5173'], // Permite solicitudes desde estos dominios
   methods : ['GET, POST,PUT,DELETE'],
   allowedHeaders : ['Content-Type', 'Authorization'],
