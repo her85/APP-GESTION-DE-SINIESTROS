@@ -9,7 +9,7 @@ const cookieParser = require('cookie-parser'); // Importa el middleware para man
 const app = express();  // Crea una instancia de la aplicación Express
 
 const corsOptions = { // Cors seguro, solo dominios especificos - CORS SEGURO
-  origin : ['http://localhost:5173'],
+  origin : ['https://gestor-de-siniestros.onrender.com', 'http://localhost:5173'], // Permite solicitudes desde estos dominios
   methods : ['GET, POST,PUT,DELETE'],
   allowedHeaders : ['Content-Type', 'Authorization'],
   credentials: true // Permite el envío de cookies
