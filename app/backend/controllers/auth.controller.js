@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs"); // Importa bcryptjs
 const { SECRET_KEY } = require("../config/config");
-const { buscarUsuario } = require("../database/Usuario.model"); //ver de pasar por controller antes de model
+const { buscarUsuario } = require("../database/Usuario.model");
 const logger = require("../utils/logger");
 
 const login = async (req, res) => {
@@ -41,7 +41,7 @@ const login = async (req, res) => {
 const logout = (req, res) => {
   res.clearCookie('token', {
     httpOnly: true,
-    sameSite: 'none', // También aquí para limpiar correctamente
+    sameSite: 'none',
     secure: true,
     //secure: process.env.NODE_ENV === 'production'
   });

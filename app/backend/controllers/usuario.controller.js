@@ -1,5 +1,5 @@
 const bcrypt = require("bcryptjs")
-const { ObjectId } = require('mongodb'); // Importa la clase ObjectId desde el driver de MongoDB
+const { ObjectId } = require('mongodb'); 
 const {
   crearUsuario,
   listarUsuarios,

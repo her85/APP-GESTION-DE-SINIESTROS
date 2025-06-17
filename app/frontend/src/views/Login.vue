@@ -4,6 +4,11 @@
       <div class="mb-4">
         <h1 class="fw-bold text-primary">Iniciar sesión</h1>
       </div>
+      <!-- Mensaje de advertencia por cookies de terceros -->
+      <div v-if="thirdPartyCookiesBlocked" class="alert alert-warning text-center">
+        <strong>Atención:</strong> Tu navegador está bloqueando cookies de terceros.<br>
+        Para iniciar sesión correctamente, debes permitir cookies de terceros o usar otro navegador.
+      </div>
       <div class="row justify-content-md-center">
         <transition name="fade">
           <div v-if="success" class="alert alert-success mt-3 text-center">{{ success }}</div>
@@ -38,6 +43,7 @@ import { useRouter } from 'vue-router'
 import api from '@/services/api'
 import { useAuthStore } from '@/stores/auth'
 import { useFeedback } from '@/composables/useFeedback'
+import { ref, onMounted } from 'vue'
 
 const router = useRouter()
 const auth = useAuthStore()
@@ -83,6 +89,20 @@ const login = async () => {
     isLoading.value = false
   }
 }
+
+const thirdPartyCookiesBlocked = ref(false)
+
+onMounted(() => {
+  // Prueba simple para detectar bloqueo de cookies de terceros
+  try {
+    document.cookie = "__testcookie=1; SameSite=None; Secure";
+    thirdPartyCookiesBlocked.value = document.cookie.indexOf("__testcookie=1") === -1;
+    // Limpia la cookie de prueba
+    document.cookie = "__testcookie=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=None; Secure";
+  } catch (e) {
+    thirdPartyCookiesBlocked.value = true;
+  }
+})
 </script>
 
 <style scoped>
