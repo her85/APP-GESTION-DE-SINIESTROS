@@ -59,7 +59,7 @@ const routes = [
  * @type {import('vue-router').Router}
  */
 const router = createRouter({
-  history: createWebHistory(import.meta.env.VITE_API_URL),
+  history: createWebHistory(), // Usar la raíz del frontend, no la URL del backend
   routes
 })
 
