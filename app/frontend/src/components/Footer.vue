@@ -16,6 +16,12 @@
   </footer>
 </template>
 
+/**
+ * Pie de página global de la aplicación.
+ * Muestra información de copyright y enlaces.
+ * @component
+ */
+
 <style scoped>
 .footer-custom {
   background: linear-gradient(90deg, #0d6efd 0%, #0a4275 100%);

@@ -6,6 +6,11 @@ const morgan = require("morgan"); // REGISTRAR LOGS Y MONITOREAR ACTIVIDAD
 const helmet = require("helmet"); // HELMET Mejora la seguridad de las cabeceras HTTP
 const cookieParser = require('cookie-parser'); // Importa el middleware para manejar cookies
 
+/**
+ * Instancia principal de la aplicación Express.
+ * Configura middlewares de seguridad, CORS, logs, cookies y rutas estáticas.
+ * @type {import('express').Express}
+ */
 const app = express();  // Crea una instancia de la aplicación Express
 
 // Habilita trust proxy para que Express reconozca correctamente el header X-Forwarded-For en Render

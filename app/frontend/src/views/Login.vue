@@ -37,6 +37,7 @@
   </div>
 </template>
 
+
 <script setup>
 import { useForm } from '@/composables/useForm'
 import { useRouter } from 'vue-router'
@@ -44,7 +45,11 @@ import api from '@/services/api'
 import { useAuthStore } from '@/stores/auth'
 import { useFeedback } from '@/composables/useFeedback'
 import { ref, onMounted } from 'vue'
-
+/**
+ * Vista de inicio de sesión.
+ * Permite al usuario autenticarse y muestra mensajes de error o éxito.
+ * @component
+ */
 const router = useRouter()
 const auth = useAuthStore()
 

@@ -3,10 +3,10 @@ import { computed, ref, watch } from 'vue'
 
 /**
  * Composable para filtrado genérico de listas.
- * @param {ref<Array>} itemsRef - Ref a la lista de items a filtrar
+ * @param {import('vue').Ref<Array>} itemsRef - Ref a la lista de items a filtrar
  * @param {Object} filterConfig - Configuración de filtros: { nombre: '', rol: '' } o similar
- * @param {Function} filterFn - Función personalizada de filtrado (opcional)
- * @returns { filteredItems, searchParams }
+ * @param {Function} [filterFn] - Función personalizada de filtrado (opcional)
+ * @returns {{ filteredItems: import('vue').ComputedRef<Array>, searchParams: import('vue').Ref<Object> }}
  */
 export function useFilter(itemsRef, filterConfig, filterFn) {
   const searchParams = ref({ ...filterConfig })

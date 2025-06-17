@@ -8,6 +8,14 @@ const {
   borrarUsuario
 } = require("../database/Usuario.model");
 
+/**
+ * Crea un nuevo usuario en la base de datos.
+ * @async
+ * @function
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @returns {Promise<void>}
+ */
 const crear_usuario = async (req, res) => {
   try {
     const hashedPassword = bcrypt.hashSync(req.body.password, 10);
@@ -23,6 +31,14 @@ const crear_usuario = async (req, res) => {
   }
 };
 
+/**
+ * Lista todos los usuarios registrados.
+ * @async
+ * @function
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @returns {Promise<void>}
+ */
 const listar_usuarios = async (req, res) => {
   try {
     const usuarios = await listarUsuarios();
@@ -33,6 +49,14 @@ const listar_usuarios = async (req, res) => {
   }
 };
 
+/**
+ * Busca un usuario por su ID.
+ * @async
+ * @function
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @returns {Promise<void>}
+ */
 const buscar_usuario = async (req, res) => {
   try {
     const usuario = await buscarUsuario({ id: req.params.id });
@@ -46,6 +70,14 @@ const buscar_usuario = async (req, res) => {
   }
 };
 
+/**
+ * Modifica los datos de un usuario existente.
+ * @async
+ * @function
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @returns {Promise<void>}
+ */
 const modificar_usuario = async (req, res) => {
   try {
     const nuevosDatos = { ...req.body };
@@ -68,6 +100,14 @@ const modificar_usuario = async (req, res) => {
   }
 };
 
+/**
+ * Elimina un usuario por su ID.
+ * @async
+ * @function
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @returns {Promise<void>}
+ */
 const borrar_usuario = async (req, res) => {
   try {
     const idParaBorrar = req.body._id;

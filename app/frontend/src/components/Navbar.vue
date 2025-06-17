@@ -34,11 +34,16 @@
   </nav>
 </template>
 
+
 <script setup>
 import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
-
+/**
+ * Barra de navegación principal de la aplicación.
+ * Muestra enlaces y menú según el rol y la ruta actual.
+ * @component
+ */
 const router = useRouter()
 const route = useRoute()
 

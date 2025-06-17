@@ -5,7 +5,22 @@ import { useFeedback } from '@/composables/useFeedback'
 
 /**
  * Composable para acciones relacionadas a usuarios: crear, listar, actualizar y eliminar usuarios.
- * @returns {Object} API del composable con estados y acciones de usuario
+ * @returns {{
+ *   isCreating: import('vue').Ref<boolean>,
+ *   createError: import('vue').Ref<string|null>,
+ *   createSuccessMessage: import('vue').Ref<string|null>,
+ *   users: import('vue').Ref<Array>,
+ *   isLoadingUsers: import('vue').Ref<boolean>,
+ *   usersError: import('vue').Ref<string|null>,
+ *   isUpdating: import('vue').Ref<boolean>,
+ *   updateError: import('vue').Ref<string|null>,
+ *   updateSuccessMessage: import('vue').Ref<string|null>,
+ *   isDeleting: import('vue').Ref<boolean>,
+ *   deleteError: import('vue').Ref<string|null>,
+ *   deleteSuccessMessage: import('vue').Ref<string|null>,
+ *   createUser: function, fetchUsers: function, updateUser: function, deleteUser: function,
+ *   error: import('vue').Ref<string|null>, success: import('vue').Ref<string|null>, setError: function, setSuccess: function, clearFeedback: function
+ * }}
  */
 export function useUserActions() {
   // Estado para la creación de usuario 

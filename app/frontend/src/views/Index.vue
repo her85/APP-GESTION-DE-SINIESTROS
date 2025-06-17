@@ -13,6 +13,12 @@
   </div>
 </template>
 
+/**
+ * Vista de bienvenida de la aplicación.
+ * Muestra el logo y acceso al login.
+ * @component
+ */
+
 <style scoped>
 .welcome-card {
   max-width: 420px;

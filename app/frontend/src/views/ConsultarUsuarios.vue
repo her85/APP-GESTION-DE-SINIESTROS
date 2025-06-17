@@ -119,6 +119,7 @@
   </div>
 </template>
 
+
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue';
 import { useAuthStore } from '@/stores/auth';
@@ -126,7 +127,11 @@ import { useUserActions } from '@/composables/useUserActions';
 import { useFeedback } from '@/composables/useFeedback'
 import { useForm } from '@/composables/useForm'
 import ReusableTable from '@/components/ReusableTable.vue';
-
+/**
+ * Vista para consultar y filtrar usuarios registrados.
+ * Solo accesible para administradores.
+ * @component
+ */
 const authStore = useAuthStore();
 const {
   users, fetchUsers, isLoadingUsers, usersError, // <-- agregar usersError aquí

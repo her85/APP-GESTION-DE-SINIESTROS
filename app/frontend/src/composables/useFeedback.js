@@ -3,7 +3,7 @@ import { ref } from 'vue'
 
 /**
  * Composable para centralizar feedback visual (errores y mensajes de éxito)
- * @returns {Object} API del composable: error, success, setError, setSuccess, clearFeedback
+ * @returns {{ error: import('vue').Ref<string|null>, success: import('vue').Ref<string|null>, setError: function, setSuccess: function, clearFeedback: function }} API del composable
  */
 export function useFeedback() {
   const error = ref(null)

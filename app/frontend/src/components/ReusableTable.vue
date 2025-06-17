@@ -20,10 +20,16 @@
   </div>
 </template>
 
+
 <script setup>
 import { computed, ref, watch } from 'vue'
 import Pagination from './Pagination.vue'
-
+/**
+ * Tabla reutilizable con paginación.
+ * @component
+ * @prop {Array} items - Lista de elementos a mostrar
+ * @prop {number} [pageSize=8] - Cantidad de elementos por página
+ */
 const props = defineProps({
   items: { type: Array, required: true },
   pageSize: { type: Number, default: 8 }

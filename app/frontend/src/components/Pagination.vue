@@ -14,7 +14,15 @@
   </nav>
 </template>
 
+
 <script setup>
+/**
+ * Componente de paginación reutilizable.
+ * @component
+ * @prop {number} currentPage - Página actual
+ * @prop {number} totalPages - Total de páginas
+ * @emits go-to-page - Evento emitido al cambiar de página
+ */
 const props = defineProps({
   currentPage: { type: Number, required: true },
   totalPages: { type: Number, required: true }

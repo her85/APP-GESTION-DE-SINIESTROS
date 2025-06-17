@@ -10,6 +10,14 @@ const {
 
 const sanitizeHtml = require('sanitize-html'); //SANITIZAR HTML PARA EVITAR INYECCIONES DE CÓDIGO MALICIOSO
 
+/**
+ * Registra un nuevo siniestro en la base de datos.
+ * @async
+ * @function
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @returns {Promise<void>}
+ */
 const ingresar_siniestro = async (req, res) => {
   // Ruta para ingresar un nuevo siniestro
   try{
@@ -54,6 +62,14 @@ const ingresar_siniestro = async (req, res) => {
 }
 };
 
+/**
+ * Obtiene todos los siniestros registrados.
+ * @async
+ * @function
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @returns {Promise<void>}
+ */
 const consultar_siniestro = async (req, res) => {
   // Ruta para consultar todos los siniestros
   try {
@@ -65,6 +81,14 @@ const consultar_siniestro = async (req, res) => {
   }
 };
 
+/**
+ * Consulta siniestros aplicando filtros por query params.
+ * @async
+ * @function
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @returns {Promise<void>}
+ */
 const consultar_siniestro_datos = async (req, res) => {
   try {
     // Ruta para consultar siniestros con filtros
@@ -105,6 +129,14 @@ const consultar_siniestro_datos = async (req, res) => {
   }
 };
 
+/**
+ * Elimina un siniestro por su número.
+ * @async
+ * @function
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @returns {Promise<void>}
+ */
 const borrar_siniestro = async (req, res) => {
   // Ruta para borrar un siniestro
   const numeroSiniestro = parseInt(req.body.numeroSiniestro); // Accede a la propiedad numeroSiniestro y la convierte a entero
@@ -112,6 +144,14 @@ const borrar_siniestro = async (req, res) => {
   res.json({ message: "Siniestro borrado correctamente" });
 };
 
+/**
+ * Modifica los datos de un siniestro existente.
+ * @async
+ * @function
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @returns {Promise<void>}
+ */
 const modificar_siniestro = async (req, res) => {
   // Ruta para modificar un siniestro
   const numeroSiniestro = parseInt(req.body.numeroSiniestro); // Convierte el número de siniestro a entero

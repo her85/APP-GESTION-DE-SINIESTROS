@@ -33,11 +33,17 @@
   </div>
 </template>
 
+
 <script setup>
 import { computed } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 //import api from '@/services/api';
 import { useRouter } from 'vue-router';
+/**
+ * Vista principal del menú de la aplicación.
+ * Muestra opciones según el rol del usuario.
+ * @component
+ */
 
 const authStore = useAuthStore();
 //const router = useRouter();

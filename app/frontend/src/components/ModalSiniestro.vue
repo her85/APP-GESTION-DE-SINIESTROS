@@ -138,8 +138,16 @@
   </div>
 </template>
 
+
 <script setup>
 import { reactive, watch} from 'vue';
+/**
+ * Modal para visualizar y editar datos de un siniestro.
+ * @component
+ * @prop {Object} siniestro - Objeto siniestro a editar o visualizar
+ * @prop {boolean} isReadOnly - Si el modal está en modo solo lectura
+ * @prop {Object} fieldErrors - Errores de validación por campo
+ */
 const props = defineProps({
   siniestro: Object,
   modalId: String,

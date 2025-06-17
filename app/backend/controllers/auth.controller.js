@@ -4,6 +4,14 @@ const { SECRET_KEY } = require("../config/config");
 const { buscarUsuario } = require("../database/Usuario.model");
 const logger = require("../utils/logger");
 
+/**
+ * Inicia sesión de usuario, valida credenciales y genera un token JWT.
+ * @async
+ * @function
+ * @param {import('express').Request} req - Objeto de solicitud HTTP.
+ * @param {import('express').Response} res - Objeto de respuesta HTTP.
+ * @returns {Promise<void>}
+ */
 const login = async (req, res) => {
   const { username, password } = req.body;
   try {
@@ -38,6 +46,12 @@ const login = async (req, res) => {
   }
 };
 
+/**
+ * Cierra la sesión del usuario eliminando la cookie del token.
+ * @function
+ * @param {import('express').Request} req - Objeto de solicitud HTTP.
+ * @param {import('express').Response} res - Objeto de respuesta HTTP.
+ */
 const logout = (req, res) => {
   res.clearCookie('token', {
     httpOnly: true,

@@ -1,5 +1,9 @@
 const { createLogger, format, transports } = require('winston');
 
+/**
+ * Logger configurado con Winston para registrar eventos de la aplicación.
+ * @type {import('winston').Logger}
+ */
 const logger = createLogger({
   level: 'info',
   format: format.combine(

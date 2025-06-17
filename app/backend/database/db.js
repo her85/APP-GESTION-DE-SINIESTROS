@@ -7,6 +7,10 @@ const  { MONGODB_USR, MONGODB_PWD } = require('../config/config.js');
 const uri =
 "mongodb+srv://" + MONGODB_USR + ":" + MONGODB_PWD + "@cluster0.hloqam6.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
+/**
+ * Cliente de MongoDB configurado para la aplicación.
+ * @type {MongoClient}
+ */
 const client = new MongoClient(uri, {// Creamos un nuevo cliente de MongoDB con la versión estable de la API
   serverApi: {
     version: ServerApiVersion.v1, // Establecemos la versión de la API del servidor
@@ -15,6 +19,11 @@ const client = new MongoClient(uri, {// Creamos un nuevo cliente de MongoDB con 
   },
 });
 
+/**
+ * Conecta a la base de datos MongoDB.
+ * @async
+ * @returns {Promise<void>}
+ */
 async function connectToDb() { // Función para conectar a la base de datos
   try {
     await client.connect(); // Intentamos conectar al cliente de MongoDB
@@ -36,7 +45,10 @@ process.on('SIGINT', async () => { // Cierra la conexión cuando la aplicación 
 
 // Conectamos a la base de datos
 connectToDb();
-// Seleccionamos la base de datos y la colección con la que vamos a trabajar
+/**
+ * Instancia de la base de datos principal.
+ * @type {import('mongodb').Db}
+ */
 const database = client.db("database"); // Selecciona la base de datos llamada "database"
 
 module.exports = {database};

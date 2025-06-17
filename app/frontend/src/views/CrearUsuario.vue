@@ -60,13 +60,18 @@
   </div>
 </template>
 
+
 <script setup>
 import { useForm } from '@/composables/useForm'
 import { computed } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useUserActions } from '@/composables/useUserActions'
 import { useFeedback } from '@/composables/useFeedback'
-
+/**
+ * Vista para la creación de un nuevo usuario.
+ * Solo accesible para administradores.
+ * @component
+ */
 const authStore = useAuthStore()
 const { createUser, isCreating } = useUserActions()
 const isAdmin = computed(() => authStore.getRol() === 'Administrador')

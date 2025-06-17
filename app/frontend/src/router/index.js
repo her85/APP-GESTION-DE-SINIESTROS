@@ -7,7 +7,10 @@ import ConsultarUsuarios from '@/views/ConsultarUsuarios.vue'
 import IngresarSiniestro from '@/views/IngresarSiniestro.vue'
 import ConsultarSiniestro from '@/views/ConsultarSiniestro.vue'
 
-
+/**
+ * Definición de rutas de la aplicación Vue Router.
+ * @type {Array<import('vue-router').RouteRecordRaw>}
+ */
 const routes = [
   {
     path: '/',
@@ -51,12 +54,22 @@ const routes = [
   },
 ]
 
+/**
+ * Instancia principal del router de Vue.
+ * @type {import('vue-router').Router}
+ */
 const router = createRouter({
-  history: createWebHistory(import.meta.env.VUE_APP_API_URL),
+  history: createWebHistory(import.meta.env.VITE_API_URL),
   routes
 })
 
-// ✅ Middleware de autenticación
+/**
+ * Middleware global para proteger rutas que requieren autenticación.
+ * Redirige a /login si no hay rol de usuario en localStorage.
+ * @param {import('vue-router').RouteLocationNormalized} to
+ * @param {import('vue-router').RouteLocationNormalized} from
+ * @param {Function} next
+ */
 router.beforeEach((to, from, next) => {
   // Solo revisa el rol, ya no el token
   const rol = localStorage.getItem('userRole');

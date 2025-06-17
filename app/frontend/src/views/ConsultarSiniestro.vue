@@ -90,6 +90,7 @@
   </div>
 </template>
 
+
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
@@ -97,7 +98,11 @@ import ReusableTable from '@/components/ReusableTable.vue';
 import ModalSiniestro from '@/components/ModalSiniestro.vue';
 import { useFeedback } from '@/composables/useFeedback'
 import api from '@/services/api';
-
+/**
+ * Vista para consultar y filtrar siniestros registrados.
+ * Permite buscar por número, documento, patente y fechas.
+ * @component
+ */
 const router = useRouter();
 const siniestros = ref([]);
 const siniestrosOriginales = ref([]);

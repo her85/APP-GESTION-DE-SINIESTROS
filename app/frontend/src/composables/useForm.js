@@ -5,8 +5,8 @@ import { useFeedback } from '@/composables/useFeedback'
 /**
  * Composable para lógica de formularios: validación, reset y feedback visual.
  * @param {Object} initialState Estado inicial del formulario
- * @param {Function} validateFn Función de validación personalizada (opcional)
- * @returns {Object} API del composable: form, isLoading, error, success, validate, resetForm, setError, setSuccess, clearFeedback
+ * @param {Function} [validateFn] Función de validación personalizada (opcional)
+ * @returns {{ form: import('vue').Ref<Object>, isLoading: import('vue').Ref<boolean>, error: import('vue').Ref<string|null>, success: import('vue').Ref<string|null>, validate: function, resetForm: function, setError: function, setSuccess: function, clearFeedback: function }}
  */
 export function useForm(initialState, validateFn) {
   const form = ref({ ...initialState })

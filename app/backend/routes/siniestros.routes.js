@@ -7,13 +7,23 @@ const ctrl = require("../controllers/siniestros.controller");
 const rateLimit = require("express-rate-limit") // LIMITA PETICIONES PARA PREVENIR
 const { body, validationResult } = require('express-validator'); // VALIDACIONES DE ENTRADA
 
+/**
+ * Límite de peticiones para rutas de siniestros.
+ * @type {import('express-rate-limit').RateLimit}
+ */
 const limit = rateLimit({
     windowMs : 15 * 60 * 1000, //15 minutos
     max : 10, // Maximo de peticiones por IP
     message : "Demasiadas solicitudes, intente mas tarde",
 });
 
-// Manejar los errores de validación
+/**
+ * Middleware para validar los datos de entrada de un siniestro.
+ * @function
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @param {import('express').NextFunction} next
+ */
 const validarSiniestro = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -21,6 +31,11 @@ const validarSiniestro = (req, res, next) => {
     }
     next();
 };
+
+/**
+ * Rutas para gestión de siniestros.
+ * @module siniestros.routes
+ */
 
 // Ingreso (Administrador y Tramitador)
 //router.post("/ingresar_siniestro", limit, authenticateToken, authorizeRole(["Administrador", "Tramitador"]), ctrl.ingresar_siniestro);
