@@ -49,5 +49,10 @@ app.use("/", require("./routes/auth.routes"));
 app.use("/", require("./routes/usuario.routes"));
 app.use("/", require("./routes/siniestros.routes"));
 
+// Catch-all para rutas de frontend (SPA)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+});
+
 // Exporta la aplicación para su uso en otros módulos
 module.exports = app;
