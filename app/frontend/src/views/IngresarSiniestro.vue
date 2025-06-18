@@ -10,6 +10,7 @@
               <h4 class="mb-3 text-secondary">Datos de la persona</h4>
               <div class="mb-3">
                 <input type="number" class="form-control" v-model="formulario.numeroPoliza" placeholder="Número de póliza" required />
+                <div v-if="fieldErrors.numeroPoliza" class="invalid-feedback d-block">{{ fieldErrors.numeroPoliza }}</div>
               </div>
               <div class="mb-3">
                 <select class="form-select" v-model="formulario.tipoDocumento" required>
@@ -19,21 +20,27 @@
                   <option value="Pasaporte">Pasaporte</option>
                   <option value="CUIT">CUIT</option>
                 </select>
+                <div v-if="fieldErrors.tipoDocumento" class="invalid-feedback d-block">{{ fieldErrors.tipoDocumento }}</div>
               </div>
               <div class="mb-3">
                 <input type="number" class="form-control" v-model="formulario.documentoCliente" placeholder="Número de documento" required />
+                <div v-if="fieldErrors.documentoCliente" class="invalid-feedback d-block">{{ fieldErrors.documentoCliente }}</div>
               </div>
               <div class="mb-3">
                 <input type="text" class="form-control" v-model="formulario.nombreCliente" placeholder="Nombre completo" required />
+                <div v-if="fieldErrors.nombreCliente" class="invalid-feedback d-block">{{ fieldErrors.nombreCliente }}</div>
               </div>
               <div class="mb-3">
                 <input type="text" class="form-control" v-model="formulario.direccionCliente" placeholder="Dirección" required />
+                <div v-if="fieldErrors.direccionCliente" class="invalid-feedback d-block">{{ fieldErrors.direccionCliente }}</div>
               </div>
               <div class="mb-3">
                 <input type="tel" class="form-control" v-model="formulario.telefonoCliente" placeholder="Teléfono" required />
+                <div v-if="fieldErrors.telefonoCliente" class="invalid-feedback d-block">{{ fieldErrors.telefonoCliente }}</div>
               </div>
               <div class="mb-3">
                 <input type="email" class="form-control" v-model="formulario.mailCliente" placeholder="E-mail" required />
+                <div v-if="fieldErrors.mailCliente" class="invalid-feedback d-block">{{ fieldErrors.mailCliente }}</div>
               </div>
             </div>
             <!-- Datos del vehículo -->
@@ -48,24 +55,31 @@
                   <option value="Camion">Camion</option>
                   <option value="Acoplado">Acoplado</option>
                 </select>
+                <div v-if="fieldErrors.tipoVehiculo" class="invalid-feedback d-block">{{ fieldErrors.tipoVehiculo }}</div>
               </div>
               <div class="mb-3">
                 <input type="text" class="form-control" v-model="formulario.patente" placeholder="Patente" required />
+                <div v-if="fieldErrors.patente" class="invalid-feedback d-block">{{ fieldErrors.patente }}</div>
               </div>
               <div class="mb-3">
                 <input type="text" class="form-control" v-model="formulario.marca" placeholder="Marca" required />
+                <div v-if="fieldErrors.marca" class="invalid-feedback d-block">{{ fieldErrors.marca }}</div>
               </div>
               <div class="mb-3">
                 <input type="text" class="form-control" v-model="formulario.modelo" placeholder="Modelo" required />
+                <div v-if="fieldErrors.modelo" class="invalid-feedback d-block">{{ fieldErrors.modelo }}</div>
               </div>
               <div class="mb-3">
                 <input type="number" class="form-control" v-model="formulario.anioFabricacion" placeholder="Año de fabricación" required />
+                <div v-if="fieldErrors.anioFabricacion" class="invalid-feedback d-block">{{ fieldErrors.anioFabricacion }}</div>
               </div>
               <div class="mb-3">
                 <input type="text" class="form-control" v-model="formulario.numeroDeMotor" placeholder="Número de motor" required />
+                <div v-if="fieldErrors.numeroDeMotor" class="invalid-feedback d-block">{{ fieldErrors.numeroDeMotor }}</div>
               </div>
               <div class="mb-3">
                 <input type="text" class="form-control" v-model="formulario.numeroDeChasis" placeholder="Número de chasis" required />
+                <div v-if="fieldErrors.numeroDeChasis" class="invalid-feedback d-block">{{ fieldErrors.numeroDeChasis }}</div>
               </div>
             </div>
           </div>
@@ -83,20 +97,24 @@
               <option value="Responsabilidad civil">Responsabilidad civil</option>
               <option value="Robo">Robo</option>
             </select>
+            <div v-if="fieldErrors.tipoSiniestro" class="invalid-feedback d-block">{{ fieldErrors.tipoSiniestro }}</div>
           </div>
           <div class="row">
             <div class="col-12 col-md-6 mb-3">
               <label for="fechaSiniestro" class="form-label">Fecha</label>
               <input type="date" class="form-control" v-model="formulario.fechaSiniestro" required :max="new Date().toISOString().slice(0,10)" />
+              <div v-if="fieldErrors.fechaSiniestro" class="invalid-feedback d-block">{{ fieldErrors.fechaSiniestro }}</div>
             </div>
             <div class="col-12 col-md-6 mb-3">
               <label for="direccionSiniestro" class="form-label">Lugar del siniestro</label>
               <input type="text" class="form-control" v-model="formulario.direccionSiniestro" required />
+              <div v-if="fieldErrors.direccionSiniestro" class="invalid-feedback d-block">{{ fieldErrors.direccionSiniestro }}</div>
             </div>
           </div>
           <div class="mb-3">
             <label for="descripcionSiniestro" class="form-label">Descripción</label>
             <textarea class="form-control" v-model="formulario.descripcionSiniestro" rows="3" required></textarea>
+            <div v-if="fieldErrors.descripcionSiniestro" class="invalid-feedback d-block">{{ fieldErrors.descripcionSiniestro }}</div>
           </div>
              <div v-if="success" class="alert alert-success text-center mb-3">{{ success }}</div>
         <div v-if="error" class="alert alert-danger text-center mb-3">{{ error }}</div>
