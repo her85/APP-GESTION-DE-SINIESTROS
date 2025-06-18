@@ -65,28 +65,28 @@ router.get("/consultar_siniestro", authenticateToken, authorizeRole(["Administra
 router.get("/consultar_siniestro/datos", authenticateToken, authorizeRole(["Administrador", "Tramitador", "Consulta"]), ctrl.consultar_siniestro_datos);
 
 // Modificación (Administrador y Tramitador)
-router.put("/modificar_siniestro",limit, authenticateToken, authorizeRole(["Administrador", "Tramitador"]), ctrl.modificar_siniestro);
-/*router.put("/modificar_siniestro",limit, authenticateToken, authorizeRole(["Administrador", "Tramitador"]), [
-    body('numeroSiniestro').notEmpty().withMessage('El número de siniestro es obligatorio').isInt().withMessage('El número de siniestro debe ser un entero'),
-    body('numeroPoliza').optional().isInt().withMessage('El número de póliza debe ser un entero'),
-    body('tipoDocumento').optional().isIn(['DNI', 'CUIT', 'CUIL']).withMessage('El tipo de documento no es válido'),
-    body('documentoCliente').optional().isInt().withMessage('El documento del cliente debe ser un entero'),
+//router.put("/modificar_siniestro",limit, authenticateToken, authorizeRole(["Administrador", "Tramitador"]), ctrl.modificar_siniestro);
+router.put("/modificar_siniestro",limit, authenticateToken, authorizeRole(["Administrador", "Tramitador"]), [
+    body('numeroSiniestro').notEmpty().withMessage('El número de siniestro es obligatorio').trim(), //isInt().withMessage('El número de siniestro debe ser un entero'),
+    body('numeroPoliza').optional().trim(), //isInt().withMessage('El número de póliza debe ser un entero'),
+    body('tipoDocumento').optional().trim(), //isIn(['DNI', 'CUIT', 'CUIL']).withMessage('El tipo de documento no es válido'),
+    body('documentoCliente').optional().trim(), //isInt().withMessage('El documento del cliente debe ser un entero'),
     body('nombreCliente').optional().trim(),
     body('direccionCliente').optional().trim(),
     body('telefonoCliente').optional().trim(),
-    body('mailCliente').optional().isEmail().withMessage('El correo electrónico del cliente no es válido').optional({ nullable: true }),
+    body('mailCliente').optional().withMessage('El correo electrónico del cliente no es válido').trim(), //optional({ nullable: true }),
     body('tipoVehiculo').optional().trim(),
-    body('patente').optional().trim().isLength({ min: 6, max: 7 }).withMessage('La patente debe tener entre 6 y 7 caracteres'),
+    body('patente').optional().trim().trim(), //isLength({ min: 6, max: 7 }).withMessage('La patente debe tener entre 6 y 7 caracteres'),
     body('marca').optional().trim(),
     body('modelo').optional().trim(),
-    body('anioFabricacion').optional().isInt({ min: 1900, max: new Date().getFullYear() }).withMessage('El año de fabricación no es válido'),
+    body('anioFabricacion').optional().trim(), //isInt({ min: 1900, max: new Date().getFullYear() }).withMessage('El año de fabricación no es válido'),
     body('numeroDeMotor').optional().trim(),
     body('numeroDeChasis').optional().trim(),
     body('tipoSiniestro').optional().trim(),
-    body('fechaSiniestro').optional().isISO8601().withMessage('La fecha del siniestro debe ser una fecha válida'),
+    body('fechaSiniestro').optional().trim(), //isISO8601().withMessage('La fecha del siniestro debe ser una fecha válida'),
     body('direccionSiniestro').optional().trim(),
     body('descripcionSiniestro').optional().trim(),
-], validarSiniestro, ctrl.modificar_siniestro);*/
+], validarSiniestro, ctrl.modificar_siniestro);
 
 // Borrado (solo Administrador)
 router.delete("/borrar_siniestro",limit, authenticateToken, authorizeRole(["Administrador", "Tramitador"]), ctrl.borrar_siniestro);
