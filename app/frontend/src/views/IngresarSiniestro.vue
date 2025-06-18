@@ -161,13 +161,7 @@ const submitForm = async () => {
     setSuccess('Siniestro creado con éxito')
     resetForm()
   } catch (error) {
-    if (error.response && error.response.data && error.response.data.errors) {
-      setError(error.response.data.errors.map(e => e.msg).join(' | '))
-    } else if (error.response && error.response.data && error.response.data.error) {
-      setError(error.response.data.error)
-    } else {
-      setError('Error al crear el siniestro')
-    }
+    setError('Error al crear el siniestro')
     console.error('Error al enviar el formulario:', error)
   } finally {
     isLoading.value = false

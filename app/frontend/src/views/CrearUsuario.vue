@@ -93,8 +93,7 @@ const handleCreateUser = async () => {
     resetForm()
     setSuccess('Usuario creado con éxito.')
   } else {
-    // Mostrar mensaje de error detallado si existe
-    setError(createError.value || 'Error al crear el usuario.')
+    setError('Error al crear el usuario.')
   }
 }
 </script>

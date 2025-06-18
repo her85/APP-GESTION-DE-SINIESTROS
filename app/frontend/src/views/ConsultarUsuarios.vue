@@ -175,7 +175,7 @@ const handleUpdateUser = async () => {
       bootstrapModal.hide();
     }
   } else {
-    setError(updateError.value || 'Error al actualizar el usuario.')
+    setError('Error al actualizar el usuario.')
   }
 };
 
@@ -186,7 +186,7 @@ const confirmDeleteUser = async (userId, username) => {
       await fetchUsers();
       setSuccess('Usuario borrado correctamente.')
     } else {
-      setError(deleteError.value || 'Error al borrar el usuario.')
+      setError('Error al borrar el usuario.')
     }
   }
 };
