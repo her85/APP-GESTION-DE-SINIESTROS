@@ -178,25 +178,58 @@ watch(() => props.siniestro, (nuevo) => {
   localSiniestro.fechaSiniestro = normalizeDate(localSiniestro.fechaSiniestro);
 }, { deep: true });
 
-function validateEditFields(s) {
+function validateEditFields(f) {
   const errors = {};
-  if (!s.cliente || s.cliente.trim().length < 3) {
-    errors.cliente = 'El nombre del cliente es obligatorio (mín. 3 caracteres).';
+ if (!f.tipoDocumento) {
+    errors.tipoDocumento = 'El tipo de documento es obligatorio.'
   }
-  if (!s.documento || isNaN(Number(s.documento))) {
-    errors.documento = 'El documento es obligatorio y debe ser numérico.';
+  if (!f.documentoCliente || isNaN(Number(f.documentoCliente))) {
+    errors.documentoCliente = 'El documento es obligatorio y debe ser numérico.'
   }
-  if (!s.patente || s.patente.trim().length < 6) {
-    errors.patente = 'La patente es obligatoria (mín. 6 caracteres).';
+  if (!f.nombreCliente || f.nombreCliente.trim().length < 3) {
+    errors.nombreCliente = 'El nombre es obligatorio (mín. 3 caracteres).'
   }
-  if (!s.tipoSiniestro) {
-    errors.tipoSiniestro = 'El tipo de siniestro es obligatorio.';
+  if (!f.direccionCliente) {
+    errors.direccionCliente = 'La dirección es obligatoria.'
   }
-  if (!s.fechaSiniestro) {
-    errors.fechaSiniestro = 'La fecha del siniestro es obligatoria.';
+  if (!f.telefonoCliente) {
+    errors.telefonoCliente = 'El teléfono es obligatorio.'
   }
-  if (!s.descripcionSiniestro || s.descripcionSiniestro.trim().length < 5) {
-    errors.descripcionSiniestro = 'La descripción es obligatoria (mín. 5 caracteres).';
+  if (!f.mailCliente) {
+    errors.mailCliente = 'El email es obligatorio.'
+  }
+  if (!f.tipoVehiculo) {
+    errors.tipoVehiculo = 'El tipo de vehículo es obligatorio.'
+  }
+  if (!f.patente || f.patente.length < 6) {
+    errors.patente = 'La patente es obligatoria (mín. 6 caracteres).'
+  }
+  if (!f.marca) {
+    errors.marca = 'La marca es obligatoria.'
+  }
+  if (!f.modelo) {
+    errors.modelo = 'El modelo es obligatorio.'
+  }
+  if (!f.anioFabricacion || isNaN(Number(f.anioFabricacion))) {
+    errors.anioFabricacion = 'El año de fabricación es obligatorio y debe ser numérico.'
+  }
+  if (!f.numeroDeMotor) {
+    errors.numeroDeMotor = 'El número de motor es obligatorio.'
+  }
+  if (!f.numeroDeChasis) {
+    errors.numeroDeChasis = 'El número de chasis es obligatorio.'
+  }
+  if (!f.tipoSiniestro) {
+    errors.tipoSiniestro = 'El tipo de siniestro es obligatorio.'
+  }
+  if (!f.fechaSiniestro) {
+    errors.fechaSiniestro = 'La fecha del siniestro es obligatoria.'
+  }
+  if (!f.direccionSiniestro) {
+    errors.direccionSiniestro = 'El lugar del siniestro es obligatorio.'
+  }
+  if (!f.descripcionSiniestro || f.descripcionSiniestro.trim().length < 5) {
+    errors.descripcionSiniestro = 'La descripción es obligatoria (mín. 5 caracteres).'
   }
   return errors;
 }
