@@ -55,9 +55,9 @@ router.put(
     authenticateToken,
     authorizeRole(['Administrador']),
     [
-        body('username').optional().notEmpty().trim(),
-        body('password').optional().notEmpty().trim(),
-        body('role').optional().isIn(['Administrador', 'Tramitador', 'Consulta']),
+        body('username').notEmpty().trim(),
+        body('password').notEmpty().trim(),
+        body('role').isIn(['Administrador', 'Tramitador', 'Consulta']),
     ],validarUsuario,ctrl.modificar_usuario);
     
 router.delete("/borrar_usuario", limit, authenticateToken, authorizeRole(["Administrador"]), ctrl.borrar_usuario);
