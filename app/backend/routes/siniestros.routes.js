@@ -46,7 +46,7 @@ router.post("/ingresar_siniestro", limit, authenticateToken, authorizeRole(["Adm
     body('nombreCliente').notEmpty().withMessage('El nombre del cliente es obligatorio').trim(),
     body('direccionCliente').notEmpty().withMessage('La dirección del cliente es obligatoria').trim(),
     body('telefonoCliente').notEmpty().withMessage('El teléfono del cliente es obligatorio').trim(),
-    body('mailCliente').isEmail().withMessage('El correo electrónico del cliente no es válido').trim(), //optional({ nullable: true }),
+    body('mailCliente').notEmpty().withMessage('El correo electrónico del cliente es obligatorio').trim(), //optional({ nullable: true }),
     body('tipoVehiculo').notEmpty().withMessage('El tipo de vehículo es obligatorio').trim(),
     body('patente').notEmpty().withMessage('La patente es obligatoria').trim().trim(),  //isLength({ min: 6, max: 7 }).withMessage('La patente debe tener entre 6 y 7 caracteres'),
     body('marca').notEmpty().withMessage('La marca es obligatoria').trim(),
