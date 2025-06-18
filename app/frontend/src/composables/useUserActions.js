@@ -61,7 +61,11 @@ export function useUserActions() {
       return true; // Indicamos éxito
     } catch (err) {
       console.error('Error en createUser:', err);
-      createError.value = err.response?.data?.message || err.response?.data?.error || 'Error desconocido al crear usuario.';
+      if (err.response && err.response.data && err.response.data.errors) {
+        createError.value = err.response.data.errors.map(e => e.msg).join(' | ');
+      } else {
+        createError.value = err.response?.data?.message || err.response?.data?.error || 'Error desconocido al crear usuario.';
+      }
       return false; // Indicamos fallo
     } finally {
       isCreating.value = false;
@@ -105,7 +109,11 @@ export function useUserActions() {
       return true;
     } catch (err) {
       console.error('Error en updateUser:', err);
-      updateError.value = err.response?.data?.message || err.response?.data?.error || 'Error al actualizar el usuario.';
+      if (err.response && err.response.data && err.response.data.errors) {
+        updateError.value = err.response.data.errors.map(e => e.msg).join(' | ');
+      } else {
+        updateError.value = err.response?.data?.message || err.response?.data?.error || 'Error al actualizar el usuario.';
+      }
       return false;
     } finally {
       isUpdating.value = false;
@@ -122,13 +130,16 @@ export function useUserActions() {
     deleteError.value = null;
     deleteSuccessMessage.value = null;
     try {
-      // Axios para DELETE con body se usa con la opción `data`
-      const response = await api.delete(`/borrar_usuario`, { data: { _id: userId } });
+      const response = await api.delete('/borrar_usuario', { data: { _id: userId } });
       deleteSuccessMessage.value = response.data.message || 'Usuario borrado correctamente.';
       return true;
     } catch (err) {
       console.error('Error en deleteUser:', err);
-      deleteError.value = err.response?.data?.message || err.response?.data?.error || 'Error al borrar el usuario.';
+      if (err.response && err.response.data && err.response.data.errors) {
+        deleteError.value = err.response.data.errors.map(e => e.msg).join(' | ');
+      } else {
+        deleteError.value = err.response?.data?.message || err.response?.data?.error || 'Error al borrar el usuario.';
+      }
       return false;
     } finally {
       isDeleting.value = false;

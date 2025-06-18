@@ -156,8 +156,13 @@ const deleteClaim = async (numeroSiniestro) => {
     siniestrosOriginales.value = siniestrosOriginales.value.filter((s) => s.numeroSiniestro !== numeroSiniestro);
     setSuccess('Siniestro eliminado correctamente.');
   } catch (err) {
-    setError('No se pudo eliminar el siniestro. Intenta nuevamente.');
-    //console.error('Error al borrar el siniestro:', err);
+    if (err.response && err.response.data && err.response.data.errors) {
+      setError(err.response.data.errors.map(e => e.msg).join(' | '))
+    } else if (err.response && err.response.data && err.response.data.error) {
+      setError(err.response.data.error)
+    } else {
+      setError('No se pudo eliminar el siniestro. Intenta nuevamente.');
+    }
   }
 };
 
@@ -195,7 +200,13 @@ const updateClaim = async (siniestro) => {
     }
     setSuccess('Siniestro actualizado correctamente.');
   } catch (err) {
-    setError('No se pudo actualizar el siniestro. Intenta nuevamente.');
+    if (err.response && err.response.data && err.response.data.errors) {
+      setError(err.response.data.errors.map(e => e.msg).join(' | '))
+    } else if (err.response && err.response.data && err.response.data.error) {
+      setError(err.response.data.error)
+    } else {
+      setError('No se pudo actualizar el siniestro. Intenta nuevamente.');
+    }
   }
 };
 

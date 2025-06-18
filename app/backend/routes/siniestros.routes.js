@@ -74,7 +74,7 @@ router.put("/modificar_siniestro",limit, authenticateToken, authorizeRole(["Admi
     body('nombreCliente').optional().trim(),
     body('direccionCliente').optional().trim(),
     body('telefonoCliente').optional().trim(),
-    body('mailCliente').optional().withMessage('El correo electrónico del cliente no es válido').trim(), //optional({ nullable: true }),
+    body('mailCliente').optional().notEmpty().withMessage('El correo electrónico del cliente no es válido').trim(), //optional({ nullable: true }),
     body('tipoVehiculo').optional().trim(),
     body('patente').optional().trim().trim(), //isLength({ min: 6, max: 7 }).withMessage('La patente debe tener entre 6 y 7 caracteres'),
     body('marca').optional().trim(),
