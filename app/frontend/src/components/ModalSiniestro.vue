@@ -180,20 +180,56 @@ watch(() => props.siniestro, (nuevo) => {
 
 function validateEditFields(s) {
   const errors = {};
-  if (!s.cliente || s.cliente.trim().length < 3) {
-    errors.cliente = 'El nombre del cliente es obligatorio (mín. 3 caracteres).';
+  if (!s.numeroPoliza || isNaN(Number(s.numeroPoliza))) {
+    errors.numeroPoliza = 'El número de póliza es obligatorio y debe ser numérico.';
+  }
+  if (!s.tipoDocumento) {
+    errors.tipoDocumento = 'El tipo de documento es obligatorio.';
   }
   if (!s.documento || isNaN(Number(s.documento))) {
     errors.documento = 'El documento es obligatorio y debe ser numérico.';
   }
+  if (!s.cliente || s.cliente.trim().length < 3) {
+    errors.cliente = 'El nombre del cliente es obligatorio (mín. 3 caracteres).';
+  }
+  if (!s.direccionCliente) {
+    errors.direccionCliente = 'La dirección del cliente es obligatoria.';
+  }
+  if (!s.telefonoCliente) {
+    errors.telefonoCliente = 'El teléfono del cliente es obligatorio.';
+  }
+  if (!s.mailCliente) {
+    errors.mailCliente = 'El email del cliente es obligatorio.';
+  }
+  if (!s.tipoVehiculo) {
+    errors.tipoVehiculo = 'El tipo de vehículo es obligatorio.';
+  }
   if (!s.patente || s.patente.trim().length < 6) {
     errors.patente = 'La patente es obligatoria (mín. 6 caracteres).';
+  }
+  if (!s.marca) {
+    errors.marca = 'La marca es obligatoria.';
+  }
+  if (!s.modelo) {
+    errors.modelo = 'El modelo es obligatorio.';
+  }
+  if (!s.anioFabricacion || isNaN(Number(s.anioFabricacion))) {
+    errors.anioFabricacion = 'El año de fabricación es obligatorio y debe ser numérico.';
+  }
+  if (!s.numeroDeMotor) {
+    errors.numeroDeMotor = 'El número de motor es obligatorio.';
+  }
+  if (!s.numeroDeChasis) {
+    errors.numeroDeChasis = 'El número de chasis es obligatorio.';
   }
   if (!s.tipoSiniestro) {
     errors.tipoSiniestro = 'El tipo de siniestro es obligatorio.';
   }
   if (!s.fechaSiniestro) {
     errors.fechaSiniestro = 'La fecha del siniestro es obligatoria.';
+  }
+  if (!s.direccionSiniestro) {
+    errors.direccionSiniestro = 'El lugar del siniestro es obligatorio.';
   }
   if (!s.descripcionSiniestro || s.descripcionSiniestro.trim().length < 5) {
     errors.descripcionSiniestro = 'La descripción es obligatoria (mín. 5 caracteres).';
