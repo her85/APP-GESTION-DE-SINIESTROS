@@ -20,10 +20,16 @@
           <div class="mb-3 text-start">
             <label for="username" class="form-label">Usuario</label>
             <input type="text" id="username" v-model="form.username" class="form-control" :disabled="isLoading" required autocomplete="username" />
+            <div v-if="fieldErrors.username" class="invalid-feedback d-block">
+              {{ fieldErrors.username }}
+            </div>
           </div>
           <div class="mb-3 text-start">
             <label for="password" class="form-label">Contraseña</label>
             <input type="password" id="password" v-model="form.password" class="form-control" :disabled="isLoading" required autocomplete="current-password" />
+            <div v-if="fieldErrors.password" class="invalid-feedback d-block">
+              {{ fieldErrors.password }}
+            </div>
           </div>
           <div class="d-grid gap-2">
             <button type="submit" class="btn btn-primary btn-lg" :disabled="isLoading">
@@ -62,27 +68,42 @@ const {
 
 const { error, success, setError} = useFeedback()
 
+const fieldErrors = ref({})
+
+function validateLoginFields(f) {
+  const errors = {}
+  if (!f.username || f.username.trim().length < 3) {
+    errors.username = 'El usuario es obligatorio.'
+  }
+  if (!f.password || f.password.length < 6) {
+    errors.password = 'La contraseña es obligatoria.'
+  }
+  return errors
+}
+
 const login = async () => {
+  Object.keys(fieldErrors.value).forEach(k => delete fieldErrors.value[k])
+  const errors = validateLoginFields(form.value)
+  if (Object.keys(errors).length > 0) {
+    Object.assign(fieldErrors.value, errors)
+    return
+  }
   error.value = null
   isLoading.value = true
   try {
-    //console.log('Enviando login:', form.value.username);
     if (!validate()) return
     const response = await api.post('/login', {
       username: form.value.username.trim(),
       password: form.value.password
     })
-    //console.log('Respuesta login:', response);
     if (response.status === 200 && response.data.role) {
       auth.setAuth(response.data.role)
       resetForm()
       router.push('/pagina_principal')
     } else {
       setError(response.data?.error || 'No se recibió el rol del servidor.')
-      //console.error('Error login: No se recibió el rol del servidor.', response.data)
     }
   } catch (err) {
-    //console.error('Error en login:', err);
     if (err.response && err.response.status === 401) {
       setError('Credenciales incorrectas.')
     } else if (err.response && err.response.data?.error) {

@@ -17,6 +17,9 @@
                 required
                 autocomplete="username"
               />
+              <div v-if="fieldErrors.username" class="invalid-feedback d-block">
+                {{ fieldErrors.username }}
+              </div>
             </div>
             <div class="mb-3">
               <label for="password" class="form-label">Contraseña</label>
@@ -29,6 +32,9 @@
                 required
                 autocomplete="new-password"
               />
+              <div v-if="fieldErrors.password" class="invalid-feedback d-block">
+                {{ fieldErrors.password }}
+              </div>
             </div>
             <div class="mb-3">
               <label for="role" class="form-label">Rol</label>
@@ -37,6 +43,9 @@
                 <option value="Tramitador">Tramitador</option>
                 <option value="Consulta">Consulta</option>
               </select>
+              <div v-if="fieldErrors.role" class="invalid-feedback d-block">
+                {{ fieldErrors.role }}
+              </div>
             </div>
             <div class="d-grid gap-2 mt-3">
               <button type="submit" class="btn btn-primary btn-lg" :disabled="isCreating">
@@ -63,7 +72,7 @@
 
 <script setup>
 import { useForm } from '@/composables/useForm'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useUserActions } from '@/composables/useUserActions'
 import { useFeedback } from '@/composables/useFeedback'
@@ -83,10 +92,31 @@ const {
 } = useForm({ username: '', password: '', role: 'Consulta' })
 
 const { error, success, setError, setSuccess, clearFeedback } = useFeedback()
+const fieldErrors = ref({})
+
+function validateUserFields(user) {
+  const errors = {}
+  if (!user.username || user.username.trim().length < 3) {
+    errors.username = 'El nombre de usuario es obligatorio (mín. 3 caracteres).'
+  }
+  if (!user.password || user.password.length < 6) {
+    errors.password = 'La contraseña es obligatoria (mín. 6 caracteres).'
+  }
+  if (!user.role) {
+    errors.role = 'El rol es obligatorio.'
+  }
+  return errors
+}
 
 const handleCreateUser = async () => {
   if (!isAdmin.value) return
   clearFeedback()
+  Object.keys(fieldErrors.value).forEach(k => delete fieldErrors.value[k])
+  const errors = validateUserFields(nuevoUsuario.value)
+  if (Object.keys(errors).length > 0) {
+    Object.assign(fieldErrors.value, errors)
+    return
+  }
   if (!validate()) return
   const creationSuccessful = await createUser(nuevoUsuario.value)
   if (creationSuccessful) {

@@ -117,7 +117,7 @@
 
 <script setup>
 import { useForm } from '@/composables/useForm'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import api from '@/services/api'
 import { useFeedback } from '@/composables/useFeedback'
 
@@ -151,8 +151,74 @@ const {
 })
 
 const { error, success, setError, setSuccess, clearFeedback } = useFeedback()
+const fieldErrors = ref({})
+
+function validateSiniestroFields(f) {
+  const errors = {}
+  if (!f.numeroPoliza || isNaN(Number(f.numeroPoliza))) {
+    errors.numeroPoliza = 'El número de póliza es obligatorio y debe ser numérico.'
+  }
+  if (!f.tipoDocumento) {
+    errors.tipoDocumento = 'El tipo de documento es obligatorio.'
+  }
+  if (!f.documentoCliente || isNaN(Number(f.documentoCliente))) {
+    errors.documentoCliente = 'El documento es obligatorio y debe ser numérico.'
+  }
+  if (!f.nombreCliente || f.nombreCliente.trim().length < 3) {
+    errors.nombreCliente = 'El nombre es obligatorio (mín. 3 caracteres).'
+  }
+  if (!f.direccionCliente) {
+    errors.direccionCliente = 'La dirección es obligatoria.'
+  }
+  if (!f.telefonoCliente) {
+    errors.telefonoCliente = 'El teléfono es obligatorio.'
+  }
+  if (!f.mailCliente) {
+    errors.mailCliente = 'El email es obligatorio.'
+  }
+  if (!f.tipoVehiculo) {
+    errors.tipoVehiculo = 'El tipo de vehículo es obligatorio.'
+  }
+  if (!f.patente || f.patente.length < 6) {
+    errors.patente = 'La patente es obligatoria (mín. 6 caracteres).'
+  }
+  if (!f.marca) {
+    errors.marca = 'La marca es obligatoria.'
+  }
+  if (!f.modelo) {
+    errors.modelo = 'El modelo es obligatorio.'
+  }
+  if (!f.anioFabricacion || isNaN(Number(f.anioFabricacion))) {
+    errors.anioFabricacion = 'El año de fabricación es obligatorio y debe ser numérico.'
+  }
+  if (!f.numeroDeMotor) {
+    errors.numeroDeMotor = 'El número de motor es obligatorio.'
+  }
+  if (!f.numeroDeChasis) {
+    errors.numeroDeChasis = 'El número de chasis es obligatorio.'
+  }
+  if (!f.tipoSiniestro) {
+    errors.tipoSiniestro = 'El tipo de siniestro es obligatorio.'
+  }
+  if (!f.fechaSiniestro) {
+    errors.fechaSiniestro = 'La fecha del siniestro es obligatoria.'
+  }
+  if (!f.direccionSiniestro) {
+    errors.direccionSiniestro = 'El lugar del siniestro es obligatorio.'
+  }
+  if (!f.descripcionSiniestro || f.descripcionSiniestro.trim().length < 5) {
+    errors.descripcionSiniestro = 'La descripción es obligatoria (mín. 5 caracteres).'
+  }
+  return errors
+}
 
 const submitForm = async () => {
+  Object.keys(fieldErrors.value).forEach(k => delete fieldErrors.value[k])
+  const errors = validateSiniestroFields(formulario.value)
+  if (Object.keys(errors).length > 0) {
+    Object.assign(fieldErrors.value, errors)
+    return
+  }
   if (!validate()) return
   isLoading.value = true
   clearFeedback()

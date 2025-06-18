@@ -116,6 +116,7 @@ const searchParams = ref({
 const rolUsuario = ref('')
 const { error, success, setError, setSuccess, clearFeedback } = useFeedback()
 const isLoadingSiniestros = ref(true);
+const searchFieldErrors = ref({})
 
 const fetchSiniestros = async () => {
   isLoadingSiniestros.value = true;
@@ -132,7 +133,31 @@ const fetchSiniestros = async () => {
   }
 };
 
+function validateSearchFields(params) {
+  const errors = {}
+  if (params.numeroSiniestro && isNaN(Number(params.numeroSiniestro))) {
+    errors.numeroSiniestro = 'El número de siniestro debe ser numérico.'
+  }
+  if (params.documentoCliente && isNaN(Number(params.documentoCliente))) {
+    errors.documentoCliente = 'El documento debe ser numérico.'
+  }
+  if (params.patente && params.patente.length < 6) {
+    errors.patente = 'La patente debe tener al menos 6 caracteres.'
+  }
+  // Validación de fechas (opcional)
+  if (params.desdeFechaSiniestro && params.hastaFechaSiniestro && params.desdeFechaSiniestro > params.hastaFechaSiniestro) {
+    errors.hastaFechaSiniestro = 'La fecha hasta debe ser posterior a la fecha desde.'
+  }
+  return errors
+}
+
 const searchClaims = async () => {
+  Object.keys(searchFieldErrors.value).forEach(k => delete searchFieldErrors.value[k])
+  const errors = validateSearchFields(searchParams.value)
+  if (Object.keys(errors).length > 0) {
+    Object.assign(searchFieldErrors.value, errors)
+    return
+  }
   isLoadingSiniestros.value = true;
   try {
     const params = { ...searchParams.value };

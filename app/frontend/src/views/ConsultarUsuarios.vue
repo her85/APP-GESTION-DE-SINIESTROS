@@ -97,6 +97,9 @@
                 <div class="mb-3">
                   <label for="editUsername" class="form-label">Nombre de usuario</label>
                   <input type="text" class="form-control rounded-pill" id="editUsername" v-model="selectedUser.username" required />
+                  <div v-if="editFieldErrors.username" class="invalid-feedback d-block">
+                    {{ editFieldErrors.username }}
+                  </div>
                 </div>
                 <div class="mb-3">
                   <label for="editRole" class="form-label">Rol</label>
@@ -105,6 +108,9 @@
                     <option value="Tramitador">Tramitador</option>
                     <option value="Consulta">Consulta</option>
                   </select>
+                  <div v-if="editFieldErrors.role" class="invalid-feedback d-block">
+                    {{ editFieldErrors.role }}
+                  </div>
                 </div>
                 <button type="submit" class="btn btn-primary w-100 rounded-pill shadow-sm" :disabled="isUpdating">
                   <span v-if="isUpdating" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
@@ -161,7 +167,26 @@ const openEditModal = (user) => {
   selectedUser.value = { ...user };
 };
 
+const editFieldErrors = ref({})
+
+function validateEditUserFields(user) {
+  const errors = {}
+  if (!user.username || user.username.trim().length < 3) {
+    errors.username = 'El nombre de usuario es obligatorio (mín. 3 caracteres).'
+  }
+  if (!user.role) {
+    errors.role = 'El rol es obligatorio.'
+  }
+  return errors
+}
+
 const handleUpdateUser = async () => {
+  Object.keys(editFieldErrors.value).forEach(k => delete editFieldErrors.value[k])
+  const errors = validateEditUserFields(selectedUser.value)
+  if (Object.keys(errors).length > 0) {
+    Object.assign(editFieldErrors.value, errors)
+    return
+  }
   const successUpdate = await updateUser(selectedUser.value._id, {
     username: selectedUser.value.username,
     role: selectedUser.value.role,
