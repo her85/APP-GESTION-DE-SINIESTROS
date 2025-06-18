@@ -12,84 +12,92 @@
               <div class="col-6">
                 <div class="mb-3">
                   <label for="editarPoliza" class="form-label">N° poliza</label>
-                  <input type="number" class="form-control rounded-pill" :id="'editarPoliza-' + localSiniestro.numeroSiniestro" v-model="localSiniestro.numeroPoliza" name="editarPoliza" :disabled="isReadOnly" />
+                  <input type="number" class="form-control rounded-pill" :id="'editarPoliza-' + localSiniestro.numeroSiniestro" v-model="localSiniestro.numeroPoliza" name="editarPoliza" :disabled="isReadOnly" :class="{'is-invalid': localFieldErrors?.numeroPoliza}" />
+                  <div v-if="localFieldErrors?.numeroPoliza" class="invalid-feedback d-block">{{ localFieldErrors.numeroPoliza }}</div>
                 </div>
                 <div class="mb-3">
                   <label for="editarTipoDocumentoCliente" class="form-label">Tipo documento</label>
-                  <select class="form-select rounded-pill" :id="'editarTipoDocumentoCliente-' + localSiniestro.numeroSiniestro" v-model="localSiniestro.tipoDocumento" name="editarTipoDocumentoCliente" :disabled="isReadOnly">
+                  <select class="form-select rounded-pill" :id="'editarTipoDocumentoCliente-' + localSiniestro.numeroSiniestro" v-model="localSiniestro.tipoDocumento" name="editarTipoDocumentoCliente" :disabled="isReadOnly" :class="{'is-invalid': localFieldErrors?.tipoDocumento}">
                     <option value="DNI">DNI</option>
                     <option value="LE">LE</option>
                     <option value="Pasaporte">Pasaporte</option>
                     <option value="CUIT">CUIT</option>
                   </select>
+                  <div v-if="localFieldErrors?.tipoDocumento" class="invalid-feedback d-block">{{ localFieldErrors.tipoDocumento }}</div>
                 </div>
                 <div class="mb-3">
                   <label for="editarDocumentoCliente" class="form-label">Documento</label>
-                  <input type="number" class="form-control rounded-pill" :id="'editarDocumentoCliente-' + localSiniestro.numeroSiniestro" v-model="localSiniestro.documento" name="editarDocumentoCliente" :disabled="isReadOnly" />
+                  <input type="number" class="form-control rounded-pill" :id="'editarDocumentoCliente-' + localSiniestro.numeroSiniestro" v-model="localSiniestro.documento" name="editarDocumentoCliente" :disabled="isReadOnly" :class="{'is-invalid': localFieldErrors?.documento}" />
+                  <div v-if="localFieldErrors?.documento" class="invalid-feedback d-block">{{ localFieldErrors.documento }}</div>
                 </div>
                 <div class="mb-3">
                   <label for="editarCliente" class="form-label">Nombre completo</label>
                   <input type="text" class="form-control rounded-pill" :id="'editarCliente-' + localSiniestro.numeroSiniestro" v-model="localSiniestro.cliente" name="editarCliente" :disabled="isReadOnly" :class="{'is-invalid': localFieldErrors?.cliente}" />
-                  <div v-if="localFieldErrors?.cliente" class="invalid-feedback d-block">
-                    {{ localFieldErrors.cliente }}
-                  </div>
+                  <div v-if="localFieldErrors?.cliente" class="invalid-feedback d-block">{{ localFieldErrors.cliente }}</div>
                 </div>
                 <div class="mb-3">
                   <label for="editarDireccionCliente" class="form-label">Direccion del cliente</label>
-                  <input type="text" class="form-control rounded-pill" :id="'editarDireccionCliente-' + localSiniestro.numeroSiniestro" v-model="localSiniestro.direccionCliente" name="editarDireccionCliente" :disabled="isReadOnly" />
+                  <input type="text" class="form-control rounded-pill" :id="'editarDireccionCliente-' + localSiniestro.numeroSiniestro" v-model="localSiniestro.direccionCliente" name="editarDireccionCliente" :disabled="isReadOnly" :class="{'is-invalid': localFieldErrors?.direccionCliente}" />
+                  <div v-if="localFieldErrors?.direccionCliente" class="invalid-feedback d-block">{{ localFieldErrors.direccionCliente }}</div>
                 </div>
                 <div class="mb-3">
                   <label for="editarTelefonoCliente" class="form-label">Telefono del cliente</label>
-                  <input type="number" class="form-control rounded-pill" :id="'editarTelefonoCliente-' + siniestro.numeroSiniestro" v-model="localSiniestro.telefonoCliente" name="editarTelefonoCliente" :disabled="isReadOnly" />
+                  <input type="number" class="form-control rounded-pill" :id="'editarTelefonoCliente-' + siniestro.numeroSiniestro" v-model="localSiniestro.telefonoCliente" name="editarTelefonoCliente" :disabled="isReadOnly" :class="{'is-invalid': localFieldErrors?.telefonoCliente}" />
+                  <div v-if="localFieldErrors?.telefonoCliente" class="invalid-feedback d-block">{{ localFieldErrors.telefonoCliente }}</div>
                 </div>
                 <div class="mb-3">
                   <label for="editarMailCliente" class="form-label">Email del cliente</label>
-                  <input type="email" class="form-control rounded-pill" :id="'editarMailCliente-' + localSiniestro.numeroSiniestro" v-model="localSiniestro.mailCliente" name="editarMailCliente" :disabled="isReadOnly" />
+                  <input type="email" class="form-control rounded-pill" :id="'editarMailCliente-' + localSiniestro.numeroSiniestro" v-model="localSiniestro.mailCliente" name="editarMailCliente" :disabled="isReadOnly" :class="{'is-invalid': localFieldErrors?.mailCliente}" />
+                  <div v-if="localFieldErrors?.mailCliente" class="invalid-feedback d-block">{{ localFieldErrors.mailCliente }}</div>
                 </div>
               </div>
               <div class="col-6">
                 <div class="mb-3">
                   <label for="editarTipoVehiculo" class="form-label">Tipo de vehiculo</label>
-                  <select class="form-select rounded-pill" :id="'editarTipoVehiculo-' + localSiniestro.numeroSiniestro" v-model="localSiniestro.tipoVehiculo" name="editarTipoVehiculo" :disabled="isReadOnly">
+                  <select class="form-select rounded-pill" :id="'editarTipoVehiculo-' + localSiniestro.numeroSiniestro" v-model="localSiniestro.tipoVehiculo" name="editarTipoVehiculo" :disabled="isReadOnly" :class="{'is-invalid': localFieldErrors?.tipoVehiculo}">
                     <option value="Auto">Auto</option>
                     <option value="Moto">Moto</option>
                     <option value="Camioneta">Camioneta</option>
                     <option value="Camion">Camion</option>
                     <option value="Acoplado">Acoplado</option>
                   </select>
+                  <div v-if="localFieldErrors?.tipoVehiculo" class="invalid-feedback d-block">{{ localFieldErrors.tipoVehiculo }}</div>
                 </div>
                 <div class="mb-3">
                   <label for="editarPatente" class="form-label">Patente</label>
                   <input type="text" class="form-control rounded-pill" :id="'editarPatente-' + localSiniestro.numeroSiniestro" v-model="localSiniestro.patente" name="editarPatente" :disabled="isReadOnly" :class="{'is-invalid': localFieldErrors?.patente}" />
-                  <div v-if="localFieldErrors?.patente" class="invalid-feedback d-block">
-                    {{ localFieldErrors.patente }}
-                  </div>
+                  <div v-if="localFieldErrors?.patente" class="invalid-feedback d-block">{{ localFieldErrors.patente }}</div>
                 </div>
                 <div class="mb-3">
                   <label for="editarMarca" class="form-label">Marca</label>
-                  <input type="text" class="form-control rounded-pill" :id="'editarMarca-' + localSiniestro.numeroSiniestro" v-model="localSiniestro.marca" name="editarMarca" :disabled="isReadOnly" />
+                  <input type="text" class="form-control rounded-pill" :id="'editarMarca-' + localSiniestro.numeroSiniestro" v-model="localSiniestro.marca" name="editarMarca" :disabled="isReadOnly" :class="{'is-invalid': localFieldErrors?.marca}" />
+                  <div v-if="localFieldErrors?.marca" class="invalid-feedback d-block">{{ localFieldErrors.marca }}</div>
                 </div>
                 <div class="mb-3">
                   <label for="editarModelo" class="form-label">Modelo</label>
-                  <input type="text" class="form-control rounded-pill" :id="'editarModelo-' + localSiniestro.numeroSiniestro" v-model="localSiniestro.modelo" name="editarModelo" :disabled="isReadOnly" />
+                  <input type="text" class="form-control rounded-pill" :id="'editarModelo-' + localSiniestro.numeroSiniestro" v-model="localSiniestro.modelo" name="editarModelo" :disabled="isReadOnly" :class="{'is-invalid': localFieldErrors?.modelo}" />
+                  <div v-if="localFieldErrors?.modelo" class="invalid-feedback d-block">{{ localFieldErrors.modelo }}</div>
                 </div>
                 <div class="mb-3">
                   <label for="editarAnioFabricacion" class="form-label">Año de fabricación</label>
-                  <input type="number" class="form-control rounded-pill" :id="'editarAnioFabricacion-' + localSiniestro.numeroSiniestro" v-model="localSiniestro.anioFabricacion" name="editarAnioFabricacion" :disabled="isReadOnly" />
+                  <input type="number" class="form-control rounded-pill" :id="'editarAnioFabricacion-' + localSiniestro.numeroSiniestro" v-model="localSiniestro.anioFabricacion" name="editarAnioFabricacion" :disabled="isReadOnly" :class="{'is-invalid': localFieldErrors?.anioFabricacion}" />
+                  <div v-if="localFieldErrors?.anioFabricacion" class="invalid-feedback d-block">{{ localFieldErrors.anioFabricacion }}</div>
                 </div>
                 <div class="mb-3">
                   <label for="editarNumeroDeMotor" class="form-label">N° motor</label>
-                  <input type="text" class="form-control rounded-pill" :id="'editarNumeroDeMotor-' + localSiniestro.numeroSiniestro" v-model="localSiniestro.numeroDeMotor" name="editarNumeroDeMotor" :disabled="isReadOnly" />
+                  <input type="text" class="form-control rounded-pill" :id="'editarNumeroDeMotor-' + localSiniestro.numeroSiniestro" v-model="localSiniestro.numeroDeMotor" name="editarNumeroDeMotor" :disabled="isReadOnly" :class="{'is-invalid': localFieldErrors?.numeroDeMotor}" />
+                  <div v-if="localFieldErrors?.numeroDeMotor" class="invalid-feedback d-block">{{ localFieldErrors.numeroDeMotor }}</div>
                 </div>
                 <div class="mb-3">
                   <label for="editarNumeroDeChasis" class="form-label">N° de chasis</label>
-                  <input type="text" class="form-control rounded-pill" :id="'editarNumeroDeChasis-' + localSiniestro.numeroSiniestro" v-model="localSiniestro.numeroDeChasis" name="editarNumeroDeChasis" :disabled="isReadOnly" />
+                  <input type="text" class="form-control rounded-pill" :id="'editarNumeroDeChasis-' + localSiniestro.numeroSiniestro" v-model="localSiniestro.numeroDeChasis" name="editarNumeroDeChasis" :disabled="isReadOnly" :class="{'is-invalid': localFieldErrors?.numeroDeChasis}" />
+                  <div v-if="localFieldErrors?.numeroDeChasis" class="invalid-feedback d-block">{{ localFieldErrors.numeroDeChasis }}</div>
                 </div>
               </div>
             </div>
             <div class="mb-3">
               <label for="editarTipoSiniestro" class="form-label">Tipo de siniestro</label>
-              <select class="form-select rounded-pill" :id="'editarTipoSiniestro-' + localSiniestro.numeroSiniestro" v-model="localSiniestro.tipoSiniestro" name="editarTipoSiniestro" :disabled="isReadOnly">
+              <select class="form-select rounded-pill" :id="'editarTipoSiniestro-' + localSiniestro.numeroSiniestro" v-model="localSiniestro.tipoSiniestro" name="editarTipoSiniestro" :disabled="isReadOnly" :class="{'is-invalid': localFieldErrors?.tipoSiniestro}">
                 <option value="Cristales">Cristales</option>
                 <option value="Cerrajeria">Cerrajeria</option>
                 <option value="Daño parcial">Daño parcial</option>
@@ -98,9 +106,7 @@
                 <option value="Incendio">Incendio</option>
                 <option value="Responsabilidad civil">Responsabilidad civil</option>
               </select>
-              <div v-if="localFieldErrors?.tipoSiniestro" class="invalid-feedback d-block">
-                {{ localFieldErrors.tipoSiniestro }}
-              </div>
+              <div v-if="localFieldErrors?.tipoSiniestro" class="invalid-feedback d-block">{{ localFieldErrors.tipoSiniestro }}</div>
             </div>
             <div class="mb-3">
               <label :for="'editarFechaSiniestro-' + localSiniestro.numeroSiniestro" class="form-label">Fecha del siniestro</label>
@@ -112,20 +118,17 @@
                      :disabled="isReadOnly"
                      :max="new Date().toISOString().slice(0,10)"
                      :class="{'is-invalid': localFieldErrors?.fechaSiniestro}" />
-              <div v-if="localFieldErrors?.fechaSiniestro" class="invalid-feedback d-block">
-                {{ localFieldErrors.fechaSiniestro }}
-              </div>
+              <div v-if="localFieldErrors?.fechaSiniestro" class="invalid-feedback d-block">{{ localFieldErrors.fechaSiniestro }}</div>
             </div>
             <div class="mb-3">
               <label for="editarDireccionSiniestro" class="form-label">Lugar del siniestro</label>
-              <input type="text" class="form-control rounded-pill" :id="'editarDireccionSiniestro-' + localSiniestro.numeroSiniestro" v-model="localSiniestro.direccionSiniestro" name="editarDireccionSiniestro" :disabled="isReadOnly" />
+              <input type="text" class="form-control rounded-pill" :id="'editarDireccionSiniestro-' + localSiniestro.numeroSiniestro" v-model="localSiniestro.direccionSiniestro" name="editarDireccionSiniestro" :disabled="isReadOnly" :class="{'is-invalid': localFieldErrors?.direccionSiniestro}" />
+              <div v-if="localFieldErrors?.direccionSiniestro" class="invalid-feedback d-block">{{ localFieldErrors.direccionSiniestro }}</div>
             </div>
             <div class="mb-3">
               <label for="editarDescripcionSiniestro" class="form-label">Descripción del siniestro</label>
               <input type="text" class="form-control rounded-pill" :id="'editarDescripcionSiniestro-' + localSiniestro.numeroSiniestro" v-model="localSiniestro.descripcionSiniestro" name="editarDescripcionSiniestro" :disabled="isReadOnly" :class="{'is-invalid': localFieldErrors?.descripcionSiniestro}" />
-              <div v-if="localFieldErrors?.descripcionSiniestro" class="invalid-feedback d-block">
-                {{ localFieldErrors.descripcionSiniestro }}
-              </div>
+              <div v-if="localFieldErrors?.descripcionSiniestro" class="invalid-feedback d-block">{{ localFieldErrors.descripcionSiniestro }}</div>
             </div>
           </form>
         </div>
