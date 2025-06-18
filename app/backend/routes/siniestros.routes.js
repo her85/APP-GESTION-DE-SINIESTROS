@@ -38,26 +38,25 @@ const validarSiniestro = (req, res, next) => {
  */
 
 // Ingreso (Administrador y Tramitador)
-//router.post("/ingresar_siniestro", limit, authenticateToken, authorizeRole(["Administrador", "Tramitador"]), ctrl.ingresar_siniestro);
 router.post("/ingresar_siniestro", limit, authenticateToken, authorizeRole(["Administrador", "Tramitador"]), [
-    body('numeroPoliza').notEmpty().withMessage('El número de póliza es obligatorio').trim(), //isInt().withMessage('El número de póliza debe ser un entero'),
-    body('tipoDocumento').notEmpty().withMessage('El tipo de documento es obligatorio').trim(), //isIn(['DNI', 'CUIT', 'CUIL', 'LE', 'Pasaporte']).withMessage('El tipo de documento no es válido'),
-    body('documentoCliente').notEmpty().withMessage('El documento del cliente es obligatorio').trim(), //isInt().withMessage('El documento del cliente debe ser un entero'),
-    body('nombreCliente').notEmpty().withMessage('El nombre del cliente es obligatorio').trim(),
-    body('direccionCliente').notEmpty().withMessage('La dirección del cliente es obligatoria').trim(),
-    body('telefonoCliente').notEmpty().withMessage('El teléfono del cliente es obligatorio').trim(),
-    body('mailCliente').notEmpty().withMessage('El correo electrónico del cliente es obligatorio').trim(), //optional({ nullable: true }),
-    body('tipoVehiculo').notEmpty().withMessage('El tipo de vehículo es obligatorio').trim(),
-    body('patente').notEmpty().withMessage('La patente es obligatoria').trim().trim(),  //isLength({ min: 6, max: 7 }).withMessage('La patente debe tener entre 6 y 7 caracteres'),
-    body('marca').notEmpty().withMessage('La marca es obligatoria').trim(),
-    body('modelo').notEmpty().withMessage('El modelo es obligatorio').trim(),
-    body('anioFabricacion').notEmpty().withMessage('El año de fabricación es obligatorio').trim(), //isInt({ min: 1900, max: new Date().getFullYear() }).withMessage('El año de fabricación no es válido'),
-    body('numeroDeMotor').notEmpty().withMessage('El número de motor es obligatorio').trim(),
-    body('numeroDeChasis').notEmpty().withMessage('El número de chasis es obligatorio').trim(),
-    body('tipoSiniestro').notEmpty().withMessage('El tipo de siniestro es obligatorio').trim(),
-    body('fechaSiniestro').notEmpty().withMessage('La fecha del siniestro es obligatoria'), //.isISO8601().withMessage('La fecha del siniestro debe ser una fecha válida'),
-    body('direccionSiniestro').notEmpty().withMessage('La dirección del siniestro es obligatoria').trim(),
-    body('descripcionSiniestro').notEmpty().withMessage('La descripción del siniestro es obligatoria').trim(),
+    body('numeroPoliza').notEmpty().trim(), 
+    body('tipoDocumento').notEmpty().trim(), 
+    body('documentoCliente').notEmpty().trim(), 
+    body('nombreCliente').notEmpty().trim(),
+    body('direccionCliente').notEmpty().trim(),
+    body('telefonoCliente').notEmpty().trim(),
+    body('mailCliente').notEmpty().trim(), 
+    body('tipoVehiculo').notEmpty().trim(),
+    body('patente').notEmpty().trim(), 
+    body('marca').notEmpty().trim(),
+    body('modelo').notEmpty().trim(),
+    body('anioFabricacion').notEmpty().trim(), 
+    body('numeroDeMotor').notEmpty().trim(),
+    body('numeroDeChasis').notEmpty().trim(),
+    body('tipoSiniestro').notEmpty().trim(),
+    body('fechaSiniestro').notEmpty(), 
+    body('direccionSiniestro').notEmpty().trim(),
+    body('descripcionSiniestro').notEmpty().trim(),
 ], validarSiniestro, ctrl.ingresar_siniestro);
 
 // Consultas (Administrador, Tramitador y Consulta)
@@ -65,25 +64,24 @@ router.get("/consultar_siniestro", authenticateToken, authorizeRole(["Administra
 router.get("/consultar_siniestro/datos", authenticateToken, authorizeRole(["Administrador", "Tramitador", "Consulta"]), ctrl.consultar_siniestro_datos);
 
 // Modificación (Administrador y Tramitador)
-//router.put("/modificar_siniestro",limit, authenticateToken, authorizeRole(["Administrador", "Tramitador"]), ctrl.modificar_siniestro);
 router.put("/modificar_siniestro",limit, authenticateToken, authorizeRole(["Administrador", "Tramitador"]), [
-    body('numeroSiniestro').notEmpty().withMessage('El número de siniestro es obligatorio').trim(), //isInt().withMessage('El número de siniestro debe ser un entero'),
-    body('numeroPoliza').optional().trim(), //isInt().withMessage('El número de póliza debe ser un entero'),
-    body('tipoDocumento').optional().trim(), //isIn(['DNI', 'CUIT', 'CUIL']).withMessage('El tipo de documento no es válido'),
-    body('documentoCliente').optional().trim(), //isInt().withMessage('El documento del cliente debe ser un entero'),
+    body('numeroSiniestro').notEmpty().trim(), 
+    body('numeroPoliza').optional().trim(), 
+    body('tipoDocumento').optional().trim(),
+    body('documentoCliente').optional().trim(), 
     body('nombreCliente').optional().trim(),
     body('direccionCliente').optional().trim(),
     body('telefonoCliente').optional().trim(),
-    body('mailCliente').optional().notEmpty().withMessage('El correo electrónico del cliente no es válido').trim(), //optional({ nullable: true }),
+    body('mailCliente').optional().notEmpty().trim(), 
     body('tipoVehiculo').optional().trim(),
-    body('patente').optional().trim().trim(), //isLength({ min: 6, max: 7 }).withMessage('La patente debe tener entre 6 y 7 caracteres'),
+    body('patente').optional().trim().trim(), 
     body('marca').optional().trim(),
     body('modelo').optional().trim(),
-    body('anioFabricacion').optional().trim(), //isInt({ min: 1900, max: new Date().getFullYear() }).withMessage('El año de fabricación no es válido'),
+    body('anioFabricacion').optional().trim(), 
     body('numeroDeMotor').optional().trim(),
     body('numeroDeChasis').optional().trim(),
     body('tipoSiniestro').optional().trim(),
-    body('fechaSiniestro').optional().trim(), //isISO8601().withMessage('La fecha del siniestro debe ser una fecha válida'),
+    body('fechaSiniestro').optional().trim(), 
     body('direccionSiniestro').optional().trim(),
     body('descripcionSiniestro').optional().trim(),
 ], validarSiniestro, ctrl.modificar_siniestro);
