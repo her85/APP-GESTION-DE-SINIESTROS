@@ -38,7 +38,6 @@ if (process.env.NODE_ENV === 'production') {
 app.use(cors(corsOptions)); // CORS SEGURO
 app.use(cookieParser()); // Middleware para manejar cookies
 
-app.use(express.static(path.join(__dirname, "../frontend/dist"))); // Servir archivos estáticos de la compilación de Vue.js
 app.use(express.json()); // Middleware para analizar el cuerpo de las solicitudes JSON
 app.use(express.urlencoded({ extended: false })); // Middleware para analizar el cuerpo de las solicitudes URL-encoded
 
@@ -48,11 +47,6 @@ app.use(express.urlencoded({ extended: false })); // Middleware para analizar el
 app.use("/", require("./routes/auth.routes"));
 app.use("/", require("./routes/usuario.routes"));
 app.use("/", require("./routes/siniestros.routes"));
-
-// Catch-all para rutas de frontend (SPA)
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
-});
 
 // Exporta la aplicación para su uso en otros módulos
 module.exports = app;
