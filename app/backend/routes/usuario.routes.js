@@ -49,8 +49,8 @@ router.post("/crear_usuario", limit, authenticateToken, authorizeRole(["Administ
 router.get("/listar_usuarios", authenticateToken, authorizeRole(["Administrador"]), ctrl.listar_usuarios);
 router.get("/buscar_usuario", authenticateToken, authorizeRole(["Administrador"]), ctrl.buscar_usuario);
 
-router.put("/modificar_usuario", limit, authenticateToken, authorizeRole(["Administrador"]), ctrl.modificar_usuario);
-/*router.put(
+//router.put("/modificar_usuario", limit, authenticateToken, authorizeRole(["Administrador"]), ctrl.modificar_usuario);
+router.put(
     '/modificar_usuario',
     authenticateToken,
     authorizeRole(['Administrador']),
@@ -58,7 +58,7 @@ router.put("/modificar_usuario", limit, authenticateToken, authorizeRole(["Admin
         body('username').optional().notEmpty().withMessage('El nombre de usuario es obligatorio').trim(),
         body('password').optional().isLength({ min: 6 }).withMessage('La contraseña debe tener al menos 6 caracteres'),
         body('role').optional().isIn(['Administrador', 'Tramitador', 'Consulta']).withMessage('El rol debe ser Administrador, Tramitador o Consulta'),    
-    ],validarUsuario,ctrl.modificar_usuario);*/
+    ],validarUsuario,ctrl.modificar_usuario);
     
 router.delete("/borrar_usuario", limit, authenticateToken, authorizeRole(["Administrador"]), ctrl.borrar_usuario);
 //router.delete("/borrar_usuario/:id", ctrl.borrar_usuario);

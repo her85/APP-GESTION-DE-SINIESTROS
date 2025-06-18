@@ -40,24 +40,24 @@ const validarSiniestro = (req, res, next) => {
 // Ingreso (Administrador y Tramitador)
 //router.post("/ingresar_siniestro", limit, authenticateToken, authorizeRole(["Administrador", "Tramitador"]), ctrl.ingresar_siniestro);
 router.post("/ingresar_siniestro", limit, authenticateToken, authorizeRole(["Administrador", "Tramitador"]), [
-    /*body('numeroPoliza').notEmpty().withMessage('El número de póliza es obligatorio').isInt().withMessage('El número de póliza debe ser un entero'),
-    body('tipoDocumento').notEmpty().withMessage('El tipo de documento es obligatorio').isIn(['DNI', 'CUIT', 'CUIL', 'LE', 'Pasaporte']).withMessage('El tipo de documento no es válido'),
-    body('documentoCliente').notEmpty().withMessage('El documento del cliente es obligatorio').isInt().withMessage('El documento del cliente debe ser un entero'),
+    body('numeroPoliza').notEmpty().withMessage('El número de póliza es obligatorio').trim(), //isInt().withMessage('El número de póliza debe ser un entero'),
+    body('tipoDocumento').notEmpty().withMessage('El tipo de documento es obligatorio').trim(), //isIn(['DNI', 'CUIT', 'CUIL', 'LE', 'Pasaporte']).withMessage('El tipo de documento no es válido'),
+    body('documentoCliente').notEmpty().withMessage('El documento del cliente es obligatorio').trim(), //isInt().withMessage('El documento del cliente debe ser un entero'),
     body('nombreCliente').notEmpty().withMessage('El nombre del cliente es obligatorio').trim(),
     body('direccionCliente').notEmpty().withMessage('La dirección del cliente es obligatoria').trim(),
     body('telefonoCliente').notEmpty().withMessage('El teléfono del cliente es obligatorio').trim(),
-    body('mailCliente').isEmail().withMessage('El correo electrónico del cliente no es válido').optional({ nullable: true }),
+    body('mailCliente').isEmail().withMessage('El correo electrónico del cliente no es válido').trim(), //optional({ nullable: true }),
     body('tipoVehiculo').notEmpty().withMessage('El tipo de vehículo es obligatorio').trim(),
-    body('patente').notEmpty().withMessage('La patente es obligatoria').trim().isLength({ min: 6, max: 7 }).withMessage('La patente debe tener entre 6 y 7 caracteres'),
+    body('patente').notEmpty().withMessage('La patente es obligatoria').trim().trim(),  //isLength({ min: 6, max: 7 }).withMessage('La patente debe tener entre 6 y 7 caracteres'),
     body('marca').notEmpty().withMessage('La marca es obligatoria').trim(),
     body('modelo').notEmpty().withMessage('El modelo es obligatorio').trim(),
-    body('anioFabricacion').notEmpty().withMessage('El año de fabricación es obligatorio').isInt({ min: 1900, max: new Date().getFullYear() }).withMessage('El año de fabricación no es válido'),
+    body('anioFabricacion').notEmpty().withMessage('El año de fabricación es obligatorio').trim(), //isInt({ min: 1900, max: new Date().getFullYear() }).withMessage('El año de fabricación no es válido'),
     body('numeroDeMotor').notEmpty().withMessage('El número de motor es obligatorio').trim(),
     body('numeroDeChasis').notEmpty().withMessage('El número de chasis es obligatorio').trim(),
     body('tipoSiniestro').notEmpty().withMessage('El tipo de siniestro es obligatorio').trim(),
-    body('fechaSiniestro').notEmpty().withMessage('La fecha del siniestro es obligatoria').isISO8601().withMessage('La fecha del siniestro debe ser una fecha válida'),
+    body('fechaSiniestro').notEmpty().withMessage('La fecha del siniestro es obligatoria'), //.isISO8601().withMessage('La fecha del siniestro debe ser una fecha válida'),
     body('direccionSiniestro').notEmpty().withMessage('La dirección del siniestro es obligatoria').trim(),
-    body('descripcionSiniestro').notEmpty().withMessage('La descripción del siniestro es obligatoria').trim(),*/
+    body('descripcionSiniestro').notEmpty().withMessage('La descripción del siniestro es obligatoria').trim(),
 ], validarSiniestro, ctrl.ingresar_siniestro);
 
 // Consultas (Administrador, Tramitador y Consulta)
