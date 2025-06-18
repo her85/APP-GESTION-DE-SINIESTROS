@@ -141,9 +141,7 @@ function validateSearchFields(params) {
   if (params.documentoCliente && isNaN(Number(params.documentoCliente))) {
     errors.documentoCliente = 'El documento debe ser numérico.'
   }
-  if (params.patente && params.patente.length < 6) {
-    errors.patente = 'La patente debe tener al menos 6 caracteres.'
-  }
+
   // Validación de fechas (opcional)
   if (params.desdeFechaSiniestro && params.hastaFechaSiniestro && params.desdeFechaSiniestro > params.hastaFechaSiniestro) {
     errors.hastaFechaSiniestro = 'La fecha hasta debe ser posterior a la fecha desde.'
