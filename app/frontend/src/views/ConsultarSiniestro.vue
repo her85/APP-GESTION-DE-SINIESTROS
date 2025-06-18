@@ -240,7 +240,6 @@ const clearFilters = () => {
 
 function onModalSave(editedSiniestro) {
   // Validación ya fue hecha en el modal
-  console.log('DEBUG fechaSiniestro antes de guardar:', editedSiniestro.fechaSiniestro, typeof editedSiniestro.fechaSiniestro);
   updateClaim(editedSiniestro);
   // Cerrar el modal programáticamente tras guardar
   const modalId = `editSiniestroModal-${editedSiniestro.numeroSiniestro}`;
