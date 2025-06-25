@@ -138,6 +138,7 @@ import { useForm } from '@/composables/useForm'
 import { computed, ref } from 'vue'
 import api from '@/services/api'
 import { useFeedback } from '@/composables/useFeedback'
+import { removeSpecialCharsEvent } from '@/utils/sanitize.js'
 
 const loggedInUserRole = localStorage.getItem('userRole')
 const isAdminOrTram = computed(() => loggedInUserRole === 'Administrador' || loggedInUserRole === 'Tramitador')
@@ -251,6 +252,19 @@ const submitForm = async () => {
     isLoading.value = false
   }
 }
+
+// Aplica removeSpecialCharsEvent en los campos de texto relevantes para evitar caracteres especiales
+removeSpecialCharsEvent('nombreCliente')
+removeSpecialCharsEvent('direccionCliente')
+removeSpecialCharsEvent('telefonoCliente')
+removeSpecialCharsEvent('mailCliente')
+removeSpecialCharsEvent('patente')
+removeSpecialCharsEvent('marca')
+removeSpecialCharsEvent('modelo')
+removeSpecialCharsEvent('numeroDeMotor')
+removeSpecialCharsEvent('numeroDeChasis')
+removeSpecialCharsEvent('direccionSiniestro')
+removeSpecialCharsEvent('descripcionSiniestro')
 </script>
 
 <style scoped>

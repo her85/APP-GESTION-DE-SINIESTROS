@@ -16,6 +16,7 @@
                 placeholder="Nombre de usuario"
                 required
                 autocomplete="username"
+                @input="removeSpecialCharsEvent"
               />
               <div v-if="fieldErrors.username" class="invalid-feedback d-block">
                 {{ fieldErrors.username }}
@@ -76,6 +77,7 @@ import { computed, ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useUserActions } from '@/composables/useUserActions'
 import { useFeedback } from '@/composables/useFeedback'
+import { removeSpecialCharsEvent } from '@/utils/sanitize.js'
 /**
  * Vista para la creación de un nuevo usuario.
  * Solo accesible para administradores.

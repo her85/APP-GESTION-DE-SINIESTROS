@@ -11,6 +11,7 @@
               class="form-control"
               v-model="searchParams.nombre"
               placeholder="Buscar por nombre de usuario"
+              @input="removeSpecialCharsEvent"
             />
           </div>
           <div class="col-md-6">
@@ -133,6 +134,7 @@ import { useUserActions } from '@/composables/useUserActions';
 import { useFeedback } from '@/composables/useFeedback'
 import { useForm } from '@/composables/useForm'
 import ReusableTable from '@/components/ReusableTable.vue';
+import { removeSpecialCharsEvent } from '@/utils/sanitize.js';
 /**
  * Vista para consultar y filtrar usuarios registrados.
  * Solo accesible para administradores.
