@@ -31,11 +31,11 @@
                 <div v-if="fieldErrors.nombreCliente" class="invalid-feedback d-block">{{ fieldErrors.nombreCliente }} </div>
               </div>
               <div class="mb-3">
-                <input type="text" class="form-control" v-model="formulario.direccionCliente" placeholder="Dirección" required />
+                <input type="text" class="form-control" v-model="formulario.direccionCliente" placeholder="Dirección" required @input="removeSpecialCharsEvent" />
                 <div v-if="fieldErrors.direccionCliente" class="invalid-feedback d-block">{{ fieldErrors.direccionCliente }}</div>
               </div>
               <div class="mb-3">
-                <input type="tel" class="form-control" v-model="formulario.telefonoCliente" placeholder="Teléfono" required />
+                <input type="tel" class="form-control" v-model="formulario.telefonoCliente" placeholder="Teléfono" required @input="removeSpecialCharsEvent"/>
                 <div v-if="fieldErrors.telefonoCliente" class="invalid-feedback d-block">{{ fieldErrors.telefonoCliente }}</div>
               </div>
               <div class="mb-3">
@@ -58,15 +58,15 @@
                 <div v-if="fieldErrors.tipoVehiculo" class="invalid-feedback d-block">{{ fieldErrors.tipoVehiculo }}</div>
               </div>
               <div class="mb-3">
-                <input type="text" class="form-control" v-model="formulario.patente" placeholder="Patente" required />
+                <input type="text" class="form-control" v-model="formulario.patente" placeholder="Patente" required @input="removeSpecialCharsEvent" />
                 <div v-if="fieldErrors.patente" class="invalid-feedback d-block">{{ fieldErrors.patente }}</div>
               </div>
               <div class="mb-3">
-                <input type="text" class="form-control" v-model="formulario.marca" placeholder="Marca" required />
+                <input type="text" class="form-control" v-model="formulario.marca" placeholder="Marca" required @input="removeSpecialCharsEvent"/>
                 <div v-if="fieldErrors.marca" class="invalid-feedback d-block">{{ fieldErrors.marca }}</div>
               </div>
               <div class="mb-3">
-                <input type="text" class="form-control" v-model="formulario.modelo" placeholder="Modelo" required />
+                <input type="text" class="form-control" v-model="formulario.modelo" placeholder="Modelo" required @input="removeSpecialCharsEvent"/>
                 <div v-if="fieldErrors.modelo" class="invalid-feedback d-block">{{ fieldErrors.modelo }}</div>
               </div>
               <div class="mb-3">
@@ -74,11 +74,11 @@
                 <div v-if="fieldErrors.anioFabricacion" class="invalid-feedback d-block">{{ fieldErrors.anioFabricacion }}</div>
               </div>
               <div class="mb-3">
-                <input type="text" class="form-control" v-model="formulario.numeroDeMotor" placeholder="Número de motor" required />
+                <input type="text" class="form-control" v-model="formulario.numeroDeMotor" placeholder="Número de motor" required @input="removeSpecialCharsEvent"/>
                 <div v-if="fieldErrors.numeroDeMotor" class="invalid-feedback d-block">{{ fieldErrors.numeroDeMotor }}</div>
               </div>
               <div class="mb-3">
-                <input type="text" class="form-control" v-model="formulario.numeroDeChasis" placeholder="Número de chasis" required />
+                <input type="text" class="form-control" v-model="formulario.numeroDeChasis" placeholder="Número de chasis" required @input="removeSpecialCharsEvent"/>
                 <div v-if="fieldErrors.numeroDeChasis" class="invalid-feedback d-block">{{ fieldErrors.numeroDeChasis }}</div>
               </div>
             </div>
@@ -107,13 +107,13 @@
             </div>
             <div class="col-12 col-md-6 mb-3">
               <label for="direccionSiniestro" class="form-label">Lugar del siniestro</label>
-              <input type="text" class="form-control" v-model="formulario.direccionSiniestro" required />
+              <input type="text" class="form-control" v-model="formulario.direccionSiniestro" required @input="removeSpecialCharsEvent"/>
               <div v-if="fieldErrors.direccionSiniestro" class="invalid-feedback d-block">{{ fieldErrors.direccionSiniestro }}</div>
             </div>
           </div>
           <div class="mb-3">
             <label for="descripcionSiniestro" class="form-label">Descripción</label>
-            <textarea class="form-control" v-model="formulario.descripcionSiniestro" rows="3" required></textarea>
+            <textarea class="form-control" v-model="formulario.descripcionSiniestro" rows="3" required @input="removeSpecialCharsEvent"></textarea>
             <div v-if="fieldErrors.descripcionSiniestro" class="invalid-feedback d-block">{{ fieldErrors.descripcionSiniestro }}</div>
           </div>
              <div v-if="success" class="alert alert-success text-center mb-3">{{ success }}</div>

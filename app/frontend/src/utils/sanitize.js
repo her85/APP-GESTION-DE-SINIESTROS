@@ -7,6 +7,7 @@ export function removeSpecialCharsFromString(str) {
 
 // Handler para usar en eventos de input (por ejemplo, @input)
 export function removeSpecialCharsEvent(event) {
+  if (!event || !event.target) return;
   const allowed = /^[a-zA-Z0-9\s-]*$/;
   if (!allowed.test(event.target.value)) {
     event.target.value = event.target.value.replace(/[^a-zA-Z0-9\s-]/g, '');
