@@ -253,18 +253,7 @@ const submitForm = async () => {
   }
 }
 
-// Aplica removeSpecialCharsEvent en los campos de texto relevantes para evitar caracteres especiales
-removeSpecialCharsEvent('nombreCliente')
-removeSpecialCharsEvent('direccionCliente')
-removeSpecialCharsEvent('telefonoCliente')
-removeSpecialCharsEvent('mailCliente')
-removeSpecialCharsEvent('patente')
-removeSpecialCharsEvent('marca')
-removeSpecialCharsEvent('modelo')
-removeSpecialCharsEvent('numeroDeMotor')
-removeSpecialCharsEvent('numeroDeChasis')
-removeSpecialCharsEvent('direccionSiniestro')
-removeSpecialCharsEvent('descripcionSiniestro')
+// Elimina cualquier llamada directa a removeSpecialCharsEvent fuera de los handlers de input
 </script>
 
 <style scoped>

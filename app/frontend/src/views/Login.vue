@@ -51,7 +51,6 @@ import api from '@/services/api'
 import { useAuthStore } from '@/stores/auth'
 import { useFeedback } from '@/composables/useFeedback'
 import { ref, onMounted } from 'vue'
-import { removeSpecialCharsEvent } from '@/utils/sanitize.js'
 /**
  * Vista de inicio de sesión.
  * Permite al usuario autenticarse y muestra mensajes de error o éxito.
@@ -116,9 +115,6 @@ const login = async () => {
     isLoading.value = false
   }
 }
-
-// Aplica removeSpecialCharsEvent en el input de usuario para evitar caracteres especiales
-removeSpecialCharsEvent(document.getElementById('username'))
 
 const thirdPartyCookiesBlocked = ref(false)
 
