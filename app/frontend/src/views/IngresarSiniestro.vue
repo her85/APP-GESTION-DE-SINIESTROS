@@ -27,8 +27,8 @@
                 <div v-if="fieldErrors.documentoCliente" class="invalid-feedback d-block">{{ fieldErrors.documentoCliente }}</div>
               </div>
               <div class="mb-3">
-                <input type="text" class="form-control" v-model="formulario.nombreCliente" placeholder="Nombre completo" required />
-                <div v-if="fieldErrors.nombreCliente" class="invalid-feedback d-block">{{ fieldErrors.nombreCliente }}</div>
+                <input type="text" class="form-control" v-model="formulario.nombreCliente" placeholder="Nombre completo" required @input="removeSpecialCharsEvent"/>
+                <div v-if="fieldErrors.nombreCliente" class="invalid-feedback d-block">{{ fieldErrors.nombreCliente }} </div>
               </div>
               <div class="mb-3">
                 <input type="text" class="form-control" v-model="formulario.direccionCliente" placeholder="Dirección" required />
