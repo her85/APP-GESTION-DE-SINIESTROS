@@ -5,13 +5,13 @@
       <form id="siniestro-search-form" @submit.prevent="searchClaims" class="mb-4">
         <div class="row g-3">
           <div class="col-md-4">
-            <input type="number" class="form-control" id="numeroSiniestro" v-model="searchParams.numeroSiniestro" placeholder="N° de siniestro" />
+            <input type="number" class="form-control" id="numeroSiniestro" v-model="searchParams.numeroSiniestro" placeholder="N° de siniestro" @input="removeSpecialCharsEvent" />
           </div>
           <div class="col-md-4">
-            <input type="number" class="form-control" id="documentoCliente" v-model="searchParams.documentoCliente" placeholder="Documento del cliente" />
+            <input type="number" class="form-control" id="documentoCliente" v-model="searchParams.documentoCliente" placeholder="Documento del cliente" @input="removeSpecialCharsEvent" />
           </div>
           <div class="col-md-4">
-            <input type="text" class="form-control" id="patente" v-model="searchParams.patente" placeholder="Patente del vehículo" />
+            <input type="text" class="form-control" id="patente" v-model="searchParams.patente" placeholder="Patente del vehículo" @input="removeSpecialCharsEvent" />
           </div>
         </div>
         <div class="row g-3 mt-2">
@@ -98,6 +98,7 @@ import ReusableTable from '@/components/ReusableTable.vue';
 import ModalSiniestro from '@/components/ModalSiniestro.vue';
 import { useFeedback } from '@/composables/useFeedback'
 import api from '@/services/api';
+import { removeSpecialCharsEvent } from '@/utils/sanitize.js';
 /**
  * Vista para consultar y filtrar siniestros registrados.
  * Permite buscar por número, documento, patente y fechas.
@@ -258,7 +259,6 @@ onMounted(() => {
   rolUsuario.value = localStorage.getItem('userRole') || ''
   fetchSiniestros();
 });
-
 </script>
 
 <style scoped>

@@ -4,6 +4,7 @@ const express = require("express");
 const router = express.Router();
 const ctrl = require("../controllers/auth.controller");
 const rateLimit = require("express-rate-limit") // LIMITA PETICIONES PARA PREVENIR ATAQUES DE FUERZA BRUTA
+const { body, validationResult } = require('express-validator');
 
 /**
  * Límite de peticiones para rutas de autenticación.
@@ -16,10 +17,30 @@ const limit = rateLimit({
 });
 
 /**
+ * Middleware de validación para el login.
+ */
+const validarLogin = (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+    next();
+};
+
+/**
  * Rutas de autenticación (login y logout).
  * @module auth.routes
  */
-router.post("/login", limit ,ctrl.login);
+router.post(
+  "/login",
+  limit,
+  [
+    body('username').notEmpty().trim().escape(),
+    body('password').notEmpty().trim().escape()
+  ],
+  validarLogin,
+  ctrl.login
+);
 router.post("/logout", ctrl.logout);
 
 module.exports = router;

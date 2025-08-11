@@ -10,6 +10,8 @@ const {
 
 const sanitizeHtml = require('sanitize-html'); //SANITIZAR HTML PARA EVITAR INYECCIONES DE CÓDIGO MALICIOSO
 
+const sanitizeText = (str) => sanitizeHtml(str ? String(str) : '', { allowedTags: [], allowedAttributes: {} });
+
 /**
  * Registra un nuevo siniestro en la base de datos.
  * @async
@@ -21,45 +23,39 @@ const sanitizeHtml = require('sanitize-html'); //SANITIZAR HTML PARA EVITAR INYE
 const ingresar_siniestro = async (req, res) => {
   // Ruta para ingresar un nuevo siniestro
   try{
-  const numeroSiniestro = await generarNumeroSiniestro(); // Llama a la función para generar un número único de siniestro
-    // Realizar la misma validación para los campos
-    const { numeroPoliza, tipoDocumento, documentoCliente, nombreCliente, direccionCliente, telefonoCliente, mailCliente, tipoVehiculo, patente, marca, modelo, anioFabricacion, numeroDeMotor, numeroDeChasis, tipoSiniestro, fechaSiniestro, direccionSiniestro, descripcionSiniestro } = req.body;
-
+    const numeroSiniestro = await generarNumeroSiniestro();
+    const {
+      numeroPoliza, tipoDocumento, documentoCliente, nombreCliente, direccionCliente, telefonoCliente, mailCliente, tipoVehiculo, patente, marca, modelo, anioFabricacion, numeroDeMotor, numeroDeChasis, tipoSiniestro, fechaSiniestro, direccionSiniestro, descripcionSiniestro
+    } = req.body;
     if (!numeroPoliza || !tipoDocumento || !documentoCliente || !nombreCliente || !direccionCliente || !telefonoCliente || !mailCliente || !tipoVehiculo || !patente || !marca || !modelo || !anioFabricacion || !numeroDeMotor || !numeroDeChasis || !tipoSiniestro || !fechaSiniestro || !direccionSiniestro || !descripcionSiniestro) {
       return res.status(400).json({ error: "Todos los campos son obligatorios" });
     }
-    const descripcionSanitizada = sanitizeHtml(req.body.descripcionSiniestro);
-  await ingresarSiniestro({
-    // Llama a la función para insertar un nuevo siniestro en la base de datos
-    numeroSiniestro: numeroSiniestro, // Asigna el número de siniestro generado
-    numeroPoliza: parseInt(req.body.numeroPoliza), // Convierte el número de póliza a entero
-    tipoDocumento: req.body.tipoDocumento, // Asigna el tipo de documento
-    documento: parseInt(req.body.documentoCliente), // Convierte el documento de cliente a entero
-    cliente: req.body.nombreCliente.toUpperCase(), // Asigna el nombre del cliente en mayúsculas
-    direccionCliente: req.body.direccionCliente.toUpperCase(), // Asigna la dirección del cliente en mayúsculas
-    telefonoCliente: req.body.telefonoCliente, // Asigna el teléfono del cliente
-    mailCliente: req.body.mailCliente, // Asigna el correo electrónico del cliente
-    tipoVehiculo: req.body.tipoVehiculo, // Asigna el tipo de vehículo
-    patente: req.body.patente.toUpperCase(), // Asigna la patente del vehículo en mayúsculas
-    marca: req.body.marca.toUpperCase(), // Asigna la marca del vehículo en mayúsculas
-    modelo: req.body.modelo.toUpperCase(), // Asigna el modelo del vehículo en mayúsculas
-    anioFabricacion: req.body.anioFabricacion, // Asigna el año de fabricación del vehículo
-    numeroDeMotor: req.body.numeroDeMotor.toUpperCase(), // Asigna el número de motor del vehículo en mayúsculas
-    numeroDeChasis: req.body.numeroDeChasis.toUpperCase(), // Asigna el número de chasis del vehículo en mayúsculas
-    tipoSiniestro: req.body.tipoSiniestro, // Asigna el tipo de siniestro
-    //fechaSiniestro: new Date(req.body.fechaSiniestro), // Convierte la fecha de siniestro a un objeto Date
-    fechaSiniestro: new Date(req.body.fechaSiniestro).setMinutes(
-      new Date(req.body.fechaSiniestro).getMinutes() +
-        new Date(req.body.fechaSiniestro).getTimezoneOffset()
-    ), // Ajusta la fecha para la zona horaria local
-    direccionSiniestro: req.body.direccionSiniestro.toUpperCase(), // Asigna la dirección del siniestro en mayúsculas
-    descripcionSiniestro: descripcionSanitizada, // SANITIZA LA DESCRIPCIÓN DEL SINIESTRO
-  }); // Inserta el nuevo siniestro en la base de datos
-  res.json({ message: "Siniestro ingresado correctamente" }); // Devuelve un mensaje de éxito
-} catch (error) {
-  console.error("Error al modificar siniestro:", error);
-  res.status(500).json({ error: "Error interno del servidor" });
-}
+    await ingresarSiniestro({
+      numeroSiniestro: numeroSiniestro,
+      numeroPoliza: parseInt(numeroPoliza),
+      tipoDocumento: sanitizeText(tipoDocumento),
+      documento: parseInt(documentoCliente),
+      cliente: sanitizeText(nombreCliente.toUpperCase()),
+      direccionCliente: sanitizeText(direccionCliente.toUpperCase()),
+      telefonoCliente: sanitizeText(telefonoCliente),
+      mailCliente: sanitizeText(mailCliente),
+      tipoVehiculo: sanitizeText(tipoVehiculo),
+      patente: sanitizeText(patente.toUpperCase()),
+      marca: sanitizeText(marca.toUpperCase()),
+      modelo: sanitizeText(modelo.toUpperCase()),
+      anioFabricacion: anioFabricacion,
+      numeroDeMotor: sanitizeText(numeroDeMotor.toUpperCase()),
+      numeroDeChasis: sanitizeText(numeroDeChasis.toUpperCase()),
+      tipoSiniestro: sanitizeText(tipoSiniestro),
+      fechaSiniestro: new Date(fechaSiniestro).setMinutes(new Date(fechaSiniestro).getMinutes() + new Date(fechaSiniestro).getTimezoneOffset()),
+      direccionSiniestro: sanitizeText(direccionSiniestro.toUpperCase()),
+      descripcionSiniestro: sanitizeText(descripcionSiniestro),
+    });
+    res.json({ message: "Siniestro ingresado correctamente" });
+  } catch (error) {
+    console.error("Error al modificar siniestro:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
 };
 
 /**
@@ -156,28 +152,27 @@ const modificar_siniestro = async (req, res) => {
   // Ruta para modificar un siniestro
   const numeroSiniestro = parseInt(req.body.numeroSiniestro); // Convierte el número de siniestro a entero
   const numeroPoliza = parseInt(req.body.numeroPoliza); // Convierte el número de póliza a entero
-  const tipoDocumento = req.body.tipoDocumento; // Asigna el tipo de documento
+  const tipoDocumento = sanitizeText(req.body.tipoDocumento); // Asigna el tipo de documento
   const documentoCliente = parseInt(req.body.documentoCliente); // Convierte el documento de cliente a entero
-  const nombreCliente = req.body.nombreCliente.toUpperCase(); // Asigna el nombre del cliente en mayúsculas
-  const direccionCliente = req.body.direccionCliente.toUpperCase(); // Asigna la dirección del cliente en mayúsculas
-  const telefonoCliente = req.body.telefonoCliente; // Asigna el teléfono del cliente
-  const mailCliente = req.body.mailCliente; // Asigna el correo electrónico del cliente
-  const tipoVehiculo = req.body.tipoVehiculo; // Asigna el tipo de vehículo
-  const patente = req.body.patente.toUpperCase(); // Asigna la patente del vehículo en mayúsculas
-  const marca = req.body.marca.toUpperCase(); // Asigna la marca del vehículo en mayúsculas
-  const modelo = req.body.modelo.toUpperCase(); // Asigna el modelo del vehículo en mayúsculas
+  const nombreCliente = sanitizeText(req.body.nombreCliente.toUpperCase()); // Asigna el nombre del cliente en mayúsculas
+  const direccionCliente = sanitizeText(req.body.direccionCliente.toUpperCase()); // Asigna la dirección del cliente en mayúsculas
+  const telefonoCliente = sanitizeText(req.body.telefonoCliente); // Asigna el teléfono del cliente
+  const mailCliente = sanitizeText(req.body.mailCliente); // Asigna el correo electrónico del cliente
+  const tipoVehiculo = sanitizeText(req.body.tipoVehiculo); // Asigna el tipo de vehículo
+  const patente = sanitizeText(req.body.patente.toUpperCase()); // Asigna la patente del vehículo en mayúsculas
+  const marca = sanitizeText(req.body.marca.toUpperCase()); // Asigna la marca del vehículo en mayúsculas
+  const modelo = sanitizeText(req.body.modelo.toUpperCase()); // Asigna el modelo del vehículo en mayúsculas
   const anioFabricacion = req.body.anioFabricacion; // Asigna el año de fabricación del vehículo
-  const numeroDeMotor = req.body.numeroDeMotor.toUpperCase(); // Asigna el número de motor del vehículo en mayúsculas
-  const numeroDeChasis = req.body.numeroDeChasis.toUpperCase(); // Asigna el número de chasis del vehículo en mayúsculas
-  const tipoSiniestro = req.body.tipoSiniestro; // Asigna el tipo de siniestro
+  const numeroDeMotor = sanitizeText(req.body.numeroDeMotor.toUpperCase()); // Asigna el número de motor del vehículo en mayúsculas
+  const numeroDeChasis = sanitizeText(req.body.numeroDeChasis.toUpperCase()); // Asigna el número de chasis del vehículo en mayúsculas
+  const tipoSiniestro = sanitizeText(req.body.tipoSiniestro); // Asigna el tipo de siniestro
   const nuevaFecha = req.body.fechaSiniestro; // Asigna la nueva fecha de siniestro
   const fechaSiniestro = new Date(nuevaFecha); // Convierte la nueva fecha de siniestro a un objeto Date
   fechaSiniestro.setMinutes(
     fechaSiniestro.getMinutes() + fechaSiniestro.getTimezoneOffset()
   ); // Ajusta la fecha para la zona horaria local
-  const direccionSiniestro = req.body.direccionSiniestro.toUpperCase(); // Asigna la dirección del siniestro en mayúsculas
-  // Sanitiza la descripción del siniestro
-  const descripcionSiniestro = sanitizeHtml(req.body.descripcionSiniestro); // SANITIZA LA DESCRIPCIÓN DEL SINIESTRO
+  const direccionSiniestro = sanitizeText(req.body.direccionSiniestro.toUpperCase()); // Asigna la dirección del siniestro en mayúsculas
+  const descripcionSiniestro = sanitizeText(req.body.descripcionSiniestro); // SANITIZA LA DESCRIPCIÓN DEL SINIESTRO
   await modificarSiniestro(
     // Llama a la función para modificar el siniestro en la base de datos
     numeroSiniestro, // Asigna el número de siniestro

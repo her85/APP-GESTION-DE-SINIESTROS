@@ -40,9 +40,9 @@ const validarUsuario = (req, res, next) => {
 //crear rutas usuarios
 // Solo el rol "Administrador" puede acceder a estas rutas
 router.post("/crear_usuario", limit, authenticateToken, authorizeRole(["Administrador"]), [
-    body('username').notEmpty().trim(),
-    body('password').notEmpty().trim(),
-    body('role').isIn(['Administrador', 'Tramitador', 'Consulta']),
+    body('username').notEmpty().trim().escape(),
+    body('password').notEmpty().trim().escape(),
+    body('role').isIn(['Administrador', 'Tramitador', 'Consulta'])
 ], validarUsuario, ctrl.crear_usuario);
 
 
@@ -55,8 +55,8 @@ router.put(
     authenticateToken,
     authorizeRole(['Administrador']),
     [
-        body('username').optional().notEmpty().trim(),
-        body('password').optional().notEmpty().trim(),
+        body('username').optional().notEmpty().trim().escape(),
+        body('password').optional().notEmpty().trim().escape(),
         body('role').optional().isIn(['Administrador', 'Tramitador', 'Consulta']),
     ],validarUsuario,ctrl.modificar_usuario);
     

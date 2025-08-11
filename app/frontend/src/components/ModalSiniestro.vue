@@ -144,6 +144,7 @@
 
 <script setup>
 import { reactive, watch} from 'vue';
+import { removeSpecialCharsEvent } from '@/utils/sanitize.js';
 /**
  * Modal para visualizar y editar datos de un siniestro.
  * @component
@@ -250,6 +251,31 @@ function handleSave(e) {
   }
   emit('save', { ...localSiniestro });
 }
+
+// Aplica removeSpecialCharsEvent en los campos de texto relevantes del modal para evitar caracteres especiales
+const clienteInput = document.getElementById('editarCliente-' + localSiniestro.numeroSiniestro);
+const direccionClienteInput = document.getElementById('editarDireccionCliente-' + localSiniestro.numeroSiniestro);
+const mailClienteInput = document.getElementById('editarMailCliente-' + localSiniestro.numeroSiniestro);
+const patenteInput = document.getElementById('editarPatente-' + localSiniestro.numeroSiniestro);
+const marcaInput = document.getElementById('editarMarca-' + localSiniestro.numeroSiniestro);
+const modeloInput = document.getElementById('editarModelo-' + localSiniestro.numeroSiniestro);
+const numeroDeMotorInput = document.getElementById('editarNumeroDeMotor-' + localSiniestro.numeroSiniestro);
+const numeroDeChasisInput = document.getElementById('editarNumeroDeChasis-' + localSiniestro.numeroSiniestro);
+const tipoSiniestroInput = document.getElementById('editarTipoSiniestro-' + localSiniestro.numeroSiniestro);
+const direccionSiniestroInput = document.getElementById('editarDireccionSiniestro-' + localSiniestro.numeroSiniestro);
+const descripcionSiniestroInput = document.getElementById('editarDescripcionSiniestro-' + localSiniestro.numeroSiniestro);
+
+removeSpecialCharsEvent(clienteInput);
+removeSpecialCharsEvent(direccionClienteInput);
+removeSpecialCharsEvent(mailClienteInput);
+removeSpecialCharsEvent(patenteInput);
+removeSpecialCharsEvent(marcaInput);
+removeSpecialCharsEvent(modeloInput);
+removeSpecialCharsEvent(numeroDeMotorInput);
+removeSpecialCharsEvent(numeroDeChasisInput);
+removeSpecialCharsEvent(tipoSiniestroInput);
+removeSpecialCharsEvent(direccionSiniestroInput);
+removeSpecialCharsEvent(descripcionSiniestroInput);
 </script>
 
 <style scoped>
